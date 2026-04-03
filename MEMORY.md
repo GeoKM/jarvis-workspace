@@ -61,6 +61,14 @@ If the TUI or CLI cannot resolve `OPENCLAW_GATEWAY_TOKEN` after a fresh login, t
 
 - User: Jarvis KMT <xvr-jarvis@linux-mail.com>
 
+## Heartbeat Cron
+
+- Job: `heartbeat-4h` — fires every 4 hours (00:00, 04:00, 08:00, 12:00, 16:00, 20:00 AEDT)
+- Model: `ollama/gemma4:latest` (Tesla V100, 32GB VRAM)
+- Session: isolated (fires independently of main session)
+- Checks: Memory file maintenance → MEMORY.md, Git workspace status, Gateway health
+- Silent unless there is a problem — reports via webchat only on issues
+
 ## Important Paths
 - Workspace: `~/.openclaw/workspace/`
 - OpenClaw config: `~/.openclaw/openclaw.json`
