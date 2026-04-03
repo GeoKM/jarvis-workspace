@@ -57,6 +57,10 @@ If the TUI or CLI cannot resolve `OPENCLAW_GATEWAY_TOKEN` after a fresh login, t
 - Control UI allowed origins: `https://hebei.tail4d3f85.ts.net`
 - Note: serve must be `https+insecure` (not plain `http`) to properly terminate TLS for the gateway
 
+## Git Workspace Identity
+
+- User: Jarvis KMT <xvr-jarvis@linux-mail.com>
+
 ## Important Paths
 - Workspace: `~/.openclaw/workspace/`
 - OpenClaw config: `~/.openclaw/openclaw.json`
