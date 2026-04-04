@@ -39,12 +39,13 @@ If the TUI or CLI cannot resolve `OPENCLAW_GATEWAY_TOKEN` after a fresh login, t
 - Port: 18789 (loopback)
 - Auth: token-based
 
-### Secrets (as of 2026-04-03)
+### Secrets (as of 2026-04-04)
 | Variable | Purpose |
 |---|---|
 | `OPENCLAW_GATEWAY_TOKEN` | Gateway authentication |
 | `OPENCLAW_TELEGRAM_TOKEN` | Telegram bot |
 | `OPENCLAW_BRAVE_KEY` | Brave Search API |
+| `OPENCLAW_PERPLEXITY_KEY` | Perplexity web search API |
 | `OPENCLAW_GOOGLE_PLACES_KEY` | Google Places API |
 | `OPENCLAW_WHISPER_KEY` | OpenAI Whisper API |
 | `OPENCLAW_ELEVENLABS_KEY` | ElevenLabs TTS |
