@@ -74,3 +74,7 @@ If the TUI or CLI cannot resolve `OPENCLAW_GATEWAY_TOKEN` after a fresh login, t
 - OpenClaw config: `~/.openclaw/openclaw.json`
 - Secrets: `~/.config/openclaw/openclaw.env`
 - Systemd user services: `~/.config/systemd/user/`
+
+## Git Remote
+
+- https://github.com/GeoKM/jarvis-workspace
