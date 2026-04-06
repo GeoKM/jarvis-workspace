@@ -1,0 +1,42 @@
+# Default thresholds for all hosts. Override per-host in ~/lab-docs/monitoring/hosts.d/<hostname>.yaml
+cpu:
+  idle_warn: 30.0
+  idle_crit: 10.0
+  load_warn: null
+  load_crit: null
+  ctx_warn: 500000
+
+memory:
+  avail_warn: 10
+  avail_crit: 5
+  swap_warn: 1073741824  # 1 GiB
+
+disk:
+  _:
+    free_pct_warn: 10
+    free_pct_crit: 5
+  _home:
+    free_pct_warn: 15
+
+network:
+  errs_warn: 10
+  drops_warn: 10000
+  timewait_warn: 5000
+  conn_max: 10000
+
+processes:
+  zombie_warn: 5
+  proc_warn: 500
+
+services:
+  desired:
+    ssh: active
+    systemd-journald: active
+
+security:
+  ssh_failures_warn: 50
+  sudo_failures_warn: 10
+
+temp:
+  warn: 80
+  crit: 90
