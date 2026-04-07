@@ -67,6 +67,15 @@ If the TUI or CLI cannot resolve `OPENCLAW_GATEWAY_TOKEN` after a fresh login, t
 ## Git Workspace Identity
 
 - User: Jarvis KMT <xvr-jarvis@linux-mail.com>
+- GitHub CLI auth (`gh`) is expected to use the desktop keyring, not a plaintext token in `~/.config/gh/hosts.yml`.
+- On 2026-04-07, repeated auth failures were traced to a broken git credential helper path. The correct helper is:
+  `credential.helper=!/home/linuxbrew/.linuxbrew/bin/gh auth git-credential`
+- Validation sequence when push/auth acts strangely:
+  1. `gh auth status`
+  2. `printf 'protocol=https\nhost=github.com\n\n' | git credential fill`
+  3. `git config --global --list | grep credential`
+- If `~/.config/gh/hosts.yml` shows `users: GeoKM: {}`, that is normal when the token lives in keyring.
+- If auth fails after a desktop/session restart, confirm `gnome-keyring-daemon` is running and the session has a valid `DBUS_SESSION_BUS_ADDRESS`.
 
 ## Heartbeat Cron
 
