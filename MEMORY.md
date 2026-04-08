@@ -168,3 +168,44 @@ Delivers: Telegram (announce mode)
 - Debian 6.1, 4 cores, 217h uptime (~9 days)
 - Runs DEC emulator (VAX) and DECnet — `vax` ~12% CPU, `pydecnet` ~5% MEM
 - Per-host override: `network.drops_warn=2M` (same as Dockyards)
+
+## Simul VAXcluster / DECnet environment (2026-04-07)
+
+A permanent operating note for the Simul OpenVMS VAXcluster environment is stored at:
+
+- `~/.openclaw/workspace/notes/simul-vaxcluster-operating-note.md`
+
+Covers:
+- BURST (`pydecnet`) gateway
+- FUSION / RISE startup order
+- TAP/bridge topology on Simul
+- DECnet node identities
+- baseline cluster/device state
+- first-response troubleshooting
+
+## Recent Operational Changes (2026-04-07)
+
+- `linux-system-monitor` was heavily reworked:
+  - `collect-metrics.sh` replaced by `collect-metrics.py` (Python collector)
+  - remote collection now pipes the Python script over SSH instead of bash heredocs
+  - Docker monitoring added (running/total, unhealthy, restarting, per-container stats)
+  - scientific-notation values are normalised safely (`float()` fallback)
+  - `MemAvailable` is capped at `MemTotal` to avoid virtual-address-space over-reporting
+  - `parse-report.py` gained a missing security check and a Docker bool/string fix
+  - helper scripts were added for disks, network, TCP, temperature, services, logins, NTP, and containers
+
+- `~/lab-docs/` was initialised as a private GitHub repo and pushed on `master`.
+- GitHub CLI auth issues were traced to a broken credential helper path and fixed.
+- Monitoring inventory expanded significantly:
+  - new hosts added today include `cbm`, `kasm`, `tg-b`, `arya`, `proxima` through `proxima5`, plus `retrobench`, `dockyards`, and `simul`
+  - per-host overrides were created for cluster nodes and hosts with persistent network drop counters
+  - the monitoring estate now covers all 14 hosts
+- Proxmox cluster topology notes were captured:
+  - `proxima` / `proxima2` are RAM-constrained cluster nodes
+  - `proxima3` runs Arya (Archive Server VM)
+  - `proxima4` runs Hebei as a KVM VM
+  - `proxima5` is a cluster node
+- The Simul DECnet/VAXcluster operating note was created and saved under `notes/`.
+- Verification run on 2026-04-08 confirmed the new Python-based monitoring collector is working end-to-end across all 14 hosts.
+- Hebei, XavierNV, RetroBench, Dockyards, Simul, CBM, Kasm, TG-B, Arya, Proxima3, Proxima4, and Proxima5 were nominal; the only expected alerts remained Proxima/Proxima2 swap pressure.
+- Hebei's network drop counters were clean on the verification run, indicating the monitoring rework is handling long-lived counters correctly.

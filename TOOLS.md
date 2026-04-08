@@ -25,6 +25,14 @@ Things like:
 
 - home-server → 192.168.1.100, user: admin
 
+### Proxmox
+
+- proxmox → `jarvis@proxima.can.barnabasmusic.com` (`192.168.1.93`), port 22, key-based SSH
+- SSH identity file → `~/.ssh/id_jt_ed25519`
+- SSH execution model → `ssh ... "sudo <proxmox-command>"`
+- primary API endpoint → `https://proxima.can.barnabasmusic.com:8006/api2/json`
+- auth model → API token preferred, SSH+sudo fallback
+
 ### TTS
 
 - Preferred voice: "Nova" (warm, slightly British)
