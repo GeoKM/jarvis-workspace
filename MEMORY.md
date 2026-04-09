@@ -183,6 +183,28 @@ Covers:
 - baseline cluster/device state
 - first-response troubleshooting
 
+## Retro Computing — ZPM3 / MP-M lab topic (2026-04-08)
+
+- In the Telegram group topic for Retro Computing, Keith designated this topic as the working area for CP/M and MP/M virtual and real retro systems.
+- The two virtual Digital Research systems currently in use are SIMH Altair 8080 emulations hosted in Docker on `dockyards.can.barnabasmusic.com`.
+- Port mapping confirmed:
+  - `3002` = MP/M II
+  - `3003` = ZPM3
+- For ZPM3, the supplied `Z3PLUS` manual is stored in chat history and can be consulted again if needed.
+- Live ZPM3 reconnaissance established that the system uses named directories heavily and that the reliable read-only navigation pattern is:
+  - enter a named directory such as `WS:` or `TP1:`
+  - then run `DIR`
+- Important ZPM3 named directories currently confirmed:
+  - `COMMANDS`=`A0`, `WORK`=`B0`, `WS`=`J1`, `F80`=`J2`, `TP1`=`J3`, `TP3`=`J4`, `SCALC`=`J5`, `BASIC`=`J6`, `MULTIPLN`=`J7`, `DBASEII`=`J8`, `GAMES`=`K0`, `ZORK`=`K1`
+- Key application areas surveyed read-only on ZPM3:
+  - `WS` = WordStar
+  - `F80` = FORTRAN-80
+  - `TP1` / `TP3` = Turbo Pascal environments
+  - `SCALC` = spreadsheet/calculation tools
+  - `BASIC` = Microsoft/CBASIC/BASCOM tool area with many example programs
+  - `DBASEII` = dBase II plus application data
+  - `ZORK` = Zork I/II/III
+
 ## Recent Operational Changes (2026-04-07)
 
 - `linux-system-monitor` was heavily reworked:
