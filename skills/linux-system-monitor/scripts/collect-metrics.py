@@ -240,6 +240,26 @@ if r is not None and r.returncode == 0 and r.stdout.strip():
 
 import json as _json
 _CONTAINER_JSON = _json.dumps(containers_list)
+# ---- Package updates ----
+try:
+    r = subprocess.run(["apt", "list", "--upgradable"], capture_output=True, text=True)
+    lines = [l for l in r.stdout.splitlines() if "/" in l and "Listing" not in l]
+    pkg_total = len(lines)
+    pkg_security = sum(1 for l in lines if "-security" in l.lower())
+    pkg_manager = "apt"
+except (FileNotFoundError, ValueError):
+    try:
+        r = subprocess.run(["dnf", "check-update"], capture_output=True, text=True, timeout=30)
+        pkg_total = len([l for l in r.stdout.splitlines() if l.strip()]) if r.returncode == 1 else 0
+        pkg_security = 0
+        pkg_manager = "dnf"
+    except FileNotFoundError:
+        pkg_total = 0
+        pkg_security = 0
+        pkg_manager = "unknown"
+
+pkg_updates = {"manager": pkg_manager, "total": pkg_total, "security": pkg_security}
+
 # ---- Assemble ----
 data = {
     "hostname": hostname,
@@ -268,6 +288,7 @@ data = {
         "restarting": restarting,
         "containers": json.loads(_CONTAINER_JSON),
     },
+    "packages": pkg_updates,
     "temperature": temp_zones,
 }
 

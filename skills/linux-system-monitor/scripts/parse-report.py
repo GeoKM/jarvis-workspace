@@ -228,6 +228,27 @@ def check_docker(data: dict, t: dict) -> tuple:
     return alerts, lines
 
 
+def check_packages(data: dict, t: dict) -> tuple:
+    alerts, lines = [], []
+    pkg = data.get("packages", {})
+    manager = pkg.get("manager", "unknown")
+    total = pkg.get("total", 0)
+    security = pkg.get("security", 0)
+    if manager == "unknown":
+        lines.append(f"  Pkgs   package manager not detected  [✅ OK]")
+        return alerts, lines
+    sev = "ok"
+    pkg_thresh = t.get("packages", {"warn": 50, "security_warn": 1})
+    if security >= pkg_thresh.get("security_warn", 1):
+        sev = "critical"
+        alerts.append({"metric": "packages.security", "severity": "critical", "value": security})
+    elif total >= pkg_thresh.get("warn", 50):
+        sev = "warning"
+        alerts.append({"metric": "packages.total", "severity": "warning", "value": total})
+    lines.append(f"  Pkgs   {total} upgradable ({security} security)  [{level(sev)}]")
+    return alerts, lines
+
+
 def check_temp(data: dict, t: dict) -> tuple:
     alerts, lines = [], []
     temps = data.get("temperature", {})
@@ -279,6 +300,7 @@ def main():
     a, l = check_processes(data, thresholds); all_alerts.extend(a); lines.extend(l)
     a, l = check_services(data, thresholds); all_alerts.extend(a); lines.extend(l)
     a, l = check_security(data, thresholds); all_alerts.extend(a); lines.extend(l)
+    a, l = check_packages(data, thresholds); all_alerts.extend(a); lines.extend(l)
     a, l = check_temp(data, thresholds); all_alerts.extend(a); lines.extend(l)
     a, l = check_docker(data, thresholds); all_alerts.extend(a); lines.extend(l)
 
