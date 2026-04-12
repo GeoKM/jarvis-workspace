@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-09T13:02:37.197Z",
+  "entries": {
+    "memory:memory/2026-04-07.md:1:27": {
+      "key": "memory:memory/2026-04-07.md:1:27",
+      "path": "memory/2026-04-07.md",
+      "startLine": 1,
+      "endLine": 27,
+      "source": "memory",
+      "snippet": "# 2026-04-07 — Daily Memory Log ## linux-system-monitor — major rework - Replaced `collect-metrics.sh` with `collect-metrics.py` (pure Python, avoids all bash/heredoc quoting issues) - Remote execution: pipes `collect-metrics.py` over SSH instead of bash heredoc - Docker monitoring added: running/total, unhealthy, restarting, per-container name+status+CPU+MEM, top-3 lists - `int_or_0()` now handles scientific notation (`2.14748e+09`) via `float()` first - `MemAvailable` capped at `MemTotal` (fixes Proxmox virtual address space over-reporting) - `parse-report.py`: added missing `check_security()`, fixed `swap_used` KeyError, fixed Docker bool/string comparison - 8 helper encoding scripts: d",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.7915861457586288,
+      "maxScore": 0.41294409334659576,
+      "firstRecalledAt": "2026-04-08T13:47:18.461Z",
+      "lastRecalledAt": "2026-04-09T11:38:31.774Z",
+      "queryHashes": [
+        "2896da102f22",
+        "5eb683fc2d60"
+      ],
+      "recallDays": [
+        "2026-04-08",
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "linux-system-monitor",
+        "collect-metrics.sh",
+        "collect-metrics.py",
+        "bash/heredoc",
+        "running/total",
+        "per-container",
+        "top-3",
+        "int-or-0"
+      ]
+    },
+    "memory:memory/2026-04-03.md:1:38": {
+      "key": "memory:memory/2026-04-03.md:1:38",
+      "path": "memory/2026-04-03.md",
+      "startLine": 1,
+      "endLine": 38,
+      "source": "memory",
+      "snippet": "# 2026-04-03 — Initial Boot ## Events - First boot under new JARVIS personality core - SOUL.md and IDENTITY.md installed with full JARVIS persona - All workspace files initialised - BOOTSTRAP.md deleted — identity established ## Notes - User: Keith Michael Christian Matthews, AEST/AEDT timezone, ACT/NSW Australia - Homelab context: Proxmox, ZFS, Tesla V100 passthrough, legacy DEC/AIX/Commodore - AI context: OpenClaw + Ollama, model evaluation (glm, qwen, gpt-oss) - Flux-level disk preservation: Greaseweazle, SCP, KryoFlux workflows - User operates via `openclaw-tui` ## Secrets Management (2026-04-03/04) Implemented systemd-based secrets injection: - Created `~/.config/openclaw/openclaw",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.7756433993577956,
+      "maxScore": 0.4000859677791595,
+      "firstRecalledAt": "2026-04-08T13:47:18.461Z",
+      "lastRecalledAt": "2026-04-09T11:38:31.774Z",
+      "queryHashes": [
+        "2896da102f22",
+        "5eb683fc2d60"
+      ],
+      "recallDays": [
+        "2026-04-08",
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "gpt",
+        "soul.md",
+        "identity.md",
+        "bootstrap.md",
+        "aest/aedt",
+        "act/nsw",
+        "dec/aix/commodore",
+        "gpt-oss"
+      ]
+    },
+    "memory:memory/2026-04-06.md:1:39": {
+      "key": "memory:memory/2026-04-06.md:1:39",
+      "path": "memory/2026-04-06.md",
+      "startLine": 1,
+      "endLine": 39,
+      "source": "memory",
+      "snippet": "# 2026-04-06 — Late Session ## Linux System Monitor Skill — v1 Complete ### What was built A new OpenClaw skill `linux-system-monitor` was created to run periodic Linux system monitoring across Hebei (Ubuntu 24.04) and XavierNV (Jetson/Xavier, aarch64). **Skill location:** `~/.openclaw/workspace/skills/linux-system-monitor/` **Key scripts:** - `collect-metrics.sh` — gathers CPU, memory, disk, network, TCP, processes, services, security (SSH/sudo failures, logins), NTP, and temperature metrics; emits JSON - `parse-report.py` — applies threshold rules, emits human-readable digest, writes annotated snapshots to disk, appends alerts to daily log - `run-monitor.sh` — orchestrator; reads",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.7583884567022323,
+      "maxScore": 0.3884487688541412,
+      "firstRecalledAt": "2026-04-08T13:47:18.461Z",
+      "lastRecalledAt": "2026-04-08T14:01:18.080Z",
+      "queryHashes": [
+        "2896da102f22",
+        "6711ffdc78c5"
+      ],
+      "recallDays": [
+        "2026-04-08",
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "network",
+        "linux-system-monitor",
+        "24.04",
+        "jetson/xavier",
+        "collect-metrics.sh",
+        "ssh/sudo",
+        "parse-report.py",
+        "human-readable"
+      ]
+    },
+    "memory:memory/2026-04-06.md:58:101": {
+      "key": "memory:memory/2026-04-06.md:58:101",
+      "path": "memory/2026-04-06.md",
+      "startLine": 58,
+      "endLine": 101,
+      "source": "memory",
+      "snippet": "Session: isolated Delivers: Telegram (announce mode) Message: Run linux-system-monitor skill → run-monitor.sh --all → report to Telegram Next: 2026-04-06 12:00 AEST ``` ### Thresholds (relaxed for home-lab conditions) | Metric | Warning | Critical | |---|---|---| | CPU idle % | < 30% | < 10% | | Memory available % | < 10% | < 5% | | Disk free % | < 10% | < 5% | | Network errors/drops | > 10 / > 10k | — | | TCP TIME_WAIT | > 5000 | — | | Zombies | >= 5 | — | | Temp °C | > 80 | > 90 | ### Default login IPs noted - Hebei: SSH from 192.168.1.100 - XavierNV: SSH from 192.168.1.9 ### Outstanding notes - Network drop counter on Hebei is high (~26k) and growing — this is a known hardware/dr",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.389286071062088,
+      "maxScore": 0.389286071062088,
+      "firstRecalledAt": "2026-04-08T14:01:18.080Z",
+      "lastRecalledAt": "2026-04-08T14:01:18.080Z",
+      "queryHashes": [
+        "6711ffdc78c5"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "network",
+        "linux-system-monitor",
+        "run-monitor.sh",
+        "home-lab",
+        "errors/drops",
+        "time-wait",
+        "192.168.1.100",
+        "192.168.1.9"
+      ]
+    },
+    "memory:memory/2026-04-08.md:1:43": {
+      "key": "memory:memory/2026-04-08.md:1:43",
+      "path": "memory/2026-04-08.md",
+      "startLine": 1,
+      "endLine": 43,
+      "source": "memory",
+      "snippet": "# 2026-04-08 — Monitoring Verification ## linux-system-monitor run - Verified the reworked Python-based collector end-to-end across the full 14-host estate. - All hosts completed successfully with no alerts except the expected Proxima swap-pressure warnings on `proxima` and `proxima2`. - Hebei, XavierNV, RetroBench, Dockyards, Simul, CBM, Kasm, TG-B, Arya, Proxima3, Proxima4, and Proxima5 were all nominal. - Hebei's network drop counters were clean on this run. - Snapshots were written for every host. ## Notes - `openclaw-gateway` remained healthy during the run. - The daily monitoring estate now looks stable after the Python collector rework. ## Retro Computing — ZPM3 reconnaissance -",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.8341640353202819,
+      "maxScore": 0.4399881452322006,
+      "firstRecalledAt": "2026-04-09T11:38:31.774Z",
+      "lastRecalledAt": "2026-04-09T13:02:37.197Z",
+      "queryHashes": [
+        "5eb683fc2d60",
+        "3ed352070112"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "gateway",
+        "network",
+        "linux-system-monitor",
+        "python-based",
+        "end-to-end",
+        "14-host",
+        "swap-pressure",
+        "tg-b"
+      ]
+    },
+    "memory:memory/2026-04-08.md:61:69": {
+      "key": "memory:memory/2026-04-08.md:61:69",
+      "path": "memory/2026-04-08.md",
+      "startLine": 61,
+      "endLine": 69,
+      "source": "memory",
+      "snippet": "- `WS` (`J1`) — WordStar suite present: `WS.COM`, overlays, help, printer components, SpellStar dictionary and support files. - `F80` (`J2`) — FORTRAN-80 toolchain present: `F80.COM`, `F80C.COM`, libraries, test sources and binaries. - `TP1` (`J3`) — Turbo Pascal area with `TURBO.COM`, `TP.LBR`, `TINST`, sample Pascal source, and related tools. - `TP3` (`J4`) — later Turbo Pascal area with `TP3.LBR`, `TURBO.COM`, `TINST`, Pascal samples, and related tools. - `SCALC` (`J5`) — SuperCalc-style area with `SC2`, `SDI`, installer files, and multiple `.CAL` sheets. - `BASIC` (`J6`) — rich BASIC area with `MBASIC`, `CBASIC`, `BASCOM`, runtimes, compilers, and many example/game `.BAS` programs. - `DB",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "totalScore": 0.8306157857179641,
+      "maxScore": 0.4216456443071365,
+      "firstRecalledAt": "2026-04-09T11:38:31.774Z",
+      "lastRecalledAt": "2026-04-09T13:02:37.197Z",
+      "queryHashes": [
+        "5eb683fc2d60",
+        "3ed352070112"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "ws.com",
+        "fortran-80",
+        "f80.com",
+        "f80c.com",
+        "turbo.com",
+        "tp.lbr",
+        "tp3.lbr",
+        "supercalc-style"
+      ]
+    },
+    "memory:memory/2026-04-06.md:117:139": {
+      "key": "memory:memory/2026-04-06.md:117:139",
+      "path": "memory/2026-04-06.md",
+      "startLine": 117,
+      "endLine": 139,
+      "source": "memory",
+      "snippet": "Fix: `min(round(100 * avail / total, 1), 100.0)`. - Per-host override created: `hosts.d/dockyards.yaml` — network.drops_warn=2M, errs_warn=100 (Dockyards has persistently high kernel-level rx_drop counter; only alert on sudden spikes) - Interesting: Top CPU is `altairz80` at 99.8% — likely an emulator running on this host. ## Simul Added (Night, 2026-04-06) - Added `simul.can.barnabasmusic.com` to `hosts.yaml` — SSH as `keith`, key `~/.ssh/id_jt_ed25519` - Hardware: Debian 6.1, 4 cores, 217h uptime (~9 days) - Running DEC emulator VAX (`vax` at ~12% CPU, ~7% MEM) and DECnet (`pydecnet`) - `/var` at 62.9% used — worth watching - Per-host override: `hosts.d/simul.yaml` — network.drops_wa",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "totalScore": 0.4197218060493469,
+      "maxScore": 0.4197218060493469,
+      "firstRecalledAt": "2026-04-09T11:38:31.774Z",
+      "lastRecalledAt": "2026-04-09T11:38:31.774Z",
+      "queryHashes": [
+        "5eb683fc2d60"
+      ],
+      "recallDays": [
+        "2026-04-09"
+      ],
+      "conceptTags": [
+        "network",
+        "100.0",
+        "per-host",
+        "hosts.d/dockyards.yaml",
+        "network.drops-warn",
+        "errs-warn",
+        "kernel-level",
+        "rx-drop"
+      ]
+    }
+  }
+}
