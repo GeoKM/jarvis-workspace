@@ -89,6 +89,45 @@ prune_old_snapshots() {
   [[ $removed -gt 0 ]] && echo "  Pruned $removed old snapshot(s) for $host"
 }
 
+# ---- Write an unavailable marker snapshot ----
+write_unavailable_marker() {
+  local hname="$1"
+  local err_msg="$2"
+  local snap_dir="$HOME/lab-docs/monitoring/snapshots/$hname"
+  local ts
+  ts=$(date -u +%Y-%m-%dT%H%M%SZ)
+  local snap_file="$snap_dir/${hname}-${ts//[:-]/}.json"
+  mkdir -p "$snap_dir"
+  # Extract last successful snapshot to preserve its status
+  local last_snap
+  last_snap=$(ls -t "$snap_dir"/*.json 2>/dev/null | head -1)
+  local last_status="green"
+  if [[ -n "$last_snap" ]]; then
+    last_status=$(python3 -c "
+    import json, sys
+    d=json.load(open('$last_snap'))
+    print(d.get('_summary_severity','OK').lower())
+    " 2>/dev/null || true
+  fi
+  local err_short
+  err_short=$(head -1 <<< "$err_msg" | tr -d '\n')
+  local marker
+  marker=$(python3 -c "
+import json, sys
+d={
+    'hostname': '$hname',
+    'timestamp': '$ts',
+    'unavailable': True,
+    'error': '''$err_msg''',
+    'last_known_status': '$last_status',
+    'last_checked_at': '$ts'
+}
+print(json.dumps(d, indent=2))
+" 2>/dev/null)
+  echo "$marker" > "$snap_file"
+  echo "  Unavailable marker written: ${snap_file##*/}"
+}
+
 # ---- Helper: run for one host ----
 run_host() {
   local hname="$1"
@@ -123,8 +162,9 @@ run_host() {
       echo "  Host UNREACHABLE: $hname  (SSH exit code: $SSH_EXIT)"
       echo "  Error output:"
       sed 's/^/    /' "$METRICS"
-      echo "  Moving to next host..."
+      echo "  Writing unavailable marker and moving to next host..."
       echo ""
+      write_unavailable_marker "$hname" "$METRICS"
       rm -f "$METRICS"
       # Still prune old snapshots for unreachable host
       prune_old_snapshots "$hname"
