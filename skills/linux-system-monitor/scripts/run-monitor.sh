@@ -94,38 +94,35 @@ write_unavailable_marker() {
   local hname="$1"
   local err_msg="$2"
   local snap_dir="$HOME/lab-docs/monitoring/snapshots/$hname"
+  mkdir -p "$snap_dir"
   local ts
   ts=$(date -u +%Y-%m-%dT%H%M%SZ)
   local snap_file="$snap_dir/${hname}-${ts//[:-]/}.json"
-  mkdir -p "$snap_dir"
-  # Extract last successful snapshot to preserve its status
+
+  # Extract last known status from most recent non-unavailable snapshot
+  local last_status="green"
   local last_snap
   last_snap=$(ls -t "$snap_dir"/*.json 2>/dev/null | head -1)
-  local last_status="green"
   if [[ -n "$last_snap" ]]; then
-    last_status=$(python3 -c "
-    import json, sys
-    d=json.load(open('$last_snap'))
-    print(d.get('_summary_severity','OK').lower())
-    " 2>/dev/null || true
+    last_status=$(python3 - "$last_snap" 2>/dev/null || echo "green")
   fi
-  local err_short
-  err_short=$(head -1 <<< "$err_msg" | tr -d '\n')
-  local marker
-  marker=$(python3 -c "
+
+  # Write unavailable marker via Python
+  python3 - "$snap_file" "$hname" "$ts" "$err_msg" "$last_status" 2>/dev/null <<'PYEOF'
 import json, sys
-d={
-    'hostname': '$hname',
-    'timestamp': '$ts',
-    'unavailable': True,
-    'error': '''$err_msg''',
-    'last_known_status': '$last_status',
-    'last_checked_at': '$ts'
+snap_file, hname, ts, err_msg, last_status = sys.argv[1:]
+marker = {
+    "hostname": hname,
+    "timestamp": ts,
+    "unavailable": True,
+    "error": err_msg[:200],
+    "last_known_status": last_status,
+    "last_checked_at": ts
 }
-print(json.dumps(d, indent=2))
-" 2>/dev/null)
-  echo "$marker" > "$snap_file"
-  echo "  Unavailable marker written: ${snap_file##*/}"
+with open(snap_file, "w") as f:
+    json.dump(marker, f, indent=2)
+print(f"Unavailable marker written: {snap_file}")
+PYEOF
 }
 
 # ---- Helper: run for one host ----
