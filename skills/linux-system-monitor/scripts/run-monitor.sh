@@ -92,32 +92,51 @@ prune_old_snapshots() {
 # ---- Write an unavailable marker snapshot ----
 write_unavailable_marker() {
   local hname="$1"
-  local err_msg="$2"
+  local err_file="$2"
   local snap_dir="$HOME/lab-docs/monitoring/snapshots/$hname"
   mkdir -p "$snap_dir"
-  local ts
-  ts=$(date -u +%Y-%m-%dT%H%M%SZ)
-  local snap_file="$snap_dir/${hname}-${ts//[:-]/}.json"
 
-  # Extract last known status from most recent non-unavailable snapshot
-  local last_status="green"
-  local last_snap
-  last_snap=$(ls -t "$snap_dir"/*.json 2>/dev/null | head -1)
-  if [[ -n "$last_snap" ]]; then
-    last_status=$(python3 - "$last_snap" 2>/dev/null || echo "green")
-  fi
+  local ts ts_safe snap_file
+  ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  ts_safe=$(date -u +%Y%m%d-%H%M%SZ)
+  snap_file="$snap_dir/${hname}-${ts_safe}.json"
 
-  # Write unavailable marker via Python
-  python3 - "$snap_file" "$hname" "$ts" "$err_msg" "$last_status" 2>/dev/null <<'PYEOF'
-import json, sys
-snap_file, hname, ts, err_msg, last_status = sys.argv[1:]
+  python3 - "$snap_dir" "$snap_file" "$hname" "$ts" "$err_file" 2>/dev/null <<'PYEOF'
+import glob, json, os, sys
+snap_dir, snap_file, hname, ts, err_file = sys.argv[1:]
+
+last_status = "unknown"
+last_snapshot_timestamp = None
+last_checked_at = None
+for path in sorted(glob.glob(os.path.join(snap_dir, f"{hname}-*.json")), reverse=True):
+    try:
+        with open(path) as f:
+            snap = json.load(f)
+    except Exception:
+        continue
+    if snap.get("unavailable"):
+        continue
+    sev = str(snap.get("_summary_severity", "OK")).upper()
+    last_status = {"OK": "green", "WARNING": "orange", "CRITICAL": "red"}.get(sev, "green")
+    last_snapshot_timestamp = snap.get("timestamp")
+    last_checked_at = snap.get("_checked_at") or snap.get("timestamp")
+    break
+
+try:
+    with open(err_file) as f:
+        err_msg = f.read().strip()
+except Exception:
+    err_msg = "host unreachable"
+
 marker = {
     "hostname": hname,
     "timestamp": ts,
     "unavailable": True,
-    "error": err_msg[:200],
+    "error": err_msg[:500],
     "last_known_status": last_status,
-    "last_checked_at": ts
+    "last_snapshot_timestamp": last_snapshot_timestamp,
+    "last_checked_at": last_checked_at,
+    "unavailable_checked_at": ts,
 }
 with open(snap_file, "w") as f:
     json.dump(marker, f, indent=2)
