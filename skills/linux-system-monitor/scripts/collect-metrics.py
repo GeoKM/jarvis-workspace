@@ -8,7 +8,7 @@ def run(cmd, stderr=True):
     """Run a shell command, return stdout or empty string on failure."""
     try:
         kw = {} if stderr else {"stderr": subprocess.DEVNULL}
-        r = subprocess.run(cmd, shell=True, capture_output=True, text=True, **kw)
+        r = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, **kw)
         return r.stdout.strip()
     except Exception:
         return ""
@@ -152,11 +152,13 @@ services = {}
 for svc in SERVICES:
     r = None
     try:
-        r = subprocess.run(["systemctl", "is-active", svc], capture_output=True, text=True)
+        r = subprocess.run(["systemctl", "is-active", svc], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     except FileNotFoundError:
         pass
     if r is not None and r.stdout.strip() == "active":
-        services[svc] = "active"
+        # Map sshd -> ssh for threshold compatibility (threshold expects "ssh")
+        key = "ssh" if svc == "sshd" else svc
+        services[key] = "active"
 
 # ---- Security ----
 ssh_fails = int_or_0(run("journalctl -u ssh -u sshd --since '1 hour ago' --no-pager 2>/dev/null | grep -ci 'Failed password' || echo 0"))
@@ -172,7 +174,7 @@ for line in run("last -n 3 2>/dev/null").splitlines():
 ntp_offset = None
 r = None
 try:
-    r = subprocess.run(["chronyc", "tracking"], capture_output=True, text=True)
+    r = subprocess.run(["chronyc", "tracking"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     if r.returncode == 0:
         for line in r.stdout.splitlines():
             if "Last offset" in line:
@@ -186,7 +188,7 @@ except FileNotFoundError:
 if ntp_offset is None:
     try:
         r = subprocess.run(["timedatectl", "show", "-p", "NTPSynchronized", "--value"],
-                          capture_output=True, text=True)
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         if r.stdout.strip() == "yes":
             ntp_offset = 0.0
     except FileNotFoundError:
@@ -213,7 +215,7 @@ containers_list = []
 r = None
 try:
     r = subprocess.run(["docker", "info", "--format", "{{.ServerVersion}}"],
-                  capture_output=True, text=True)
+                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 except FileNotFoundError:
     r = None
 if r is not None and r.returncode == 0 and r.stdout.strip():
@@ -242,14 +244,14 @@ import json as _json
 _CONTAINER_JSON = _json.dumps(containers_list)
 # ---- Package updates ----
 try:
-    r = subprocess.run(["apt", "list", "--upgradable"], capture_output=True, text=True)
+    r = subprocess.run(["apt", "list", "--upgradable"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     lines = [l for l in r.stdout.splitlines() if "/" in l and "Listing" not in l]
     pkg_total = len(lines)
     pkg_security = sum(1 for l in lines if "-security" in l.lower())
     pkg_manager = "apt"
 except (FileNotFoundError, ValueError):
     try:
-        r = subprocess.run(["dnf", "check-update"], capture_output=True, text=True, timeout=30)
+        r = subprocess.run(["dnf", "check-update"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=30)
         pkg_total = len([l for l in r.stdout.splitlines() if l.strip()]) if r.returncode == 1 else 0
         pkg_security = 0
         pkg_manager = "dnf"

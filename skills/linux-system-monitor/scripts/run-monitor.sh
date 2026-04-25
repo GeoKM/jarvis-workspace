@@ -151,6 +151,7 @@ run_host() {
   local ssh_host="$3"
   local ssh_user="$4"
   local ssh_identity="$5"
+  local ssh_opts="$6"
 
   echo ""
   echo "============================================================"
@@ -159,10 +160,15 @@ run_host() {
 
   if [[ "$ssh_required" == "true" ]]; then
     # Build SSH command array (avoid scalar+eval pitfall)
-    local -a SSH_CMD=(ssh -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=accept-new)
+    local -a SSH_CMD=(ssh -o BatchMode=yes -o ConnectTimeout=30 -o StrictHostKeyChecking=accept-new)
     if [[ -n "$ssh_identity" ]]; then
       local id_path="${ssh_identity/#\~/$HOME}"
       SSH_CMD+=(-i "$id_path")
+    fi
+    # Append extra SSH options (e.g. legacy KEX for old servers)
+    if [[ -n "$ssh_opts" ]]; then
+      local -a OPT_ARRAY=($ssh_opts)
+      SSH_CMD+=("${OPT_ARRAY[@]}")
     fi
     SSH_CMD+=("${ssh_user}@${ssh_host}")
 
@@ -232,6 +238,7 @@ if [[ "$RUN_ALL" == true ]]; then
       "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("host",""))')" \
       "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("user","keith"))')" \
       "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("identity",""))')" \
+      "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("ssh_opts",""))')" \
       || true
   done
 elif [[ -n "$TARGET_HOST" ]]; then
@@ -241,6 +248,7 @@ elif [[ -n "$TARGET_HOST" ]]; then
     "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("host",""))')" \
     "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("user","keith"))')" \
     "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("identity",""))')" \
+    "$(echo "$details" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("ssh_opts",""))')" \
     || true
 fi
 
