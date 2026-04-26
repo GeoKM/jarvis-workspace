@@ -1,3 +1,7 @@
 # Secrets — never commit
 .config/openclaw/openclaw.env
 .config/openclaw/secrets.json
+
+# Workspace state — do not track
+memory/.dreams/
+memory/2026-*.md
