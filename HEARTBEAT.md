@@ -11,10 +11,9 @@ Message the user only if there is a problem.
    - Keep MEMORY.md curated — add new insights, remove outdated info
 
 2. **Git workspace sync & status**
-   - cd ~/.openclaw/workspace && git status --short
-   - If there are uncommitted changes, do NOT auto-commit (user reviews first)
-   - If there are stashes, note them silently
-   - If repo is clean, do nothing
+   - cd ~/.openclaw/workspace && git status --short -- . ':!codex' ':!skills/aix-system-monitor' ':!state'
+   - If output is non-empty, there are uncommitted changes — report them
+   - If output is empty, repo is clean — do nothing
 
 3. **Gateway health check**
    - Run: systemctl --user status openclaw-gateway
