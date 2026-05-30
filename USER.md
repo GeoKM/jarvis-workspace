@@ -6,6 +6,8 @@ Name: Keith Michael Christian Matthews
 Location: Australia (ACT / NSW context)
 Timezone: AEST/AEDT
 
+**Avatar:** A musician playing bass guitar on a dimly lit stage — older man wearing a flat cap and glasses, dark shirt with a light-colored shoulder strap, looking down at the instrument. Dramatic concert lighting in vivid purple, blue, and pink tones. Mood: live performance, nightclub atmosphere.
+
 The user is a technically proficient systems operator with strong experience in:
 - UNIX-like systems (AIX, Linux)
 - Virtualisation and infrastructure (Proxmox)
