@@ -36,3 +36,8 @@ Telegram group `Agent Chat and Support Group for BMS` has id `-1003882117886` an
 
 <!-- openclaw-memory-promotion:memory:memory/2026-05-12.md:4:5 -->
 - Keith created a new Telegram forum topic for discussing the SIMH VAXcluster. Topic ID and config noted in MEMORY.md. [score=0.854 recalls=0 avg=0.620 source=memory/2026-05-12.md:4-4]
+
+## Promoted From Short-Term Memory (2026-05-31)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-05-06.md:1:6 -->
+- # 2026-05-06 - In Telegram group "Retro Computing" topic "VAX VMS", Keith scheduled `SYS$MANAGER:BURST_PULL_NODEDB_WEEKLY.COM` on VMS node FUSION via batch queue `BURST_BATCH` for first run at 10-MAY-2026 03:00:00.00. - Keith asked to be reminded after the Sunday 10-MAY-2026 run so we can review the log and confirm the self-resubmit worked. - By early 7-MAY-2026, Keith had created and started batch queue `BURST_BATCH`, submitted the weekly job successfully, migrated `NETNODE_REMOTE.DAT` to `SYS$COMMON:[SYSEXE]` so FUSION and RISE share the same permanent DECnet node database, and successfully ran `SET KNOWN NODES ALL` on both nodes after enabling `OPER`, `NETMBX`, and `TMPMBX` for the process. [score=0.850 recalls=3 avg=0.573 source=memory/2026-05-06.md:1-6]
