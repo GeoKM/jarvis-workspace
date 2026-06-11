@@ -5,5 +5,6 @@
 # Workspace state — do not track
 memory/.dreams/
 memory/dreaming/
+DREAMS.md
 memory/agent-round-state.json
 memory/2026-*.md
