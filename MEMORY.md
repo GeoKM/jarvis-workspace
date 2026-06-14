@@ -41,3 +41,12 @@ Telegram group `Agent Chat and Support Group for BMS` has id `-1003882117886` an
 
 <!-- openclaw-memory-promotion:memory:memory/2026-05-06.md:1:6 -->
 - # 2026-05-06 - In Telegram group "Retro Computing" topic "VAX VMS", Keith scheduled `SYS$MANAGER:BURST_PULL_NODEDB_WEEKLY.COM` on VMS node FUSION via batch queue `BURST_BATCH` for first run at 10-MAY-2026 03:00:00.00. - Keith asked to be reminded after the Sunday 10-MAY-2026 run so we can review the log and confirm the self-resubmit worked. - By early 7-MAY-2026, Keith had created and started batch queue `BURST_BATCH`, submitted the weekly job successfully, migrated `NETNODE_REMOTE.DAT` to `SYS$COMMON:[SYSEXE]` so FUSION and RISE share the same permanent DECnet node database, and successfully ran `SET KNOWN NODES ALL` on both nodes after enabling `OPER`, `NETMBX`, and `TMPMBX` for the process. [score=0.850 recalls=3 avg=0.573 source=memory/2026-05-06.md:1-6]
+
+## Promoted From Short-Term Memory (2026-06-12)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:12:12 -->
+- Network topology note: Hebei (current host) is not on the 10.0.0.0/24 AIX network. Monitoring should run from a host with access to that segment, or a VPN/bridge needs to be in place. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:12-12]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:4:4 -->
+- All AIX hosts unreachable from Hebei — no route to 10.0.0.0/24 network segment. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:4-4]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:6:6 -->
+- Monitored hosts: [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:6-6]
