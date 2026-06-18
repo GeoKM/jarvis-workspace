@@ -50,3 +50,14 @@ Telegram group `Agent Chat and Support Group for BMS` has id `-1003882117886` an
 - All AIX hosts unreachable from Hebei — no route to 10.0.0.0/24 network segment. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:4-4]
 <!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:6:6 -->
 - Monitored hosts: [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:6-6]
+
+## Promoted From Short-Term Memory (2026-06-18)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:7:10 -->
+- AIX Midday Monitoring (12:00 AEST): Persei-NIM (persei-nim.can.barnabasmusic.com) — ❌ No route; Celestia (celestia.can.barnabasmusic.com) — ❌ No route; Titan-AIX71 (titan-aix71.can.barnabasmusic.com) — ❌ No route; 43p (43p.can.barnabasmusic.com) — ❌ No route [score=1.000 recalls=0 avg=0.620 source=memory/2026-06-09.md:7-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-05-30.md:13:13 -->
+- AIX Midday Monitoring (12:01 AEST): No snapshot written for this run (hosts unavailable) [score=0.894 recalls=0 avg=0.620 source=memory/2026-05-30.md:13-13]
+<!-- openclaw-memory-promotion:memory:memory/2026-05-30.md:5:8 -->
+- AIX Midday Monitoring (12:01 AEST): All AIX hosts unreachable: Persei-NIM, Celestia, Titan-AIX71, 43p; Error: "No route to host" — network/path issue from Hebei to AIX subnet; Last successful collections:; Persei-NIM: 2026-05-28 [score=0.894 recalls=0 avg=0.620 source=memory/2026-05-30.md:5-8]
+<!-- openclaw-memory-promotion:memory:memory/2026-05-30.md:9:12 -->
+- AIX Midday Monitoring (12:01 AEST): Celestia: 2026-05-28; Titan-AIX71: 2026-05-21; 43p: 2026-05-13; Monitoring script: `~/.openclaw/workspace/skills/aix-system-monitor/scripts/run-aix-monitor.sh` [score=0.894 recalls=0 avg=0.620 source=memory/2026-05-30.md:9-12]
