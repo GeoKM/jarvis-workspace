@@ -10,32 +10,6 @@ The MP/M II system utilizes a manual drive/user area exploration model, distinct
 A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and should be treated as current reference state: FUSION is the primary boot/MSCP server with DECnet 12.106 and TCP/IP 192.168.1.137, while RISE is the satellite with DECnet 12.107 and TCP/IP 192.168.1.138, using the shared root on `FUSION$DUA0:[SYS10.]` and local page/swap on `RISE$DUA0:`. Canonical environment notes now live in `FUSION_ENVIRONMENT_2026-04-24.md` and `RISE_ENVIRONMENT_2026-04-24.md`.
 ---
 
-## Promoted From Short-Term Memory (2026-05-16)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-05-11.md:2:2 -->
-- - 22:23 Telegram Retro Computing Fun topic delivery issue: Topic 1 and Topic 86 both successfully replied after resetting topic 1 session and adding explicit group/topic systemPrompt workaround forcing Telegram `message` tool sends for group -1003981232995 topics 1 and 86. Config backups: openclaw.json.bak-20260511-221112 and openclaw.json.bak-20260511-221911. Diagnostics flags telegram.http/telegram.payload remain enabled. [score=0.865 recalls=0 avg=0.620 source=memory/2026-05-11.md:2-2]
-<!-- openclaw-memory-promotion:memory:memory/2026-05-11.md:4:4 -->
-- - 22:35 Created daily cron job `3f39e26c-f206-494d-b0f6-45c9109f68ce` to track OpenClaw GitHub issue #80647 at 09:00 Australia/Sydney and announce meaningful changes/fix status. [score=0.847 recalls=0 avg=0.620 source=memory/2026-05-11.md:4-4]
-
-## Promoted From Short-Term Memory (2026-05-17)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-05-12.md:4:5 -->
-- Keith created a new Telegram forum topic for discussing the SIMH VAXcluster. Topic ID and config noted in MEMORY.md. [score=0.854 recalls=0 avg=0.620 source=memory/2026-05-12.md:4-4]
-
-## Promoted From Short-Term Memory (2026-05-31)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-05-06.md:1:6 -->
-- # 2026-05-06 - In Telegram group "Retro Computing" topic "VAX VMS", Keith scheduled `SYS$MANAGER:BURST_PULL_NODEDB_WEEKLY.COM` on VMS node FUSION via batch queue `BURST_BATCH` for first run at 10-MAY-2026 03:00:00.00. - Keith asked to be reminded after the Sunday 10-MAY-2026 run so we can review the log and confirm the self-resubmit worked. - By early 7-MAY-2026, Keith had created and started batch queue `BURST_BATCH`, submitted the weekly job successfully, migrated `NETNODE_REMOTE.DAT` to `SYS$COMMON:[SYSEXE]` so FUSION and RISE share the same permanent DECnet node database, and successfully ran `SET KNOWN NODES ALL` on both nodes after enabling `OPER`, `NETMBX`, and `TMPMBX` for the process. [score=0.850 recalls=3 avg=0.573 source=memory/2026-05-06.md:1-6]
-
-## Promoted From Short-Term Memory (2026-06-12)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:12:12 -->
-- Network topology note: Hebei (current host) is not on the 10.0.0.0/24 AIX network. Monitoring should run from a host with access to that segment, or a VPN/bridge needs to be in place. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:12-12]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:4:4 -->
-- All AIX hosts unreachable from Hebei — no route to 10.0.0.0/24 network segment. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:4-4]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:6:6 -->
-- Monitored hosts: [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-09.md:6-6]
-
 ## Promoted From Short-Term Memory (2026-06-18)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:7:10 -->
@@ -67,3 +41,26 @@ A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and sh
 - Conversation Summary: …but it was emitted as normal final text, not via the Telegram `message` tool, so it stayed invisible. Same upstream bug class again. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:69-69]
 <!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:9:9 -->
 - Conversation Summary: assistant: [score=0.807 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:9-9]
+
+## Promoted From Short-Term Memory (2026-06-23)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:67:67 -->
+- Conversation Summary: > “Hey Keith — Jarvis checking in…” [score=0.869 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:67-67]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:13:14 -->
+- Conversation Summary: Failed to log in to github.com account GeoKM The token in default is invalid. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:13-14]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:17:17 -->
+- Conversation Summary: So I **can’t file the issue yet** until GitHub auth is refreshed. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:17-17]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:22:22 -->
+- Conversation Summary: gh auth login -h github.com [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:22-22]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:25:28 -->
+- Conversation Summary: Then tell me when it’s done, and I’ll create the upstream OpenClaw issue immediately. user: [Mon 2026-05-11 22:33 GMT+10] OK Done. I also had brew update gh. assistant: There is already an open upstream issue that matches this almost exactly: **#80647**. Rather than create a duplicate, I’ll add our fresh 2026.5.7 reproduction as a comment with the Topic 1 vs Topic 86 evidence and workaround result. assistant: Reported upstream as a comment on the existing matching issue: [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:25-28]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:3:5 -->
+- Session: 2026-06-19 22:19:12 GMT+10: **Session Key**: agent:main:main; **Session ID**: be66393e-7732-4025-8547-a58cd1ffabc4; **Source**: webchat [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:3-5]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:32:32 -->
+- Conversation Summary: I did not create a duplicate issue because #80647 already describes the same underlying fault: Telegram forum/group sessions silently completing with normal final text when visible replies require the `message` tool. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:32-32]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:34:34 -->
+- Conversation Summary: I added our fresh `2026.5.7` reproduction, including: [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:34-34]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:36:39 -->
+- Conversation Summary: Topic 1 final-text failure; Topic 86 explicit `message` tool success; Session reset + topic-level prompt workaround; Recommendation for runtime diagnostics/guarding. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:36-39]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:40:41 -->
+- Conversation Summary: user: [Mon 2026-05-11 22:35 GMT+10] OK we should track that bug Daily to find out when it is fixed. assistant: Done. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:40-41]
