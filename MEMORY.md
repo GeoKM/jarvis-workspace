@@ -10,38 +10,6 @@ The MP/M II system utilizes a manual drive/user area exploration model, distinct
 A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and should be treated as current reference state: FUSION is the primary boot/MSCP server with DECnet 12.106 and TCP/IP 192.168.1.137, while RISE is the satellite with DECnet 12.107 and TCP/IP 192.168.1.138, using the shared root on `FUSION$DUA0:[SYS10.]` and local page/swap on `RISE$DUA0:`. Canonical environment notes now live in `FUSION_ENVIRONMENT_2026-04-24.md` and `RISE_ENVIRONMENT_2026-04-24.md`.
 ---
 
-## Promoted From Short-Term Memory (2026-06-18)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:7:10 -->
-- AIX Midday Monitoring (12:00 AEST): Persei-NIM (persei-nim.can.barnabasmusic.com) — ❌ No route; Celestia (celestia.can.barnabasmusic.com) — ❌ No route; Titan-AIX71 (titan-aix71.can.barnabasmusic.com) — ❌ No route; 43p (43p.can.barnabasmusic.com) — ❌ No route [score=1.000 recalls=0 avg=0.620 source=memory/2026-06-09.md:7-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-05-30.md:13:13 -->
-- AIX Midday Monitoring (12:01 AEST): No snapshot written for this run (hosts unavailable) [score=0.894 recalls=0 avg=0.620 source=memory/2026-05-30.md:13-13]
-<!-- openclaw-memory-promotion:memory:memory/2026-05-30.md:5:8 -->
-- AIX Midday Monitoring (12:01 AEST): All AIX hosts unreachable: Persei-NIM, Celestia, Titan-AIX71, 43p; Error: "No route to host" — network/path issue from Hebei to AIX subnet; Last successful collections:; Persei-NIM: 2026-05-28 [score=0.894 recalls=0 avg=0.620 source=memory/2026-05-30.md:5-8]
-<!-- openclaw-memory-promotion:memory:memory/2026-05-30.md:9:12 -->
-- AIX Midday Monitoring (12:01 AEST): Celestia: 2026-05-28; Titan-AIX71: 2026-05-21; 43p: 2026-05-13; Monitoring script: `~/.openclaw/workspace/skills/aix-system-monitor/scripts/run-aix-monitor.sh` [score=0.894 recalls=0 avg=0.620 source=memory/2026-05-30.md:9-12]
-
-## Promoted From Short-Term Memory (2026-06-22)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:16:19 -->
-- Conversation Summary: user: @JarvisKMT_bot Please share the Cluster details with @HermesKMT_bot , remember you need to explicitly @mention each other in this Telegram topic if you want you other agent buddy's to see you messages. assistant: Posted with explicit @mentions for both of them. user: Oh My God.... Its not rocket science. How is it that you guys keep mixing up your bot names. Kerri You are @kerriKMT_bot Hermes You are @HermesKMT_bot (It just so happens that you are both instances of the Hermes Agent Framework) Jarvis is @JarvisKMT_bot and in OpenClaw Agent Framework. [score=0.866 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:16-19]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:20:23 -->
-- Conversation Summary: assistant: Apologies for the confusion — noted for future reference. I'll be more careful with bot handle etiquette going forward. user: OK @JarvisKMT_bot Please send the Cluster details to JarvisKMT_bot, remember to @mention him by name. assistant: Clarified back to Keith — that one didn't quite add up! user: @JarvisKMT_bot Yes Direct it to HermesKMT_bot [score=0.866 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:20-23]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:24:26 -->
-- Conversation Summary: assistant: Sent to @HermesKMT_bot. user: OK all @HermesKMT_bot @JarvisKMT_bot @kerriKMT_bot You should be able to find the VAX VMS full documentation that Jarvis previously created in my Obsidian vault using your Obsidian skills. assistant: Posted for both agents. The VAX Cluster Rebuild project notes are all in **CentralVault** under `Projects/VAX Cluster Rebuild/` — index at `index.md`. [score=0.866 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:24-26]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:12:15 -->
-- Conversation Summary: user: @JarvisKMT_bot you should already have a great document in your workspace that you previously created to describe the Cluster environment. assistant: Posted. I've also logged this new topic setup to today's memory file. What would you like to explore first in the cluster? user: @JarvisKMT_bot can you share that detail with @HermesKMT_bot and @kerriKMT_bot assistant: Sent. They're not registered as sub-agents I can message directly, so I've posted the context into the same topic for them to pick up. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:12-15]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:3:5 -->
-- Session: 2026-06-18 23:11:06 GMT+10: **Session Key**: agent:main:telegram:group:-1003981232995:topic:332; **Session ID**: 530f2420-0006-424b-b877-07af6ec73148; **Source**: telegram [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:3-5]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:30:30 -->
-- Conversation Summary: <https://github.com/openclaw/openclaw/issues/80647#issuecomment-4420719837> [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:30-30]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:45:48 -->
-- Conversation Summary: **Issue:** OpenClaw #80647; **Schedule:** every day at **09:00 Australia/Sydney**; **Job ID:** `3f39e26c-f206-494d-b0f6-45c9109f68ce`; **Behaviour:** report only meaningful changes — closure, maintainer response, linked PR, merged fix, release note, or requested follow-up. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:45-48]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:69:69 -->
-- Conversation Summary: …but it was emitted as normal final text, not via the Telegram `message` tool, so it stayed invisible. Same upstream bug class again. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:69-69]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-18-2311.md:9:9 -->
-- Conversation Summary: assistant: [score=0.807 recalls=0 avg=0.620 source=memory/2026-06-18-2311.md:9-9]
-
 ## Promoted From Short-Term Memory (2026-06-23)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:67:67 -->
@@ -64,3 +32,22 @@ A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and sh
 - Conversation Summary: Topic 1 final-text failure; Topic 86 explicit `message` tool success; Session reset + topic-level prompt workaround; Recommendation for runtime diagnostics/guarding. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:36-39]
 <!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:40:41 -->
 - Conversation Summary: user: [Mon 2026-05-11 22:35 GMT+10] OK we should track that bug Daily to find out when it is fixed. assistant: Done. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:40-41]
+
+## Promoted From Short-Term Memory (2026-06-24)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:54:56 -->
+- Conversation Summary: assistant: I’ll inspect the new Telegram group session and routing config. This may be a separate group allowlist/mention-policy issue rather than the forum-topic delivery bug. assistant: The group was received correctly; the problem is the same delivery-policy class, but for a **plain Telegram group** rather than a forum topic. I can see my generated greeting in the transcript, but it was normal final text, so it did not visibly post. I’ll add the same message-tool workaround for this new group and reset that session so it takes effect. assistant: I found it. [score=0.900 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:54-56]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:60:63 -->
+- Conversation Summary: Group: `Agent Chat and Support Group for BMS`; ID: `-1003882117886`; Session: `agent:main:telegram:group:-1003882117886`; Your invite message was seen with `was_mentioned: true`. [score=0.900 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:60-63]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:65:65 -->
+- Conversation Summary: I also found my generated reply in the transcript: [score=0.900 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:65-65]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:43:43 -->
+- Conversation Summary: I’ve created a daily tracker: [score=0.868 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:43-43]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:50:53 -->
+- Conversation Summary: I also logged it into today’s memory. user: [Mon 2026-05-11 22:36 GMT+10] Thanks Mate assistant: Anytime, Keith. We have the workaround in place, upstream notified, and a daily watch set. Quite a tidy result, despite Telegram’s best efforts. user: [Mon 2026-05-11 23:00 GMT+10] I just added a new Telegram chat group for all of my Agents to chat about general subjects. You did not reply to the invite. It is session telegram:g-agent-chat-and-support-group-for-bms [score=0.868 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:50-53]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:58:58 -->
+- Conversation Summary: The new group was received correctly: [score=0.868 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:58-58]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:9:10 -->
+- Conversation Summary: assistant: I have the GitHub skill loaded. I’ll verify `gh` authentication and then file a concise upstream issue with the evidence we’ve gathered. assistant: GitHub CLI is installed, but authentication is currently broken: [score=0.860 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:9-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:19:19 -->
+- Conversation Summary: Please run: [score=0.858 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:19-19]
