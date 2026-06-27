@@ -51,3 +51,12 @@ A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and sh
 - Conversation Summary: assistant: I have the GitHub skill loaded. I’ll verify `gh` authentication and then file a concise upstream issue with the evidence we’ve gathered. assistant: GitHub CLI is installed, but authentication is currently broken: [score=0.860 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:9-10]
 <!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:19:19 -->
 - Conversation Summary: Please run: [score=0.858 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:19-19]
+
+## Promoted From Short-Term Memory (2026-06-27)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:4:4 -->
+- Monitoring Report Format Standardisation (12:40): Keith requested consistent output formatting for the daily Linux and AIX monitoring reports, which previously varied based on model output. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-24.md:4-4]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:6:6 -->
+- Monitoring Report Format Standardisation (12:40): **Actions taken:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-24.md:6-6]
+<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:7:10 -->
+- Monitoring Report Format Standardisation (12:40): Created `skills/linux-system-monitor/references/report-format-template.md` — a mandatory report format template covering both Linux and AIX report layouts; Updated `linux-system-monitor` cron job prompt to require reading and following the template verbatim; Updated `AIX midday monitoring` cron job prompt to require reading and following the AIX section of the template; Template defines: exact header format, section ordering (CRITICAL → Warnings → Unreachable → Nominal → Action Items), table columns, emoji indicators, issue combining rules, and explicit "do NOT include" rules for... [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-24.md:7-10]
