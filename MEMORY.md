@@ -65,3 +65,12 @@ A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and sh
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:12:12 -->
 - Monitoring Report Format Standardisation (12:40): Template location: `~/.openclaw/workspace/skills/linux-system-monitor/references/report-format-template.md` [score=0.869 recalls=0 avg=0.620 source=memory/2026-06-24.md:12-12]
+
+## Promoted From Short-Term Memory (2026-07-04)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:24:27 -->
+- Cluster: Proxima-One (live check): 5 nodes, all online, quorum OK; 4 VMs (3 running, 1 stopped: Aros2 on proxima3); 5 LXCs all running; Ceph: HEALTH_WARN — 1 OSD experiencing slow operations [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:24-27]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:28:30 -->
+- Cluster: Proxima-One (live check): ZFS: All pools ONLINE; Proxima3 PX3_Data0: 8.7TB allocated, 945GB free (88% used) ⚠️; Proxima4 AI0: 32% fragmentation [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:28-30]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:39:41 -->
+- Disk Alerts: arya: _export_LibraryPool_Archive at 92.1% — separate host, not Proxmox; Proxima3 PX3_Data0: confirmed ~88% used — ZFS pool near capacity; All other Proxmox node disks healthy (10-46%) [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:39-41]
