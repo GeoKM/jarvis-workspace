@@ -28,10 +28,22 @@ Things like:
 ### Proxmox
 
 - proxmox → `jarvis@proxima.can.barnabasmusic.com` (`192.168.1.93`), port 22, key-based SSH
+- Root SSH also works: `root@proxima.can.barnabasmusic.com` (and all proxima2-5 nodes)
 - SSH identity file → `~/.ssh/id_jt_ed25519`
-- SSH execution model → `ssh ... "sudo <proxmox-command>"`
+- SSH execution model → `ssh ... "sudo <proxmox-command>"` (jarvis) or direct as root
 - primary API endpoint → `https://proxima.can.barnabasmusic.com:8006/api2/json`
 - auth model → API token preferred, SSH+sudo fallback
+
+### XavierNV
+- xaviernv → `keith@xaviernv.can.barnabasmusic.com` (`192.168.1.115`), port 22
+- SSH identity file → `~/.ssh/id_jt_ed25519`
+- OS: Ubuntu 20.04 (Focal), NVIDIA Jetson Xavier (aarch64, Tegra kernel 5.10)
+- Also reachable via Tailscale: `xaviernv.tail4d3f85.ts.net` (100.107.211.73)
+
+### Retrobench
+- retrobench → `keith@retrobench.can.barnabasmusic.com` (`192.168.1.218`), port 22
+- SSH identity file → `~/.ssh/id_jt_ed25519`
+- OS: Debian 12 (Bookworm), liquorix kernel
 
 ### TTS
 

@@ -10,29 +10,6 @@ The MP/M II system utilizes a manual drive/user area exploration model, distinct
 A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and should be treated as current reference state: FUSION is the primary boot/MSCP server with DECnet 12.106 and TCP/IP 192.168.1.137, while RISE is the satellite with DECnet 12.107 and TCP/IP 192.168.1.138, using the shared root on `FUSION$DUA0:[SYS10.]` and local page/swap on `RISE$DUA0:`. Canonical environment notes now live in `FUSION_ENVIRONMENT_2026-04-24.md` and `RISE_ENVIRONMENT_2026-04-24.md`.
 ---
 
-## Promoted From Short-Term Memory (2026-06-23)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:67:67 -->
-- Conversation Summary: > “Hey Keith — Jarvis checking in…” [score=0.869 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:67-67]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:13:14 -->
-- Conversation Summary: Failed to log in to github.com account GeoKM The token in default is invalid. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:13-14]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:17:17 -->
-- Conversation Summary: So I **can’t file the issue yet** until GitHub auth is refreshed. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:17-17]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:22:22 -->
-- Conversation Summary: gh auth login -h github.com [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:22-22]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:25:28 -->
-- Conversation Summary: Then tell me when it’s done, and I’ll create the upstream OpenClaw issue immediately. user: [Mon 2026-05-11 22:33 GMT+10] OK Done. I also had brew update gh. assistant: There is already an open upstream issue that matches this almost exactly: **#80647**. Rather than create a duplicate, I’ll add our fresh 2026.5.7 reproduction as a comment with the Topic 1 vs Topic 86 evidence and workaround result. assistant: Reported upstream as a comment on the existing matching issue: [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:25-28]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:3:5 -->
-- Session: 2026-06-19 22:19:12 GMT+10: **Session Key**: agent:main:main; **Session ID**: be66393e-7732-4025-8547-a58cd1ffabc4; **Source**: webchat [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:3-5]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:32:32 -->
-- Conversation Summary: I did not create a duplicate issue because #80647 already describes the same underlying fault: Telegram forum/group sessions silently completing with normal final text when visible replies require the `message` tool. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:32-32]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:34:34 -->
-- Conversation Summary: I added our fresh `2026.5.7` reproduction, including: [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:34-34]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:36:39 -->
-- Conversation Summary: Topic 1 final-text failure; Topic 86 explicit `message` tool success; Session reset + topic-level prompt workaround; Recommendation for runtime diagnostics/guarding. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:36-39]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:40:41 -->
-- Conversation Summary: user: [Mon 2026-05-11 22:35 GMT+10] OK we should track that bug Daily to find out when it is fixed. assistant: Done. [score=0.837 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:40-41]
-
 ## Promoted From Short-Term Memory (2026-06-24)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:54:56 -->
@@ -74,3 +51,20 @@ A fresh read-only audit confirmed the rebuilt OpenVMS VAXcluster topology and sh
 - Cluster: Proxima-One (live check): ZFS: All pools ONLINE; Proxima3 PX3_Data0: 8.7TB allocated, 945GB free (88% used) ⚠️; Proxima4 AI0: 32% fragmentation [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:28-30]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:39:41 -->
 - Disk Alerts: arya: _export_LibraryPool_Archive at 92.1% — separate host, not Proxmox; Proxima3 PX3_Data0: confirmed ~88% used — ZFS pool near capacity; All other Proxmox node disks healthy (10-46%) [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:39-41]
+
+## Promoted From Short-Term Memory (2026-07-05)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:11:14 -->
+- Key Issues: **Security packages** — 9 hosts need updates (xaviernv worst: 20, retrobench: 15); **Swap pressure** — hebei (1.4Gi), proxima (3.1Gi), proxima2 (2.7Gi), proxima4 (1.9Gi); **Disk space** — arya (_export_LibraryPool_Archive 92.1%), proxima3 (_PX3_Data0_subvol-101-disk-0 92.1%); **Network** — cbm (192.168.1.19), Helios (192.168.1.58) unreachable [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-01.md:11-14]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:17:19 -->
+- Notes: SSH key access not configured from this session to remote hosts; Monitoring agent has credentials — snapshot came from there; CBM/Helios confirmed unreachable via ping [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-01.md:17-19]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:5:8 -->
+- Host Status Summary: 🟢 OK (5): dockyards, simul, tg-b, manifold, pidp11; ⚠️ WARNING (2): arya (disk 92.1%), hebei (swap 1.4Gi); 🔴 CRITICAL (9): xaviernv, retrobench, proxima, proxima2, proxima3, proxima4, proxima5, kasm (security packages), hebei (high swap noted); ⬛ UNREACHABLE: cbm, Helios (no route) [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-01.md:5-8]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:33:36 -->
+- Security Updates — Proxmox nodes: All 5 Proxmox nodes share same packages: 37 upgradable total; 3 security-specific: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (confirmed on proxima); NOT 3 per-node — monitoring likely aggregated across cluster rep; **xaviernv and retrobench NOT on Proxmox — separate SSH access needed** [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:33-36]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:44:45 -->
+- Swap Alerts: Hebei (VM on Proxima4): 87.5% memory allocated — swap pressure expected; Proxima VMs are consuming high memory (Hebei VM: 3.5GB, HMC: 3.9GB) [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:44-45]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:48:49 -->
+- Unreachable: cbm (192.168.1.19): genuinely off-network; Helios (192.168.1.58): genuinely off-network [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:48-49]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:52:54 -->
+- SSH Access Gap: This session has no key-based SSH to xaviernv, retrobench, kasm, arya, hebei, cbm, Helios; Proxmox cluster accessible via jarvis@proxima + id_jt_ed25519; Monitoring agent likely uses different credentials [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:52-54]
