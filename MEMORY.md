@@ -25,25 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-06-24)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:54:56 -->
-- Conversation Summary: assistant: I’ll inspect the new Telegram group session and routing config. This may be a separate group allowlist/mention-policy issue rather than the forum-topic delivery bug. assistant: The group was received correctly; the problem is the same delivery-policy class, but for a **plain Telegram group** rather than a forum topic. I can see my generated greeting in the transcript, but it was normal final text, so it did not visibly post. I’ll add the same message-tool workaround for this new group and reset that session so it takes effect. assistant: I found it. [score=0.900 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:54-56]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:60:63 -->
-- Conversation Summary: Group: `Agent Chat and Support Group for BMS`; ID: `-1003882117886`; Session: `agent:main:telegram:group:-1003882117886`; Your invite message was seen with `was_mentioned: true`. [score=0.900 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:60-63]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:65:65 -->
-- Conversation Summary: I also found my generated reply in the transcript: [score=0.900 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:65-65]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:43:43 -->
-- Conversation Summary: I’ve created a daily tracker: [score=0.868 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:43-43]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:50:53 -->
-- Conversation Summary: I also logged it into today’s memory. user: [Mon 2026-05-11 22:36 GMT+10] Thanks Mate assistant: Anytime, Keith. We have the workaround in place, upstream notified, and a daily watch set. Quite a tidy result, despite Telegram’s best efforts. user: [Mon 2026-05-11 23:00 GMT+10] I just added a new Telegram chat group for all of my Agents to chat about general subjects. You did not reply to the invite. It is session telegram:g-agent-chat-and-support-group-for-bms [score=0.868 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:50-53]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:58:58 -->
-- Conversation Summary: The new group was received correctly: [score=0.868 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:58-58]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:9:10 -->
-- Conversation Summary: assistant: I have the GitHub skill loaded. I’ll verify `gh` authentication and then file a concise upstream issue with the evidence we’ve gathered. assistant: GitHub CLI is installed, but authentication is currently broken: [score=0.860 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:9-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-19-2219.md:19:19 -->
-- Conversation Summary: Please run: [score=0.858 recalls=0 avg=0.620 source=memory/2026-06-19-2219.md:19-19]
-
 ## Promoted From Short-Term Memory (2026-06-27)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:4:4 -->
@@ -83,3 +64,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Unreachable: cbm (192.168.1.19): genuinely off-network; Helios (192.168.1.58): genuinely off-network [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:48-49]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:52:54 -->
 - SSH Access Gap: This session has no key-based SSH to xaviernv, retrobench, kasm, arya, hebei, cbm, Helios; Proxmox cluster accessible via jarvis@proxima + id_jt_ed25519; Monitoring agent likely uses different credentials [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:52-54]
+
+## Promoted From Short-Term Memory (2026-07-09)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:19:19 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Post-upgrade issue resolved:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:19-19]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:23:23 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Final state:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:23-23]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:4:4 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Host:** LXC 102 (KASM) on proxima2, Debian Trixie, Docker 29.6.1 [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:4-4]
