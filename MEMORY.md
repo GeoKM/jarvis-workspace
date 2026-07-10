@@ -25,20 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-06-27)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:4:4 -->
-- Monitoring Report Format Standardisation (12:40): Keith requested consistent output formatting for the daily Linux and AIX monitoring reports, which previously varied based on model output. [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-24.md:4-4]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:6:6 -->
-- Monitoring Report Format Standardisation (12:40): **Actions taken:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-24.md:6-6]
-<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:7:10 -->
-- Monitoring Report Format Standardisation (12:40): Created `skills/linux-system-monitor/references/report-format-template.md` — a mandatory report format template covering both Linux and AIX report layouts; Updated `linux-system-monitor` cron job prompt to require reading and following the template verbatim; Updated `AIX midday monitoring` cron job prompt to require reading and following the AIX section of the template; Template defines: exact header format, section ordering (CRITICAL → Warnings → Unreachable → Nominal → Action Items), table columns, emoji indicators, issue combining rules, and explicit "do NOT include" rules for... [score=0.815 recalls=0 avg=0.620 source=memory/2026-06-24.md:7-10]
-
-## Promoted From Short-Term Memory (2026-06-28)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-24.md:12:12 -->
-- Monitoring Report Format Standardisation (12:40): Template location: `~/.openclaw/workspace/skills/linux-system-monitor/references/report-format-template.md` [score=0.869 recalls=0 avg=0.620 source=memory/2026-06-24.md:12-12]
-
 ## Promoted From Short-Term Memory (2026-07-04)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:24:27 -->
@@ -73,3 +59,22 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Final state:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:23-23]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:4:4 -->
 - KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Host:** LXC 102 (KASM) on proxima2, Debian Trixie, Docker 29.6.1 [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:4-4]
+
+## Promoted From Short-Term Memory (2026-07-10)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:24:27 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): `/opt/kasm/current` → `/opt/kasm/1.19.0`; API healthcheck: `{"ok": true}`; Disk: 53G/157G used (36%), 97G free; Workspace images (1.18.0-rolling-weekly) retained — still valid for existing sessions [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-06.md:24-27]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:30:30 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Rollback path:** Proxmox snapshot `Pre_1_19_0_upgrade` on LXC 102 [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-06.md:30-30]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:6:6 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Steps completed:** [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-06.md:6-6]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:11:14 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Ran `upgrade.sh --proxy-port 443 -b --ignore-dep-failures`; Wireguard dependency failed (package unavailable for Trixie/LXC) — ignored, reduced egress functionality only; v4l2loopback DKMS also failed (no kernel headers for PVE host) — webcam support disabled; All other dependencies installed successfully [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:11-14]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:15:17 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Database migrated from 1.18.1 → 1.19.0 (new volume `kasm_db_1.19.0`); All 8 KASM containers running 1.19.0-rolling images, all healthy; Pruned 8 old 1.18.1 infrastructure images, reclaimed ~2 GB [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:15-17]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:20:21 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): `kasm_guac` container initially unhealthy — failed to register with API during simultaneous startup (502 error); Fixed by `docker restart kasm_guac` — container registered successfully on second boot [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:20-21]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:28:28 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Old 1.18.1 install directory retained at `/opt/kasm/1.18.1` for rollback [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:28-28]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:7:10 -->
+- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Proxmox snapshot: `Pre_1_19_0_upgrade` created on LXC 102; Database backup: `/opt/kasm/backups/kasm_backup_pre_1.19.0.tar` and `/opt/kasm/backups/kasm_db_backup.tar` (auto-created by upgrade script); Downloaded `kasm_release_1.19.0.tar.gz` from S3 (~10.5 MB, dated June 13 2026); Stopped KASM services via `/opt/kasm/bin/stop` [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:7-10]
