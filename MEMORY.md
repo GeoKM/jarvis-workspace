@@ -25,15 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-07-04)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:24:27 -->
-- Cluster: Proxima-One (live check): 5 nodes, all online, quorum OK; 4 VMs (3 running, 1 stopped: Aros2 on proxima3); 5 LXCs all running; Ceph: HEALTH_WARN — 1 OSD experiencing slow operations [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:24-27]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:28:30 -->
-- Cluster: Proxima-One (live check): ZFS: All pools ONLINE; Proxima3 PX3_Data0: 8.7TB allocated, 945GB free (88% used) ⚠️; Proxima4 AI0: 32% fragmentation [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:28-30]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:39:41 -->
-- Disk Alerts: arya: _export_LibraryPool_Archive at 92.1% — separate host, not Proxmox; Proxima3 PX3_Data0: confirmed ~88% used — ZFS pool near capacity; All other Proxmox node disks healthy (10-46%) [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-01.md:39-41]
-
 ## Promoted From Short-Term Memory (2026-07-05)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:11:14 -->
@@ -78,3 +69,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Old 1.18.1 install directory retained at `/opt/kasm/1.18.1` for rollback [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:28-28]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:7:10 -->
 - KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Proxmox snapshot: `Pre_1_19_0_upgrade` created on LXC 102; Database backup: `/opt/kasm/backups/kasm_backup_pre_1.19.0.tar` and `/opt/kasm/backups/kasm_db_backup.tar` (auto-created by upgrade script); Downloaded `kasm_release_1.19.0.tar.gz` from S3 (~10.5 MB, dated June 13 2026); Stopped KASM services via `/opt/kasm/bin/stop` [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:7-10]
+
+## Promoted From Short-Term Memory (2026-07-13)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:23:23 -->
+- Proxmox Cluster Report (22:46 AEST): **No HA resources or backup jobs configured.** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-10.md:23-23]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:5:5 -->
+- Proxmox Cluster Report (22:46 AEST): **Cluster:** Proxima-One | Quorum: ✅ YES | Nodes: 5/5 online [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-10.md:5-5]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:7:7 -->
+- Proxmox Cluster Report (22:46 AEST): **Ceph ⚠️ HEALTH_WARN:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-10.md:7-7]
