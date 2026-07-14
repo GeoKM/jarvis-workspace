@@ -25,23 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-07-05)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:11:14 -->
-- Key Issues: **Security packages** — 9 hosts need updates (xaviernv worst: 20, retrobench: 15); **Swap pressure** — hebei (1.4Gi), proxima (3.1Gi), proxima2 (2.7Gi), proxima4 (1.9Gi); **Disk space** — arya (_export_LibraryPool_Archive 92.1%), proxima3 (_PX3_Data0_subvol-101-disk-0 92.1%); **Network** — cbm (192.168.1.19), Helios (192.168.1.58) unreachable [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-01.md:11-14]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:17:19 -->
-- Notes: SSH key access not configured from this session to remote hosts; Monitoring agent has credentials — snapshot came from there; CBM/Helios confirmed unreachable via ping [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-01.md:17-19]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:5:8 -->
-- Host Status Summary: 🟢 OK (5): dockyards, simul, tg-b, manifold, pidp11; ⚠️ WARNING (2): arya (disk 92.1%), hebei (swap 1.4Gi); 🔴 CRITICAL (9): xaviernv, retrobench, proxima, proxima2, proxima3, proxima4, proxima5, kasm (security packages), hebei (high swap noted); ⬛ UNREACHABLE: cbm, Helios (no route) [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-01.md:5-8]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:33:36 -->
-- Security Updates — Proxmox nodes: All 5 Proxmox nodes share same packages: 37 upgradable total; 3 security-specific: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (confirmed on proxima); NOT 3 per-node — monitoring likely aggregated across cluster rep; **xaviernv and retrobench NOT on Proxmox — separate SSH access needed** [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:33-36]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:44:45 -->
-- Swap Alerts: Hebei (VM on Proxima4): 87.5% memory allocated — swap pressure expected; Proxima VMs are consuming high memory (Hebei VM: 3.5GB, HMC: 3.9GB) [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:44-45]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:48:49 -->
-- Unreachable: cbm (192.168.1.19): genuinely off-network; Helios (192.168.1.58): genuinely off-network [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:48-49]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:52:54 -->
-- SSH Access Gap: This session has no key-based SSH to xaviernv, retrobench, kasm, arya, hebei, cbm, Helios; Proxmox cluster accessible via jarvis@proxima + id_jt_ed25519; Monitoring agent likely uses different credentials [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-01.md:52-54]
-
 ## Promoted From Short-Term Memory (2026-07-09)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:19:19 -->
@@ -78,3 +61,20 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Proxmox Cluster Report (22:46 AEST): **Cluster:** Proxima-One | Quorum: ✅ YES | Nodes: 5/5 online [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-10.md:5-5]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:7:7 -->
 - Proxmox Cluster Report (22:46 AEST): **Ceph ⚠️ HEALTH_WARN:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-10.md:7-7]
+
+## Promoted From Short-Term Memory (2026-07-14)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:15:15 -->
+- Proxmox Cluster Report (22:46 AEST): **ZFS Pools:** All ONLINE ✅ [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-10.md:15-15]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:21:21 -->
+- Proxmox Cluster Report (22:46 AEST): **Top I/O:** lxc 102 (KASM) on proxima2 — 4.1 TB written [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-10.md:21-21]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:8:10 -->
+- Proxmox Cluster Report (22:46 AEST): MONS: 5, OSDs: 6 up/6 in; Warning: daemons running older version of ceph; Action: `ceph versions` on any mon node to identify mixed-version daemons [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-10.md:8-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:13:13 -->
+- Proxmox Cluster Report (22:46 AEST): qemu 106 (Aros2) on proxima3 — stopped; verify if intentional [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-10.md:13-13]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:18:19 -->
+- Proxmox Cluster Report (22:46 AEST): proxima4: 86.6% (highest); proxima: 78.0% [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-10.md:18-19]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:12:12 -->
+- Proxmox Cluster Report (22:46 AEST): **Guests:** [score=0.827 recalls=0 avg=0.620 source=memory/2026-07-10.md:12-12]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:17:17 -->
+- Proxmox Cluster Report (22:46 AEST): **Memory pressure:** [score=0.827 recalls=0 avg=0.620 source=memory/2026-07-10.md:17-17]
