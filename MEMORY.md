@@ -78,3 +78,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Proxmox Cluster Report (22:46 AEST): **Guests:** [score=0.827 recalls=0 avg=0.620 source=memory/2026-07-10.md:12-12]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:17:17 -->
 - Proxmox Cluster Report (22:46 AEST): **Memory pressure:** [score=0.827 recalls=0 avg=0.620 source=memory/2026-07-10.md:17-17]
+
+## Promoted From Short-Term Memory (2026-07-22)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-18.md:15:17 -->
+- GitHub CLI PAT Configuration (22:36–22:42 AEST): First PAT revoked by Keith after second was configured; **PAT expiry: 90 days — expires approximately 2026-10-16**; Security note: full token values were visible in Telegram chat context metadata [score=0.836 recalls=0 avg=0.620 source=memory/2026-07-18.md:15-17]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-18.md:11:14 -->
+- GitHub CLI PAT Configuration (22:36–22:42 AEST): First PAT (`ghp_IX…Wp6c`) configured — missing `read:org` scope, `gh auth login --with-token` failed validation; Second PAT (`ghp_uI…ohBz`) configured — full scopes: `repo`, `delete_repo`, `notifications`, `read:org`, `audit_log`; Account: GeoKM (Keith Matthews); Token stored at `~/.config/gh/hosts.yml` (permissions 600) [score=0.836 recalls=0 avg=0.620 source=memory/2026-07-18.md:11-14]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-18.md:4:7 -->
+- Proxmox Cluster Security Updates (22:19 AEST): Applied `apt update && apt upgrade -y` to all 5 nodes (proxima, proxima2-5) in parallel; All nodes completed successfully — Samba/GnuPG libs, pve-ha-manager, pve-manager triggers, postfix restarted; No reboot performed (per Keith's instruction — manual reboot later); Remaining upgradable (kernel, held back): `proxmox-kernel-6.17` → 6.17.13-18, `proxmox-kernel-7.0` → 7.0.14-5 on all nodes [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-18.md:4-7]
