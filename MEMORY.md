@@ -25,15 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-07-09)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:19:19 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Post-upgrade issue resolved:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:19-19]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:23:23 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Final state:** [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:23-23]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:4:4 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Host:** LXC 102 (KASM) on proxima2, Debian Trixie, Docker 29.6.1 [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-06.md:4-4]
-
 ## Promoted From Short-Term Memory (2026-07-10)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:24:27 -->
@@ -87,3 +78,8 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - GitHub CLI PAT Configuration (22:36–22:42 AEST): First PAT (`ghp_IX…Wp6c`) configured — missing `read:org` scope, `gh auth login --with-token` failed validation; Second PAT (`ghp_uI…ohBz`) configured — full scopes: `repo`, `delete_repo`, `notifications`, `read:org`, `audit_log`; Account: GeoKM (Keith Matthews); Token stored at `~/.config/gh/hosts.yml` (permissions 600) [score=0.836 recalls=0 avg=0.620 source=memory/2026-07-18.md:11-14]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-18.md:4:7 -->
 - Proxmox Cluster Security Updates (22:19 AEST): Applied `apt update && apt upgrade -y` to all 5 nodes (proxima, proxima2-5) in parallel; All nodes completed successfully — Samba/GnuPG libs, pve-ha-manager, pve-manager triggers, postfix restarted; No reboot performed (per Keith's instruction — manual reboot later); Remaining upgradable (kernel, held back): `proxmox-kernel-6.17` → 6.17.13-18, `proxmox-kernel-7.0` → 7.0.14-5 on all nodes [score=0.815 recalls=0 avg=0.620 source=memory/2026-07-18.md:4-7]
+
+## Promoted From Short-Term Memory (2026-07-23)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-18.md:8:8 -->
+- Proxmox Cluster Security Updates (22:19 AEST): Config: used `--force-confdef --force-confold` to preserve existing config files [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-18.md:8-8]
