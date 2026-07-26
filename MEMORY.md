@@ -83,3 +83,8 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-18.md:8:8 -->
 - Proxmox Cluster Security Updates (22:19 AEST): Config: used `--force-confdef --force-confold` to preserve existing config files [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-18.md:8-8]
+
+## Promoted From Short-Term Memory (2026-07-26)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:19:22 -->
+- ⚠️ WARNING — Disk Space: | Host | Mount | Usage | |------|-------|-------| | arya | /export/LibraryPool_Archive | 5.7T/6.2T = 92% (506G free) | | hebei | swap | 1.2GiB — likely transient | [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-22.md:19-22]
