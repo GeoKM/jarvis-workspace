@@ -25,25 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-07-10)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:24:27 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): `/opt/kasm/current` → `/opt/kasm/1.19.0`; API healthcheck: `{"ok": true}`; Disk: 53G/157G used (36%), 97G free; Workspace images (1.18.0-rolling-weekly) retained — still valid for existing sessions [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-06.md:24-27]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:30:30 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Rollback path:** Proxmox snapshot `Pre_1_19_0_upgrade` on LXC 102 [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-06.md:30-30]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:6:6 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): **Steps completed:** [score=0.869 recalls=0 avg=0.620 source=memory/2026-07-06.md:6-6]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:11:14 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Ran `upgrade.sh --proxy-port 443 -b --ignore-dep-failures`; Wireguard dependency failed (package unavailable for Trixie/LXC) — ignored, reduced egress functionality only; v4l2loopback DKMS also failed (no kernel headers for PVE host) — webcam support disabled; All other dependencies installed successfully [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:11-14]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:15:17 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Database migrated from 1.18.1 → 1.19.0 (new volume `kasm_db_1.19.0`); All 8 KASM containers running 1.19.0-rolling images, all healthy; Pruned 8 old 1.18.1 infrastructure images, reclaimed ~2 GB [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:15-17]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:20:21 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): `kasm_guac` container initially unhealthy — failed to register with API during simultaneous startup (502 error); Fixed by `docker restart kasm_guac` — container registered successfully on second boot [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:20-21]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:28:28 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Old 1.18.1 install directory retained at `/opt/kasm/1.18.1` for rollback [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:28-28]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-06.md:7:10 -->
-- KASM Workspaces Upgrade 1.18.1 → 1.19.0 (14:20–14:50): Proxmox snapshot: `Pre_1_19_0_upgrade` created on LXC 102; Database backup: `/opt/kasm/backups/kasm_backup_pre_1.19.0.tar` and `/opt/kasm/backups/kasm_db_backup.tar` (auto-created by upgrade script); Downloaded `kasm_release_1.19.0.tar.gz` from S3 (~10.5 MB, dated June 13 2026); Stopped KASM services via `/opt/kasm/bin/stop` [score=0.837 recalls=0 avg=0.620 source=memory/2026-07-06.md:7-10]
-
 ## Promoted From Short-Term Memory (2026-07-13)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-10.md:23:23 -->
@@ -88,3 +69,16 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:19:22 -->
 - ⚠️ WARNING — Disk Space: | Host | Mount | Usage | |------|-------|-------| | arya | /export/LibraryPool_Archive | 5.7T/6.2T = 92% (506G free) | | hebei | swap | 1.2GiB — likely transient | [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-22.md:19-22]
+
+## Promoted From Short-Term Memory (2026-07-27)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:6:9 -->
+- Host Status Summary: Total: 9 hosts; 🟢 OK: 4 (dockyards, simul, kasm, tg-b); ⚠️ WARNING: 2 (hebei, arya); 🔴 CRITICAL: 2 (xaviernv, retrobench) [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:6-9]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:37:37 -->
+- Events: 12:00 — Scheduled monitoring snapshot via cron. cbm still unreachable since first report. hebei swap elevated. [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:37-37]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:13:16 -->
+- 🔴 CRITICAL — Security Packages: | Host | Packages | Notes | |------|----------|-------| | retrobench | 3 | libnss3 (x2), google-chrome-stable | | xaviernv | 8 | Ubuntu 20.04 ESM packages (accountsservice, libarchive13, snapd, wget, etc.) | [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:13-16]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:30:33 -->
+- Action Items: **retrobench** — 3 security packages: libnss3 x2 + google-chrome-stable → apply; **xaviernv** — 8 security packages (ESM/Ubuntu 20.04 arm64) → needs sudo password or root SSH; **arya** — 506G free on 6.2T dataset → identify large deletable files, archival?; **cbm** — unreachable since last check → hardware/power/ping check [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:30-33]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:34:34 -->
+- Action Items: **hebei** — swap 1.2GiB → likely OK, monitor [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:34-34]
