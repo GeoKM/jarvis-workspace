@@ -82,3 +82,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Action Items: **retrobench** — 3 security packages: libnss3 x2 + google-chrome-stable → apply; **xaviernv** — 8 security packages (ESM/Ubuntu 20.04 arm64) → needs sudo password or root SSH; **arya** — 506G free on 6.2T dataset → identify large deletable files, archival?; **cbm** — unreachable since last check → hardware/power/ping check [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:30-33]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:34:34 -->
 - Action Items: **hebei** — swap 1.2GiB → likely OK, monitor [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-22.md:34-34]
+
+## Promoted From Short-Term Memory (2026-07-28)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-24-1534.md:58:61 -->
+- ⚠️ Warnings: | Host | Issue | |------|-------| | **hebei** | high swap (1.1GiB) | | **arya** | disk full 8% (_export_LibraryPool_Archive) | [score=0.836 recalls=0 avg=0.620 source=memory/2026-07-24-1534.md:58-61]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:10:10 -->
+- Host Status Summary: ⬛ UNREACHABLE: 1 (cbm) [score=0.808 recalls=0 avg=0.620 source=memory/2026-07-22.md:10-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:25:27 -->
+- ⬛ Unreachable: | Host | Error | |------|-------| | cbm | No route to host | [score=0.808 recalls=0 avg=0.620 source=memory/2026-07-22.md:25-27]
