@@ -79,3 +79,10 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - AIX Midday Monitor — 12:00 AEST: Run the monitoring script from a host with access to 10.0.0.0/24 (e.g., proxima node on that segment, or a VPN/bridge); Set up routing between Hebei and the AIX subnet; Use SSH tunnel / jump host [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:23-25]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:32:34 -->
 - Monitoring Integration: Added `plexus` to `~/lab-docs/monitoring/hosts.d/hosts.yaml`; Test snapshot successful — Debian 13 Trixie, kernel 6.12.96, 4 cores, Plex Media Server running; Dashboard picks it up automatically (reads hosts.yaml dynamically) [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:32-34]
+
+## Promoted From Short-Term Memory (2026-07-30)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:11:12 -->
+- AIX Midday Monitor — 12:00 AEST: | titan-aix71 | ❌ No route to host | | 43p | ❌ No route to host | [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:11-12]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:17:20 -->
+- AIX Midday Monitor — 12:00 AEST: Persei-NIM: 2026-05-28; Celestia: 2026-05-28; Titan-AIX71: 2026-05-21; 43p: 2026-05-13 [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:17-20]
