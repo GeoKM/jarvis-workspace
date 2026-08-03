@@ -25,38 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-07-28)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24-1534.md:58:61 -->
-- ⚠️ Warnings: | Host | Issue | |------|-------| | **hebei** | high swap (1.1GiB) | | **arya** | disk full 8% (_export_LibraryPool_Archive) | [score=0.836 recalls=0 avg=0.620 source=memory/2026-07-24-1534.md:58-61]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:10:10 -->
-- Host Status Summary: ⬛ UNREACHABLE: 1 (cbm) [score=0.808 recalls=0 avg=0.620 source=memory/2026-07-22.md:10-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-22.md:25:27 -->
-- ⬛ Unreachable: | Host | Error | |------|-------| | cbm | No route to host | [score=0.808 recalls=0 avg=0.620 source=memory/2026-07-22.md:25-27]
-
-## Promoted From Short-Term Memory (2026-07-29)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24-1534.md:52:55 -->
-- 🔴 CRITICAL Alerts: | **proxima2** | 3 security packages + high swap (2.2GiB) | | **proxima3** | 3 security packages + disk full 8% (_PX3_Data0_subvol-101-disk-0) | | **proxima4** | 3 security packages + high swap (1.5GiB) | | **proxima5** | 3 security packages | [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24-1534.md:52-55]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24-1534.md:48:51 -->
-- 🔴 CRITICAL Alerts: | Host | Issue | |------|-------| | **xaviernv** | 12 security packages | | **proxima** | 3 security packages + high swap (2.4GiB) | [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24-1534.md:48-51]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:5:5 -->
-- AIX Midday Monitor — 12:00 AEST: All 4 AIX hosts returned **No route to host** — consistent with known network topology issue. [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:5-5]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:14:14 -->
-- AIX Midday Monitor — 12:00 AEST: **Network topology:** Hebei (current host, where cron runs) is not on the 10.0.0.0/24 AIX network segment. This is a long-standing issue — first observed ~2026-06-09 and recurring since. Monitoring script runs from Hebei but cannot reach the AIX subnet. [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:14-14]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:7:10 -->
-- AIX Midday Monitor — 12:00 AEST: | Host | Status | |------|--------| | persei-nim | ❌ No route to host | | celestia | ❌ No route to host | [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:7-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:22:22 -->
-- AIX Midday Monitor — 12:00 AEST: **Options to restore monitoring:** [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:22-22]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:16:16 -->
-- AIX Midday Monitor — 12:00 AEST: **Last known successful collections** (from memory/2026-05-30): [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:16-16]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:27:27 -->
-- AIX Midday Monitor — 12:00 AEST: **Note:** This is a known persistent issue — not a new failure. No action required unless the user explicitly requests network remediation. [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:27-27]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:23:25 -->
-- AIX Midday Monitor — 12:00 AEST: Run the monitoring script from a host with access to 10.0.0.0/24 (e.g., proxima node on that segment, or a VPN/bridge); Set up routing between Hebei and the AIX subnet; Use SSH tunnel / jump host [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:23-25]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:32:34 -->
-- Monitoring Integration: Added `plexus` to `~/lab-docs/monitoring/hosts.d/hosts.yaml`; Test snapshot successful — Debian 13 Trixie, kernel 6.12.96, 4 cores, Plex Media Server running; Dashboard picks it up automatically (reads hosts.yaml dynamically) [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-24.md:32-34]
-
 ## Promoted From Short-Term Memory (2026-07-30)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:11:12 -->
@@ -74,3 +42,20 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - NFS Auto-Mount on Boot — Three Attempts: **Attempt 1:** Added NFS entries to `/etc/fstab` with `rw,hard,tcp` options. Failed on reboot — `mount.nfs: Network is unreachable`; **Attempt 2:** Added `_netdev` to fstab options. Failed — same error. `_netdev` tells systemd "needs network" but `network-online.target` fires before DHCP lease is acquired; **Attempt 3:** Added `x-systemd.requires=network-online.target` + `x-systemd.after=network-online.target`. Also enabled `ifupdown-wait-online.service`. Failed — `ifupdown-wait-online.service` completes the moment it starts *soliciting* a DHCP lease, not when the lease is actually obtained.... [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:37-40]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:51:53 -->
 - Plexus Details: VM 109 on proxima5, Debian 13 Trixie, 192.168.1.241; NFS mounts from poly (192.168.1.8): `/Data/MP3_Library`, `/Data/VIDEO`; sudoers: NOPASSWD allowlist only — `sudo install` trick used for root file writes [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:51-53]
+
+## Promoted From Short-Term Memory (2026-08-03)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:1:20 -->
+- AIX Midday Monitor Alert (12:00 AEST 2026-08-02): All 4 AIX hosts unreachable — Persei-NIM, Celestia, Titan-AIX71, 43p — all returning "No route to host". Routed to main session. [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-02.md:1:20]
+- AIX Monitor Cron Routing Fix: Cron job de1a880f was routing output back to main session via announce delivery instead of to Telegram, creating duplicate alerts. Fix: changed delivery mode to `none` and updated agent prompt to use `message action=send channel=telegram target=7174833131` directly. Jobs file also updated at `~/.openclaw/cron/jobs.json.migrated`.
+
+## Promoted From Short-Term Memory (2026-08-03)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:8:11 -->
+- Proxmox Cluster Package Updates (22:22 AEST): corosync 3.1.10-pve2 → 3.1.10-pve3; pve-qemu-kvm 11.0.2-1 → 11.0.2-2; qemu-server 9.2.0 → 9.2.1; pve-container 6.1.11 → 6.1.12 [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:8-11]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:12:15 -->
+- Proxmox Cluster Package Updates (22:22 AEST): bind9 security update, Samba security update, libknet1 1.34→1.35; Config preserved with `--force-confdef --force-confold`; No reboot performed (per Keith's instruction); Post-upgrade: Quorum 5/5, Quorate: Yes [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:12-15]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:16:17 -->
+- Proxmox Cluster Package Updates (22:22 AEST): Remaining (held back, requires reboot): proxmox-kernel-6.17 → 6.17.13-21, proxmox-kernel-7.0 → 7.0.14-8; Keith will schedule rolling reboots at his discretion [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:16-17]
+<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:4:7 -->
+- Proxmox Cluster Package Updates (22:22 AEST): Applied `apt-get update && apt-get upgrade -y` to all 5 nodes (proxima, proxima2-5) in parallel; 53 packages per node upgraded, including:; pve-manager 9.2.4 → 9.2.5; Ceph 19.2.4-pve1 → 19.2.5-pve2 (all components) [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:4-7]
