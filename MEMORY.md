@@ -59,3 +59,8 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Proxmox Cluster Package Updates (22:22 AEST): Remaining (held back, requires reboot): proxmox-kernel-6.17 → 6.17.13-21, proxmox-kernel-7.0 → 7.0.14-8; Keith will schedule rolling reboots at his discretion [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:16-17]
 <!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:4:7 -->
 - Proxmox Cluster Package Updates (22:22 AEST): Applied `apt-get update && apt-get upgrade -y` to all 5 nodes (proxima, proxima2-5) in parallel; 53 packages per node upgraded, including:; pve-manager 9.2.4 → 9.2.5; Ceph 19.2.4-pve1 → 19.2.5-pve2 (all components) [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:4-7]
+
+## Promoted From Short-Term Memory (2026-08-05)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:1:13 -->
+- ## AIX Midday Monitoring (12:00 AEST) All AIX hosts unreachable from Hebei — no route to 10.0.0.0/24 network segment. Monitored hosts: - Persei-NIM (persei-nim.can.barnabasmusic.com) — ❌ No route - Celestia (celestia.can.barnabasmusic.com) — ❌ No route - Titan-AIX71 (titan-aix71.can.barnabasmusic.com) — ❌ No route - 43p (43p.can.barnabasmusic.com) — ❌ No route Network topology note: Hebei (current host) is not on the 10.0.0.0/24 AIX network. Monitoring should run from a host with access to that segment, or a VPN/bridge needs to be in place. [score=0.895 recalls=3 avg=0.818 source=memory/2026-06-09.md:1-13]
