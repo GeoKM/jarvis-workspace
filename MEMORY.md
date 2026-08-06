@@ -64,3 +64,10 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:1:13 -->
 - ## AIX Midday Monitoring (12:00 AEST) All AIX hosts unreachable from Hebei — no route to 10.0.0.0/24 network segment. Monitored hosts: - Persei-NIM (persei-nim.can.barnabasmusic.com) — ❌ No route - Celestia (celestia.can.barnabasmusic.com) — ❌ No route - Titan-AIX71 (titan-aix71.can.barnabasmusic.com) — ❌ No route - 43p (43p.can.barnabasmusic.com) — ❌ No route Network topology note: Hebei (current host) is not on the 10.0.0.0/24 AIX network. Monitoring should run from a host with access to that segment, or a VPN/bridge needs to be in place. [score=0.895 recalls=3 avg=0.818 source=memory/2026-06-09.md:1-13]
+
+## Promoted From Short-Term Memory (2026-08-06)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:1:30 -->
+- ## AIX Midday Monitor Alert (12:00 AEST) A cron job sent an AIX monitoring report showing all 4 AIX hosts unreachable: | Host | Status | |------|--------| | Persei-NIM | ❌ No route to host | | Celestia | ❌ No route to host | | Titan-AIX71 | ❌ No route to host | | 43p | ❌ No route to host | This was routed to the main session but I couldn't determine the Telegram reply target. The alert likely needs human attention if these hosts should be online.... [score=0.811 recalls=3 avg=0.832 source=memory/2026-08-02.md:1-30]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:29:29 -->
+- AIX Monitor Cron Routing Fix: **Fix applied (via `openclaw cron edit`):** [score=0.806 recalls=0 avg=0.620 source=memory/2026-08-02.md:29-29]
