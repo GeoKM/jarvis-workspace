@@ -25,24 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-07-30)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:11:12 -->
-- AIX Midday Monitor — 12:00 AEST: | titan-aix71 | ❌ No route to host | | 43p | ❌ No route to host | [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:11-12]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:17:20 -->
-- AIX Midday Monitor — 12:00 AEST: Persei-NIM: 2026-05-28; Celestia: 2026-05-28; Titan-AIX71: 2026-05-21; 43p: 2026-05-13 [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:17-20]
-
-## Promoted From Short-Term Memory (2026-07-31)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:46:48 -->
-- Files Modified on Plexus: `/etc/fstab` — NFS entries added (with `_netdev` and systemd ordering options, though the systemd service is what actually does the mounting); `/etc/systemd/system/nfs-mount-after-dhcp.service` — custom service; `ifupdown-wait-online.service` — enabled (ineffective on its own but kept enabled) [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:46-48]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:43:43 -->
-- Key Lesson: On Debian with ifupdown + dhcpcd, `network-online.target` and `ifupdown-wait-online.service` are fundamentally unreliable for NFS mounts — they report "online" before DHCP assigns an IP. The only reliable approach is to poll for actual IP-level reachability to the NFS server before attempting the mount. [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:43-43]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:37:40 -->
-- NFS Auto-Mount on Boot — Three Attempts: **Attempt 1:** Added NFS entries to `/etc/fstab` with `rw,hard,tcp` options. Failed on reboot — `mount.nfs: Network is unreachable`; **Attempt 2:** Added `_netdev` to fstab options. Failed — same error. `_netdev` tells systemd "needs network" but `network-online.target` fires before DHCP lease is acquired; **Attempt 3:** Added `x-systemd.requires=network-online.target` + `x-systemd.after=network-online.target`. Also enabled `ifupdown-wait-online.service`. Failed — `ifupdown-wait-online.service` completes the moment it starts *soliciting* a DHCP lease, not when the lease is actually obtained.... [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:37-40]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-24.md:51:53 -->
-- Plexus Details: VM 109 on proxima5, Debian 13 Trixie, 192.168.1.241; NFS mounts from poly (192.168.1.8): `/Data/MP3_Library`, `/Data/VIDEO`; sudoers: NOPASSWD allowlist only — `sudo install` trick used for root file writes [score=0.818 recalls=0 avg=0.620 source=memory/2026-07-24.md:51-53]
-
 ## Promoted From Short-Term Memory (2026-08-03)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:1:20 -->
@@ -71,3 +53,24 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - ## AIX Midday Monitor Alert (12:00 AEST) A cron job sent an AIX monitoring report showing all 4 AIX hosts unreachable: | Host | Status | |------|--------| | Persei-NIM | ❌ No route to host | | Celestia | ❌ No route to host | | Titan-AIX71 | ❌ No route to host | | 43p | ❌ No route to host | This was routed to the main session but I couldn't determine the Telegram reply target. The alert likely needs human attention if these hosts should be online.... [score=0.811 recalls=3 avg=0.832 source=memory/2026-08-02.md:1-30]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:29:29 -->
 - AIX Monitor Cron Routing Fix: **Fix applied (via `openclaw cron edit`):** [score=0.806 recalls=0 avg=0.620 source=memory/2026-08-02.md:29-29]
+
+## Promoted From Short-Term Memory (2026-08-07)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:6:9 -->
+- AIX Midday Monitor Alert (12:00 AEST): | Host | Status | |------|--------| | Persei-NIM | ❌ No route to host | | Celestia | ❌ No route to host | [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:6-9]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:4:4 -->
+- AIX Midday Monitor Alert (12:00 AEST): A cron job sent an AIX monitoring report showing all 4 AIX hosts unreachable: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:4-4]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:20:20 -->
+- AIX Monitor Cron Routing Fix: **Root cause:** The isolated cron session's `announce` delivery was falling back to `sessions_send` to the main session (without a Telegram target), rather than delivering to Telegram. The announce mechanism wasn't working. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:20-20]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:13:13 -->
+- AIX Midday Monitor Alert (12:00 AEST): This was routed to the main session but I couldn't determine the Telegram reply target. The alert likely needs human attention if these hosts should be online. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:13-13]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:10:11 -->
+- AIX Midday Monitor Alert (12:00 AEST): | Titan-AIX71 | ❌ No route to host | | 43p | ❌ No route to host | [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:10-11]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:23:25 -->
+- AIX Monitor Cron Routing Fix: Changed delivery mode to `none` (`--no-deliver`); Updated the agent prompt to explicitly use `message action=send channel=telegram target=7174833131` to deliver results directly; This bypasses the broken announce mechanism entirely [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:23-25]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:18:18 -->
+- AIX Monitor Cron Routing Fix: The AIX midday monitor cron job (id: de1a880f) was repeatedly routing its output back to the main session instead of to Telegram, creating a loop of duplicate alerts. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:18-18]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:22:22 -->
+- AIX Monitor Cron Routing Fix: **Fix applied (via `openclaw cron edit`):** [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:22-22]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:27:27 -->
+- AIX Monitor Cron Routing Fix: The jobs file at `~/.openclaw/cron/jobs.json.migrated` was also updated (for when the system next migrates/loads), but the live gateway config is in-memory — the `openclaw cron edit` command is what took effect. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:27-27]
