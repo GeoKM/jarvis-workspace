@@ -74,3 +74,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - AIX Monitor Cron Routing Fix: **Fix applied (via `openclaw cron edit`):** [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:22-22]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:27:27 -->
 - AIX Monitor Cron Routing Fix: The jobs file at `~/.openclaw/cron/jobs.json.migrated` was also updated (for when the system next migrates/loads), but the live gateway config is in-memory — the `openclaw cron edit` command is what took effect. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:27-27]
+
+## Promoted From Short-Term Memory (2026-08-08)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:6:9 -->
+- AIX Midday Monitoring Alert (12:00 AEST): Persei-NIM: DOWN (no route to host); Celestia: DOWN (no route to host); Titan-AIX71: DOWN (no route to host); 43p: DOWN (no route to host) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:6-9]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:11:11 -->
+- AIX Midday Monitoring Alert (12:00 AEST): Likely network infrastructure issue rather than individual host failures given the simultaneous nature. No user action taken at this time — monitoring will continue. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:11-11]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:5:5 -->
+- AIX Midday Monitoring Alert (12:00 AEST): All 4 AIX hosts reported unreachable simultaneously: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:5-5]
