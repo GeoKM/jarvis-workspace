@@ -25,23 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-03)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:1:20 -->
-- AIX Midday Monitor Alert (12:00 AEST 2026-08-02): All 4 AIX hosts unreachable — Persei-NIM, Celestia, Titan-AIX71, 43p — all returning "No route to host". Routed to main session. [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-02.md:1:20]
-- AIX Monitor Cron Routing Fix: Cron job de1a880f was routing output back to main session via announce delivery instead of to Telegram, creating duplicate alerts. Fix: changed delivery mode to `none` and updated agent prompt to use `message action=send channel=telegram target=7174833131` directly. Jobs file also updated at `~/.openclaw/cron/jobs.json.migrated`.
-
-## Promoted From Short-Term Memory (2026-08-03)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:8:11 -->
-- Proxmox Cluster Package Updates (22:22 AEST): corosync 3.1.10-pve2 → 3.1.10-pve3; pve-qemu-kvm 11.0.2-1 → 11.0.2-2; qemu-server 9.2.0 → 9.2.1; pve-container 6.1.11 → 6.1.12 [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:8-11]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:12:15 -->
-- Proxmox Cluster Package Updates (22:22 AEST): bind9 security update, Samba security update, libknet1 1.34→1.35; Config preserved with `--force-confdef --force-confold`; No reboot performed (per Keith's instruction); Post-upgrade: Quorum 5/5, Quorate: Yes [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:12-15]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:16:17 -->
-- Proxmox Cluster Package Updates (22:22 AEST): Remaining (held back, requires reboot): proxmox-kernel-6.17 → 6.17.13-21, proxmox-kernel-7.0 → 7.0.14-8; Keith will schedule rolling reboots at his discretion [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:16-17]
-<!-- openclaw-memory-promotion:memory:memory/2026-07-29.md:4:7 -->
-- Proxmox Cluster Package Updates (22:22 AEST): Applied `apt-get update && apt-get upgrade -y` to all 5 nodes (proxima, proxima2-5) in parallel; 53 packages per node upgraded, including:; pve-manager 9.2.4 → 9.2.5; Ceph 19.2.4-pve1 → 19.2.5-pve2 (all components) [score=0.803 recalls=0 avg=0.620 source=memory/2026-07-29.md:4-7]
-
 ## Promoted From Short-Term Memory (2026-08-05)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:1:13 -->
@@ -83,3 +66,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - AIX Midday Monitoring Alert (12:00 AEST): Likely network infrastructure issue rather than individual host failures given the simultaneous nature. No user action taken at this time — monitoring will continue. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:11-11]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:5:5 -->
 - AIX Midday Monitoring Alert (12:00 AEST): All 4 AIX hosts reported unreachable simultaneously: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:5-5]
+
+## Promoted From Short-Term Memory (2026-08-09)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:30:32 -->
+- AIX Monitor Cron Routing Fix: Changed delivery mode to `none` (`--no-deliver`); Updated the agent prompt to explicitly use `message action=send channel=telegram target=7174833131` to deliver results directly; This bypasses the broken announce mechanism entirely [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:30-32]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:42:42 -->
+- AIX Midday Monitor Cron — Second Fix (2026-08-05): The fix above did NOT work. The root cause: the cron was still using `sessionTarget: "isolated"` with an `agentTurn` payload. Even with delivery mode `none`, the isolated session has no Telegram access. [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:42-42]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:36:36 -->
+- AIX Monitor Cron Routing Fix: **Status:** ✅ Fixed — next run at 12:00 AEST tomorrow will deliver directly to Telegram. [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:36-36]
