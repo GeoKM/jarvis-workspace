@@ -25,11 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-05)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-06-09.md:1:13 -->
-- ## AIX Midday Monitoring (12:00 AEST) All AIX hosts unreachable from Hebei — no route to 10.0.0.0/24 network segment. Monitored hosts: - Persei-NIM (persei-nim.can.barnabasmusic.com) — ❌ No route - Celestia (celestia.can.barnabasmusic.com) — ❌ No route - Titan-AIX71 (titan-aix71.can.barnabasmusic.com) — ❌ No route - 43p (43p.can.barnabasmusic.com) — ❌ No route Network topology note: Hebei (current host) is not on the 10.0.0.0/24 AIX network. Monitoring should run from a host with access to that segment, or a VPN/bridge needs to be in place. [score=0.895 recalls=3 avg=0.818 source=memory/2026-06-09.md:1-13]
-
 ## Promoted From Short-Term Memory (2026-08-06)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:1:30 -->
@@ -75,3 +70,14 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - AIX Midday Monitor Cron — Second Fix (2026-08-05): The fix above did NOT work. The root cause: the cron was still using `sessionTarget: "isolated"` with an `agentTurn` payload. Even with delivery mode `none`, the isolated session has no Telegram access. [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:42-42]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:36:36 -->
 - AIX Monitor Cron Routing Fix: **Status:** ✅ Fixed — next run at 12:00 AEST tomorrow will deliver directly to Telegram. [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:36-36]
+
+## Promoted From Short-Term Memory (2026-08-10)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:49:49 -->
+- AIX Midday Monitor Cron — Second Fix (2026-08-05): Command payloads run on the gateway host directly, and their stdout is what gets announced to Telegram [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:49-49]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:44:44 -->
+- AIX Midday Monitor Cron — Second Fix (2026-08-05): **Second fix applied (2026-08-05 12:15 AEST):** [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:44-44]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:51:51 -->
+- AIX Midday Monitor Cron — Second Fix (2026-08-05): **Key lesson:** `sessionTarget: "main"` with `systemEvent` payload is the only way to run an agent in the main session and have it use tools like `message`. An `isolated` agentTurn session cannot use the message tool. Command payloads are the correct approach for script-runner cron jobs that need announce delivery. [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:51-51]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:34:34 -->
+- AIX Monitor Cron Routing Fix: The jobs file at `~/.openclaw/cron/jobs.json.migrated` was also updated (for when the system next migrates/loads), but the live gateway config is in-memory — the `openclaw cron edit` command is what took effect. [score=0.804 recalls=0 avg=0.620 source=memory/2026-08-02.md:34-34]
