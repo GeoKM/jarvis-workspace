@@ -25,13 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-06)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:1:30 -->
-- ## AIX Midday Monitor Alert (12:00 AEST) A cron job sent an AIX monitoring report showing all 4 AIX hosts unreachable: | Host | Status | |------|--------| | Persei-NIM | ❌ No route to host | | Celestia | ❌ No route to host | | Titan-AIX71 | ❌ No route to host | | 43p | ❌ No route to host | This was routed to the main session but I couldn't determine the Telegram reply target. The alert likely needs human attention if these hosts should be online.... [score=0.811 recalls=3 avg=0.832 source=memory/2026-08-02.md:1-30]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:29:29 -->
-- AIX Monitor Cron Routing Fix: **Fix applied (via `openclaw cron edit`):** [score=0.806 recalls=0 avg=0.620 source=memory/2026-08-02.md:29-29]
-
 ## Promoted From Short-Term Memory (2026-08-07)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:6:9 -->
@@ -81,3 +74,10 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - AIX Midday Monitor Cron — Second Fix (2026-08-05): **Key lesson:** `sessionTarget: "main"` with `systemEvent` payload is the only way to run an agent in the main session and have it use tools like `message`. An `isolated` agentTurn session cannot use the message tool. Command payloads are the correct approach for script-runner cron jobs that need announce delivery. [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:51-51]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:34:34 -->
 - AIX Monitor Cron Routing Fix: The jobs file at `~/.openclaw/cron/jobs.json.migrated` was also updated (for when the system next migrates/loads), but the live gateway config is in-memory — the `openclaw cron edit` command is what took effect. [score=0.804 recalls=0 avg=0.620 source=memory/2026-08-02.md:34-34]
+
+## Promoted From Short-Term Memory (2026-08-14)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:29:55 -->
+- Proxima3 PX3_Data0: 8.7TB allocated, 945GB free (88% used) ⚠️ - Proxima4 AI0: 32% fragmentation ### Security Updates — Proxmox nodes - All 5 Proxmox nodes share same packages: 37 upgradable total - 3 security-specific: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (confirmed on proxima) - NOT 3 per-node — monitoring likely aggregated across cluster rep - **xaviernv and retrobench NOT on Proxmox — separate SSH access needed** ### Disk Alerts - arya: _export_LibraryPool_Archive at 92.1% — separate host, not Proxmox - Proxima3 PX3_Data0: confirmed ~88% used — ZFS pool near capacity - All other Proxmox node disks healthy (10-46%)... [score=0.869 recalls=4 avg=0.695 source=memory/2026-07-01.md:29-55]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:13:14 -->
+- ⚠️ Warnings: **arya**: LibraryPool_Archive 92% used; **plexus**: high swap (1.6GiB) [score=0.816 recalls=0 avg=0.620 source=memory/2026-08-10.md:13-14]
