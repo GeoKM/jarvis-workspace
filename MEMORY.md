@@ -25,27 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-07)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:6:9 -->
-- AIX Midday Monitor Alert (12:00 AEST): | Host | Status | |------|--------| | Persei-NIM | ❌ No route to host | | Celestia | ❌ No route to host | [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:6-9]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:4:4 -->
-- AIX Midday Monitor Alert (12:00 AEST): A cron job sent an AIX monitoring report showing all 4 AIX hosts unreachable: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:4-4]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:20:20 -->
-- AIX Monitor Cron Routing Fix: **Root cause:** The isolated cron session's `announce` delivery was falling back to `sessions_send` to the main session (without a Telegram target), rather than delivering to Telegram. The announce mechanism wasn't working. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:20-20]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:13:13 -->
-- AIX Midday Monitor Alert (12:00 AEST): This was routed to the main session but I couldn't determine the Telegram reply target. The alert likely needs human attention if these hosts should be online. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:13-13]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:10:11 -->
-- AIX Midday Monitor Alert (12:00 AEST): | Titan-AIX71 | ❌ No route to host | | 43p | ❌ No route to host | [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:10-11]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:23:25 -->
-- AIX Monitor Cron Routing Fix: Changed delivery mode to `none` (`--no-deliver`); Updated the agent prompt to explicitly use `message action=send channel=telegram target=7174833131` to deliver results directly; This bypasses the broken announce mechanism entirely [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:23-25]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:18:18 -->
-- AIX Monitor Cron Routing Fix: The AIX midday monitor cron job (id: de1a880f) was repeatedly routing its output back to the main session instead of to Telegram, creating a loop of duplicate alerts. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:18-18]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:22:22 -->
-- AIX Monitor Cron Routing Fix: **Fix applied (via `openclaw cron edit`):** [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:22-22]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:27:27 -->
-- AIX Monitor Cron Routing Fix: The jobs file at `~/.openclaw/cron/jobs.json.migrated` was also updated (for when the system next migrates/loads), but the live gateway config is in-memory — the `openclaw cron edit` command is what took effect. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-02.md:27-27]
-
 ## Promoted From Short-Term Memory (2026-08-08)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:6:9 -->
@@ -81,3 +60,16 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Proxima3 PX3_Data0: 8.7TB allocated, 945GB free (88% used) ⚠️ - Proxima4 AI0: 32% fragmentation ### Security Updates — Proxmox nodes - All 5 Proxmox nodes share same packages: 37 upgradable total - 3 security-specific: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (confirmed on proxima) - NOT 3 per-node — monitoring likely aggregated across cluster rep - **xaviernv and retrobench NOT on Proxmox — separate SSH access needed** ### Disk Alerts - arya: _export_LibraryPool_Archive at 92.1% — separate host, not Proxmox - Proxima3 PX3_Data0: confirmed ~88% used — ZFS pool near capacity - All other Proxmox node disks healthy (10-46%)... [score=0.869 recalls=4 avg=0.695 source=memory/2026-07-01.md:29-55]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:13:14 -->
 - ⚠️ Warnings: **arya**: LibraryPool_Archive 92% used; **plexus**: high swap (1.6GiB) [score=0.816 recalls=0 avg=0.620 source=memory/2026-08-10.md:13-14]
+
+## Promoted From Short-Term Memory (2026-08-15)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:17:17 -->
+- ⬛ Unreachable: xaviernv, cbm, helios — No route to host [score=0.835 recalls=0 avg=0.620 source=memory/2026-08-10.md:17-17]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:8:10 -->
+- 🔴 CRITICAL: **retrobench**: 23 security packages pending; **proxima–5**: 2 security packages each + high swap (proxima2 worst: 2.7GiB); **proxima3**: also disk 92% used (8% free) [score=0.835 recalls=0 avg=0.620 source=memory/2026-08-10.md:8-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:5:5 -->
+- System Monitoring Snapshot (12:03 AEST): Received from cron session. Critical issues: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:5-5]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:20:23 -->
+- Action Items (from monitoring): Security updates — retrobench (23), proxima cluster (2 each); Memory pressure — proxima2 (2.7GiB swap) worst; Disk cleanup — arya, proxima3 both at 92%; Host connectivity — xaviernv, cbm, helios need physical check [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:20-23]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:26:27 -->
+- Notes: Telegram reply to cron session failed (no target chat ID available); Monitoring data captured here for reference [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:26-27]
