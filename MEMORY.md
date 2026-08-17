@@ -73,3 +73,8 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Action Items (from monitoring): Security updates — retrobench (23), proxima cluster (2 each); Memory pressure — proxima2 (2.7GiB swap) worst; Disk cleanup — arya, proxima3 both at 92%; Host connectivity — xaviernv, cbm, helios need physical check [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:20-23]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:26:27 -->
 - Notes: Telegram reply to cron session failed (no target chat ID available); Monitoring data captured here for reference [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:26-27]
+
+## Promoted From Short-Term Memory (2026-08-17)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:13:16 -->
+- Action Items Tracked: Security updates — Proxmox nodes: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (×5 nodes); retrobench: 2 pkgs; Swap investigation — proxima/proxima2/proxima3/proxima4/plexus all >1GiB; Disk cleanup — arya + proxima3 both at 92%; Reachability — xaviernv/cbm/Helios network diagnostics needed [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-13.md:13-16]
