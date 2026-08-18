@@ -25,15 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-08)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:6:9 -->
-- AIX Midday Monitoring Alert (12:00 AEST): Persei-NIM: DOWN (no route to host); Celestia: DOWN (no route to host); Titan-AIX71: DOWN (no route to host); 43p: DOWN (no route to host) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:6-9]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:11:11 -->
-- AIX Midday Monitoring Alert (12:00 AEST): Likely network infrastructure issue rather than individual host failures given the simultaneous nature. No user action taken at this time — monitoring will continue. [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:11-11]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-03.md:5:5 -->
-- AIX Midday Monitoring Alert (12:00 AEST): All 4 AIX hosts reported unreachable simultaneously: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-03.md:5-5]
-
 ## Promoted From Short-Term Memory (2026-08-09)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:30:32 -->
@@ -78,3 +69,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:13:16 -->
 - Action Items Tracked: Security updates — Proxmox nodes: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (×5 nodes); retrobench: 2 pkgs; Swap investigation — proxima/proxima2/proxima3/proxima4/plexus all >1GiB; Disk cleanup — arya + proxima3 both at 92%; Reachability — xaviernv/cbm/Helios network diagnostics needed [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-13.md:13-16]
+
+## Promoted From Short-Term Memory (2026-08-18)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:5:8 -->
+- Monitoring Snapshot — 12:00 AEST: **Hosts:** 18 total | 🟢 7 | ⚠️ 2 | 🔴 6 | ⬛ 3; **CRITICAL:** proxima/proxima2/proxima3/proxima4/proxima5 (3 security pkgs + high swap), retrobench (2 security pkgs), proxima3 disk 92%; **WARNINGS:** arya (_export_LibraryPool_Archive 92%), plexus (swap 1.9GiB); **UNREACHABLE:** xaviernv, cbm, Helios (no route to host since previous snapshot) [score=0.835 recalls=0 avg=0.620 source=memory/2026-08-13.md:5-8]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:9:10 -->
+- Monitoring Snapshot — 12:00 AEST: **OK:** hebei, dockyards, simul, kasm, tg-b, manifold, pidp11; Snapshot delivered to Telegram (msg #3776) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-13.md:9-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:45:48 -->
+- AIX Midday Monitor Cron — Second Fix (2026-08-05): Converted `agentTurn` payload → `command` payload; Command: `bash /home/keith/.openclaw/workspace/skills/aix-system-monitor/scripts/run-aix-monitor.sh --all 2>&1`; Set `sessionTarget: "isolated"` (command payloads run on gateway, not in session); Set `delivery.mode: "announce"` with `--channel telegram --to 7174833131 --best-effort-deliver` [score=0.802 recalls=0 avg=0.620 source=memory/2026-08-02.md:45-48]
