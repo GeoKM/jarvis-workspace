@@ -25,15 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-09)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:30:32 -->
-- AIX Monitor Cron Routing Fix: Changed delivery mode to `none` (`--no-deliver`); Updated the agent prompt to explicitly use `message action=send channel=telegram target=7174833131` to deliver results directly; This bypasses the broken announce mechanism entirely [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:30-32]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:42:42 -->
-- AIX Midday Monitor Cron — Second Fix (2026-08-05): The fix above did NOT work. The root cause: the cron was still using `sessionTarget: "isolated"` with an `agentTurn` payload. Even with delivery mode `none`, the isolated session has no Telegram access. [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:42-42]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:36:36 -->
-- AIX Monitor Cron Routing Fix: **Status:** ✅ Fixed — next run at 12:00 AEST tomorrow will deliver directly to Telegram. [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-02.md:36-36]
-
 ## Promoted From Short-Term Memory (2026-08-10)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:49:49 -->
@@ -78,3 +69,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Monitoring Snapshot — 12:00 AEST: **OK:** hebei, dockyards, simul, kasm, tg-b, manifold, pidp11; Snapshot delivered to Telegram (msg #3776) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-13.md:9-10]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:45:48 -->
 - AIX Midday Monitor Cron — Second Fix (2026-08-05): Converted `agentTurn` payload → `command` payload; Command: `bash /home/keith/.openclaw/workspace/skills/aix-system-monitor/scripts/run-aix-monitor.sh --all 2>&1`; Set `sessionTarget: "isolated"` (command payloads run on gateway, not in session); Set `delivery.mode: "announce"` with `--channel telegram --to 7174833131 --best-effort-deliver` [score=0.802 recalls=0 avg=0.620 source=memory/2026-08-02.md:45-48]
+
+## Promoted From Short-Term Memory (2026-09-01)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:7:10 -->
+- System Monitoring Alert (12:00 AEST): **18 hosts** checked: 6 OK, 2 WARNING, 7 CRITICAL, 3 UNREACHABLE; **CRITICAL**: Security package updates needed on hebei (24), retrobench (10), proxima/proxima2/proxima3/proxima4/proxima5 (22 each); **Swap pressure**: proxima (2.2GiB), proxima2 (2.9GiB), proxima5 (1.5GiB), plexus (2.0GiB); **Disk space**: arya (_export_LibraryPool_Archive) and proxima3 (_PX3_Data0_subvol-101-disk-0) both at 92% used [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:7-10]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:11:12 -->
+- System Monitoring Alert (12:00 AEST): **Unreachable**: xaviernv, cbm, Helios — "No route to host"; **Nominal**: dockyards, simul, kasm, tg-b, manifold, pidp11 [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:11-12]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:14:14 -->
+- System Monitoring Alert (12:00 AEST): Alert sent to Keith via Telegram (message ID 3886). [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:14-14]
