@@ -78,3 +78,8 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - System Monitoring Alert (12:00 AEST): **Unreachable**: xaviernv, cbm, Helios — "No route to host"; **Nominal**: dockyards, simul, kasm, tg-b, manifold, pidp11 [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:11-12]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:14:14 -->
 - System Monitoring Alert (12:00 AEST): Alert sent to Keith via Telegram (message ID 3886). [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:14-14]
+
+## Promoted From Short-Term Memory (2026-09-02)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:5:5 -->
+- System Monitoring Alert (12:00 AEST): Received automated monitoring snapshot from cron session: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-28.md:5-5]
