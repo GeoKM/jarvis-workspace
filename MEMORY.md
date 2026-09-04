@@ -25,17 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-10)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:49:49 -->
-- AIX Midday Monitor Cron — Second Fix (2026-08-05): Command payloads run on the gateway host directly, and their stdout is what gets announced to Telegram [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:49-49]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:44:44 -->
-- AIX Midday Monitor Cron — Second Fix (2026-08-05): **Second fix applied (2026-08-05 12:15 AEST):** [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:44-44]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:51:51 -->
-- AIX Midday Monitor Cron — Second Fix (2026-08-05): **Key lesson:** `sessionTarget: "main"` with `systemEvent` payload is the only way to run an agent in the main session and have it use tools like `message`. An `isolated` agentTurn session cannot use the message tool. Command payloads are the correct approach for script-runner cron jobs that need announce delivery. [score=0.851 recalls=0 avg=0.620 source=memory/2026-08-02.md:51-51]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:34:34 -->
-- AIX Monitor Cron Routing Fix: The jobs file at `~/.openclaw/cron/jobs.json.migrated` was also updated (for when the system next migrates/loads), but the live gateway config is in-memory — the `openclaw cron edit` command is what took effect. [score=0.804 recalls=0 avg=0.620 source=memory/2026-08-02.md:34-34]
-
 ## Promoted From Short-Term Memory (2026-08-14)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:29:55 -->
@@ -83,3 +72,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:5:5 -->
 - System Monitoring Alert (12:00 AEST): Received automated monitoring snapshot from cron session: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-28.md:5-5]
+
+## Promoted From Short-Term Memory (2026-09-04)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:16:17 -->
+- Delta vs 2026-08-28: ⚠️ proxima3 swap alert resolved but disk still at 92%; ✅ All other states stable [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-31.md:16-17]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:26:29 -->
+- Action Items: **Security updates** — proxima-proxima5 (cluster), retrobench (standalone); **Swap/memory pressure** — proxima2 worst (3.0GiB swap, 53% mem avail); plexus (2.6GiB swap, 13.7% mem avail); proxima4 (1.2GiB swap, 14.9% mem avail); **Disk cleanup** — arya + proxima3 both 92%; **Network diagnostics** — xaviernv, cbm, Helios unreachable; check if they were deliberately shut down or if network/firewall issue [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-31.md:26-29]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:12:15 -->
+- Delta vs 2026-08-28: ✅ hebei cleared security alerts (was 24 pkgs, now 0 — hebei NOT in critical list); ⚠️ proxima4 now shows high swap (1.2GiB) — was not individually flagged before; ⚠️ plexus swap increased: 2.0GiB → 2.6GiB; ⚠️ proxima2 swap increased: 2.9GiB → 3.0GiB [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-31.md:12-15]
