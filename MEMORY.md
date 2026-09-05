@@ -25,13 +25,6 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
-## Promoted From Short-Term Memory (2026-08-14)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-07-01.md:29:55 -->
-- Proxima3 PX3_Data0: 8.7TB allocated, 945GB free (88% used) ⚠️ - Proxima4 AI0: 32% fragmentation ### Security Updates — Proxmox nodes - All 5 Proxmox nodes share same packages: 37 upgradable total - 3 security-specific: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (confirmed on proxima) - NOT 3 per-node — monitoring likely aggregated across cluster rep - **xaviernv and retrobench NOT on Proxmox — separate SSH access needed** ### Disk Alerts - arya: _export_LibraryPool_Archive at 92.1% — separate host, not Proxmox - Proxima3 PX3_Data0: confirmed ~88% used — ZFS pool near capacity - All other Proxmox node disks healthy (10-46%)... [score=0.869 recalls=4 avg=0.695 source=memory/2026-07-01.md:29-55]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:13:14 -->
-- ⚠️ Warnings: **arya**: LibraryPool_Archive 92% used; **plexus**: high swap (1.6GiB) [score=0.816 recalls=0 avg=0.620 source=memory/2026-08-10.md:13-14]
-
 ## Promoted From Short-Term Memory (2026-08-15)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:17:17 -->
@@ -81,3 +74,12 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - Action Items: **Security updates** — proxima-proxima5 (cluster), retrobench (standalone); **Swap/memory pressure** — proxima2 worst (3.0GiB swap, 53% mem avail); plexus (2.6GiB swap, 13.7% mem avail); proxima4 (1.2GiB swap, 14.9% mem avail); **Disk cleanup** — arya + proxima3 both 92%; **Network diagnostics** — xaviernv, cbm, Helios unreachable; check if they were deliberately shut down or if network/firewall issue [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-31.md:26-29]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:12:15 -->
 - Delta vs 2026-08-28: ✅ hebei cleared security alerts (was 24 pkgs, now 0 — hebei NOT in critical list); ⚠️ proxima4 now shows high swap (1.2GiB) — was not individually flagged before; ⚠️ plexus swap increased: 2.0GiB → 2.6GiB; ⚠️ proxima2 swap increased: 2.9GiB → 3.0GiB [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-31.md:12-15]
+
+## Promoted From Short-Term Memory (2026-09-05)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:5:8 -->
+- System Monitoring Snapshot — 12:00 AEST: **Hosts:** 18 total | 🟢 7 | ⚠️ 2 | 🔴 6 | ⬛ 3; **CRITICAL:** retrobench (10 security pkgs), proxima/proxima2/proxima3/proxima4/proxima5 (22 security pkgs + swap), retrobench (10 security pkgs); **WARNINGS:** arya (_export_LibraryPool_Archive 92%), plexus (swap 2.6GiB); **UNREACHABLE:** xaviernv, cbm, Helios (persistent — no route since at least 2026-08-13) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:5-8]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:9:9 -->
+- System Monitoring Snapshot — 12:00 AEST: **OK:** hebei, dockyards, simul, kasm, tg-b, manifold, pidp11 [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:9-9]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:20:23 -->
+- Persistent Issues (Unchanged): xaviernv/cbm/Helios unreachable — no route to host (since at least 2026-08-13, 18+ days); Security updates not applied to Proxmox nodes (22 pkgs each × 5 nodes); Disk space critical on arya and proxima3 (both 92%); Swap pressure on multiple Proxmox nodes [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:20-23]
