@@ -83,3 +83,8 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 - System Monitoring Snapshot — 12:00 AEST: **OK:** hebei, dockyards, simul, kasm, tg-b, manifold, pidp11 [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:9-9]
 <!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:20:23 -->
 - Persistent Issues (Unchanged): xaviernv/cbm/Helios unreachable — no route to host (since at least 2026-08-13, 18+ days); Security updates not applied to Proxmox nodes (22 pkgs each × 5 nodes); Disk space critical on arya and proxima3 (both 92%); Swap pressure on multiple Proxmox nodes [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:20-23]
+
+## Promoted From Short-Term Memory (2026-09-07)
+
+<!-- openclaw-memory-promotion:memory:claim:7f59a262220c -->
+- Action Items: **Disk cleanup** — arya + proxima3 both 92% [score=0.763 signals=4 recalls=0 avg=0.620 source=memory/2026-09-02.md:28-28] <!-- trigger: action, items, disk --> <!-- importance: 8 -->
