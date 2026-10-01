@@ -25,6 +25,45 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
+---
+
+## System Upgrades (2026-09-30)
+
+### CBM: Debian 12 (Bookworm) → Debian 13 (Trixie)
+CBM (`cbm.can.barnabasmusic.com`, `192.168.1.241`) — Intel Pentium 4 3.00GHz, 3.3GiB RAM, x86_64
+- OS: Debian 13.7 (Trixie), Kernel: 6.12.111+deb13-amd64 (old 6.1.0-23-amd64 remains as GRUB fallback)
+- Full-upgrade: 806 upgraded, 164 newly installed, 50 removed (~28 min on Pentium 4)
+- Pre-upgrade: cleared 7 old kernels, 151M apt archives, 81.4M journal; redirected apt cache to /home/apt-cache (var only 1.3G free)
+- Post-upgrade: dpkg --configure -a, apt-get -f install, apt-get autoremove --purge (~70 obsolete packages removed)
+- Filesystems: DOS (/dev/sdb1 vfat), WIN (/dev/sdb5 vfat), WIN2K (/dev/sdc1 ntfs) — all remounted
+- LVM: CBM-vg with root(7.2G), var(2.7G), home(25G), tmp(531M), swap; Disk: / 4.1G free (42%), /var 1.1G free (59%)
+- sudo requires password (keith); blocks env vars (DEBIAN_FRONTEND) — must use dpkg --configure -a without env vars
+- Wazuh agent installed (wazuh.list in apt sources.list.d)
+
+### TG-B: Ubuntu 24.04 LTS (Noble) → Ubuntu 26.04.1 LTS (Resolute)
+TG-B (`tg-b.can.barnabasmusic.com`, `192.168.1.187`) — LXC 107 on proxima3, AMD Turion II Neo N40L (1 core), 7.8G disk
+- OS: Ubuntu 26.04.1 LTS (Resolute), Kernel: 7.0.14-17-pve (Proxmox host kernel — not upgraded)
+- Full-upgrade: 197 packages; RAM temporarily increased 512→2048MiB for upgrade, then restored
+- Notable: Python 3.12→3.14, OpenSSH 9.6→10.2, OpenSSL 3.0→3.5, curl 8.5→8.18, systemd→259.5, libc 2.39→2.43, sudo 1.9.15→1.9.17
+- sudoers fix required: removed `Defaults:keith !requiretty` from /etc/sudoers.d/90-keith (requiretty removed in sudo 1.9.17)
+- Twingate source migrated to deb822 format (twingate.sources); Ubuntu sources moved to /etc/apt/sources.list.d/ubuntu.sources
+- do-release-upgrade doesn't support --dry-run or --sandbox
+- sudo requires password; blocks env vars (same as CBM)
+
+### Proxmox Container Map (reference):
+| VMID | Name | Node | Memory | Status |
+|------|------|------|--------|--------|
+| 100 | Dockyards | proxima | 2048 MiB | running |
+| 101 | Arya | proxima3 | 1024 MiB | running |
+| 102 | KASM | proxima2 | 4096 MiB | running |
+| 103 | Hebei | proxima4 | 9024 MiB | running |
+| 104 | Pegasus | Proxima5 | 4096 MiB | running |
+| 105 | HMC | Proxima5 | 4096 MiB | stopped |
+| 106 | ArosOne | Proxima5 | 2048 MiB | stopped |
+| 107 | tg-b | proxima3 | 512 MiB | running |
+| 108 | Simul | proxima | 2048 MiB | running |
+| 109 | Plexus | Proxima5 | 4096 MiB | running |
+
 ## Promoted From Short-Term Memory (2026-08-15)
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:17:17 -->
