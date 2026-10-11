@@ -27,6 +27,11 @@ KASM Workspaces lives in LXC 102 on proxima2 (Debian Trixie, Docker 29.6.1). Upg
 
 ---
 
+**[Learning from 2026-10-10 Proxima4 NIC Fault]**
+Proxima4 (Turion II Neo N40L) experiences intermittent NIC failures where the network interface "just disappears," taking down the host and all VMs/LXCs on it (including LXC 103 Hebei — the OpenClaw gateway host). Recovery currently requires a physical power cycle of proxima4. Symptom from the gateway's perspective is simultaneous timeouts on both `ollama/minimax-m3:cloud` (primary) and `openai/gpt-5.6-terra` (fallback) during cron wake tasks. Likely candidates to investigate: NIC driver/firmware, power management (ASPM / runtime PM), or hardware degradation. Worth tracking failure frequency and considering a remote recovery path (IPMI/iLO) to avoid physical intervention.
+
+---
+
 ## System Upgrades (2026-09-30)
 
 ### CBM: Debian 12 (Bookworm) → Debian 13 (Trixie)

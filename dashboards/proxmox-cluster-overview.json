@@ -1,0 +1,88 @@
+{
+  "name": "proxmox-cluster-overview",
+  "title": "Proxmox Cluster Overview — 2026-10-10",
+  "pin": true,
+  "size": "full",
+  "report": {
+    "blocks": [
+      {
+        "type": "text",
+        "title": "Proxmox Cluster Overview",
+        "text": "Cluster Health Summary — 2026-10-10 12:00 AEST\n\nOK hosts: 6 (hebei, dockyards, simul, cbm, kasm, tg-b)\nWarning hosts: 3 (arya, manifold, plexus)\nCritical hosts: 5 (retrobench 29 pkgs, xaviernv 6 pkgs, proxima, proxima2, proxima4)\nUnreachable: 2 (cbm, helios)\nVolumes ≥90% full: 2 (arya, proxima3)"
+      },
+      {
+        "type": "metrics",
+        "items": [
+          { "label": "🟢 OK hosts", "value": "6", "detail": "hebei, dockyards, simul, cbm, kasm, tg-b" },
+          { "label": "⚠️ Warning hosts", "value": "3", "detail": "arya, manifold, plexus" },
+          { "label": "🔴 Critical hosts", "value": "5", "detail": "retrobench, xaviernv, proxima, proxima2, proxima4" },
+          { "label": "⬛ Unreachable", "value": "2", "detail": "cbm, helios" },
+          { "label": "Security pkgs pending", "value": "38", "detail": "Total across all hosts" },
+          { "label": "Volumes ≥90% full", "value": "2", "detail": "arya + proxima3" }
+        ]
+      },
+      {
+        "type": "table",
+        "title": "Host Status Detail",
+        "columns": [
+          { "label": "Host" },
+          { "label": "Issue" },
+          { "label": "Severity" },
+          { "label": "Since" }
+        ],
+        "rows": [
+          ["retrobench", "29 security pkgs pending", "🔴 Critical", "2026-09-11"],
+          ["xaviernv", "6 security pkgs pending", "🔴 Critical", "2026-10-07"],
+          ["proxima", "1 security pkg + 2.1 GiB swap", "🔴 Critical", "2026-10-07"],
+          ["proxima2", "1 security pkg + 2.2 GiB swap", "🔴 Critical", "2026-10-07"],
+          ["proxima4", "1 security pkg + 3.0 GiB swap", "🔴 Critical", "2026-10-07"],
+          ["arya", "LibraryPool_Archive 93.4% used", "⚠️ Warning", "2026-10-07"],
+          ["proxima3", "subvol-101-disk-0 93.4% used", "⚠️ Warning", "2026-10-07"],
+          ["plexus", "2.7 GiB swap used", "⚠️ Warning", "2026-10-07"],
+          ["hebei", "1 security pkg pending", "🟡 Patches", "2026-10-07"],
+          ["proxima5", "Offline since 2026-09-14", "🔴 Critical", "2026-09-14"],
+          ["cbm", "No route to host", "⬛ Unreachable", "2026-08"],
+          ["helios", "No route to host", "⬛ Unreachable", "2026-08"]
+        ]
+      },
+      {
+        "type": "chart",
+        "title": "Swap Pressure (GiB)",
+        "style": "bar",
+        "points": [
+          { "label": "proxima4", "value": 3 },
+          { "label": "plexus", "value": 2.7 },
+          { "label": "proxima2", "value": 2.2 },
+          { "label": "proxima", "value": 2.1 },
+          { "label": "proxima5", "value": 1.6 },
+          { "label": "proxima3", "value": 1.4 }
+        ]
+      },
+      {
+        "type": "chart",
+        "title": "Security Patches Pending",
+        "style": "bar",
+        "points": [
+          { "label": "retrobench", "value": 29 },
+          { "label": "xaviernv", "value": 6 },
+          { "label": "hebei", "value": 1 },
+          { "label": "proxima cluster", "value": 4 }
+        ]
+      },
+      {
+        "type": "links",
+        "title": "Quick Links",
+        "items": [
+          { "label": "OpenClaw Dashboard", "url": "https://hebei.tail4d3f85.ts.net/", "detail": "Tailscale: port 443 — OpenClaw gateway" },
+          { "label": "Hermes Dashboard", "url": "https://hebei.tail4d3f85.ts.net:8443/", "detail": "Tailscale: port 8443 — Hermes agent" },
+          { "label": "Proxmox Cluster", "url": "https://proxima.can.barnabasmusic.com:8006/", "detail": "Proxmox VE admin UI" }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Action Items",
+        "text": "Recommended Actions:\n\n1. Patch retrobench (29 security pkgs, 1+ month backlog)\n2. Patch xaviernv (6 security pkgs)\n3. Patch Proxmox cluster (1 pkg × 4 nodes)\n4. Patch hebei (1 pkg, gateway host)\n5. Disk cleanup on arya + proxima3 (both 93.4%)\n6. Investigate proxima5 hardware (offline 27 days)\n7. Restore unreachable hosts (cbm, helios)\n8. Watch proxima4 swap pressure (3.0 GiB)\n\nRecently Resolved:\n- Tailscale dashboard serving: ports 443 + 8443\n- gateway.trustedProxies: loopback trusted\n- CBM → Debian 13 (Trixie)\n- TG-B → Ubuntu 26.04.1 (Resolute)"
+      }
+    ]
+  }
+}
