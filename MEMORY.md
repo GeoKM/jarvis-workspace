@@ -84,15 +84,27 @@ plex-owned files written since 2026-10-17 — no spread to the media library. No
 for `plex`, no systemd user units. No failed SSH logins in 7 days — access was via the Plex
 plugin, not brute force. 707 `*.jpg` in /tmp are benign Plex thumbnails.
 
-**Open items for Keith:** (1) kill 699029 / 765066 / 721948 + clear the crontab line;
-(2) delete `/tmp/.gb`, `/tmp/.uf*`, `zz75920.so`, upgrade Plex; (3) rotate the Plex account token
-and block 202.78.167.55 / 45.56.82.212 at the firewall; (4) note the cluster has **zero backup
-jobs**, so VM 109 has no restore point.
+**Open items for Keith:** (1) ~~kill 699029 / 765066 / 721948 + clear the crontab line~~ — CLOSED
+by destroying VM 109 (22:00); no process remains. (2) ~~delete `/tmp/.gb`, `/tmp/.uf*`,
+`zz75920.so`, upgrade Plex~~ — CLOSED with the host; Plex 1.43.3.10828-00f62d37d is the affected
+version to avoid on rebuild. (3) rotate the Plex account token and block 202.78.167.55 /
+45.56.82.212 at the firewall — OPEN, for the replacement host (the old host had no ufw/nft/iptables
+installed, so no blocklist could be applied). (4) the cluster has **zero backup jobs**, so VM 109
+had no restore point — OPEN, worth fixing separately. (5) ~~decide the fate of the dead `test`
+zfspool entry~~ — CLOSED 22:20, `pvesm remove test` on proxima; `pvesm status` no longer lists it.
 
-**Related cluster facts:** `storage/proxima/test` (zfspool, mountpoint /test) is defined in
-/etc/pve/storage.cfg but **no `test` pool exists on any node** — a dead storage entry, shows as
-`inactive`/`unknown` in every status report. Separately, `HA resources: 0` and `Backup jobs: 0`
-cluster-wide. VM 105 (HMC) and VM 106 (ArosOne) on Proxima5 are intentionally stopped.
+**Post-recovery verification (22:10–22:20):** 0 matching sockets for `45.56.82.212`,
+`202.78.167.55`, or `152.53.168.44` on **all five** Proxmox nodes (proxima, proxima2, proxima3,
+proxima4, Proxima5). Cluster 5/5 nodes quorate, Ceph HEALTH_OK, 5 MONs, 5 OSDs up/in. VM 109
+absent from `/cluster/resources` and no `109.conf` in any node's `qemu-server/` dir.
+
+**Related cluster facts:** `storage/proxima/test` (dead zfspool, mountpoint /test) was defined in
+/etc/pve/storage.cfg with **no `test` pool on any node** — now removed 2026-10-20 22:20. Note
+`pvesm remove proxima/test` fails with *"storage ID contains illegal characters"* — use the bare
+storage ID: `pvesm remove test`. Separately, `HA resources: 0` and `Backup jobs: 0` cluster-wide
+(confirmed: no `vzdump` tasks in the cluster task list, no vzdump in any root crontab, and
+storage.cfg holds no PBS/nfs/cifs target — only `dir: local`, `lvmthin: local-lvm`, and the five
+zfspools). VM 105 (HMC) and VM 106 (ArosOne) on Proxima5 are intentionally stopped.
 
 ---
 
