@@ -172,7 +172,7 @@ Things like:
 - OS: Ubuntu 20.04 (Focal), NVIDIA Jetson Xavier (aarch64, Tegra kernel 5.10)
 - Also reachable via Tailscale: `xaviernv.tail4d3f85.ts.net` (100.107.211.73)
 
-### Plexus
+### Plexus — REMOVED 2026-10-20
 - plexus → `keith@plexus.can.barnabasmusic.com` (`192.168.1.241`), port 22
 - SSH identity file → `~/.ssh/id_jt_ed25519`
 - OS: Debian 13 (Trixie), kernel 6.12.96+deb13-amd64
@@ -181,6 +181,7 @@ Things like:
 - NFS mounts from poly (192.168.1.8): `/Data/MP3_Library`, `/Data/VIDEO`
 - NFS auto-mount: `nfs-mount-after-dhcp.service` (waits for DHCP lease before `mount -a -t nfs`)
 - sudoers: NOPASSWD allowlist only (no general NOPASSWD) — use `sudo install` trick for root file writes
+- **Status 2026-10-20: VM 109 deleted after a DDoS botnet compromise (see MEMORY.md).** DNS for `plexus.can.barnabasmusic.com` still resolves to 192.168.1.241; remove that record when a new host takes the name. Rebuild pending — a replacement VM will need a fresh Plex install, token, and NFS mount unit.
 
 ### Retrobench
 - retrobench → `keith@retrobench.can.barnabasmusic.com` (`192.168.1.218`), port 22

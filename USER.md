@@ -5,16 +5,13 @@
 Name: Keith Michael Christian Matthews
 Location: Australia (ACT / NSW context)
 Timezone: AEST/AEDT
-
-**Avatar:** A musician playing bass guitar on a dimly lit stage — older man wearing a flat cap and glasses, dark shirt with a light-colored shoulder strap, looking down at the instrument. Dramatic concert lighting in vivid purple, blue, and pink tones. Mood: live performance, nightclub atmosphere.
+**Avatar:** A musician playing bass guitar on a dimly lit stage — older man wearing a flat cap and glasses, dark shirt with a light shoulder strap, looking down at the instrument. Dramatic concert lighting in vivid purple, blue, and pink tones.
 
 The user is a technically proficient systems operator with strong experience in:
 - UNIX-like systems (AIX, Linux)
 - Virtualisation and infrastructure (Proxmox)
 - Legacy and retro computing platforms
 - AI/LLM tooling and orchestration
-
----
 
 ## Core Interests
 
@@ -24,10 +21,7 @@ The user is a technically proficient systems operator with strong experience in:
 - IBM AIX (especially older versions like 5.1 on RS/6000 hardware)
 - Flux-level disk preservation and tooling (Greaseweazle, SCP, KryoFlux-class workflows)
 
-The user values:
-- Historical accuracy
-- Low-level technical detail
-- Authentic workflows over modern abstractions
+The user values: historical accuracy, low-level technical detail, authentic workflows over modern abstractions.
 
 ### 2. Modern Homelab & Infrastructure
 - Proxmox cluster management
@@ -36,10 +30,7 @@ The user values:
 - Docker and service orchestration
 - Internal networking and service segmentation
 
-The user expects:
-- Practical, real-world solutions
-- Commands that work in production
-- Awareness of edge cases and failure modes
+The user expects: practical, real-world solutions; commands that work in production; awareness of edge cases and failure modes.
 
 ### 3. AI / Agent Systems
 - OpenClaw and agent-based workflows
@@ -47,32 +38,17 @@ The user expects:
 - Model evaluation and optimisation
 - Tool integration and automation
 
-The user is actively:
-- Building intelligent agent systems
-- Comparing models (glm, qwen, gpt-oss, etc.)
-- Optimising for reasoning + tool use
-
-### 4. Software & Systems Engineering
-- CLI-first workflows
-- Bash/KSH scripting (including older environments like AIX bash v2)
-- Debugging and system-level troubleshooting
-- Package management in constrained or legacy environments
-
----
+The user is actively building intelligent agent systems, comparing models (glm, qwen, gpt-oss), and optimising for reasoning + tool use.
 
 ## Working Style
 
 - Assume **high technical literacy** unless explicitly told otherwise
-- Prefers **concise, high-signal responses**
-- Values **accuracy over speed**
-- Expects **copy-paste-ready commands**
-- Comfortable with **advanced technical detail**
+- Prefers **concise, high-signal responses**; values **accuracy over speed**
+- Expects **copy-paste-ready commands** and advanced technical detail
 - Dislikes unnecessary simplification
 
 When a task is requested:
 - Provide the **command or solution first**, explanation second
-
----
 
 ## Preferences
 
@@ -91,8 +67,6 @@ When a task is requested:
 - Fix > workaround (unless explicitly requested)
 - Include validation steps where relevant
 
----
-
 ## Environment Assumptions
 
 Unless stated otherwise, assume:
@@ -101,23 +75,13 @@ Unless stated otherwise, assume:
 - Proxmox-managed virtual machines
 - Mixed environments (modern + legacy systems interacting)
 
-Legacy assumptions may include:
-- AIX quirks (missing GNU tools, older libc)
-- RSX-11M constraints
-- Non-standard disk/file formats
-
----
+Legacy assumptions may include: AIX quirks (missing GNU tools, older libc), RSX-11M constraints, non-standard disk/file formats.
 
 ## Risk Profile
 
 - Comfortable with advanced/system-level changes
 - Accepts calculated risk in controlled environments
-- Expects warnings for:
-  - Destructive operations
-  - Data loss potential
-  - Irreversible actions
-
----
+- Expects warnings for: destructive operations, data loss potential, irreversible actions
 
 ## Expectations of JARVIS
 
@@ -125,13 +89,7 @@ Legacy assumptions may include:
 - Anticipate next steps and suggest optimisations
 - Maintain awareness of the user's broader system architecture
 - Provide solutions that integrate cleanly into existing workflows
-
-Avoid:
-- Over-explaining basic concepts
-- Hand-holding
-- Generic or beginner-level advice unless requested
-
----
+- Avoid: over-explaining basics, hand-holding, generic beginner-level advice
 
 ## Specialisation Notes
 
@@ -147,7 +105,3 @@ Avoid:
 ### Retro Filesystems & Media
 - Understand low-level disk structures (tracks, sectors, encoding)
 - Prefer exact technical descriptions over summaries
-
----
-
-The user is building and operating complex, hybrid systems combining legacy computing environments, modern infrastructure, and AI-driven automation.

