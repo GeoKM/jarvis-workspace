@@ -262,6 +262,39 @@ except (FileNotFoundError, ValueError):
 
 pkg_updates = {"manager": pkg_manager, "total": pkg_total, "security": pkg_security}
 
+# ---- Reboot required ----
+# Linux exposes /var/run/reboot-required when a kernel or core package has been
+# updated but the running system has not been restarted. Surface this in the
+# snapshot so the digest and the Lab Monitor web page can flag the host. The
+# .pkgs and .reason sidecar files give additional context when present.
+import time as _time
+reboot_required = {
+    "needed": os.path.exists("/var/run/reboot-required"),
+    "pkgs": [],
+    "reasons": [],
+    "kernel_age_h": None,
+}
+if reboot_required["needed"]:
+    try:
+        with open("/var/run/reboot-required.pkgs") as _f:
+            reboot_required["pkgs"] = [_l.strip() for _l in _f if _l.strip()]
+    except FileNotFoundError:
+        pass
+    try:
+        with open("/run/reboot-required.reason") as _f:
+            _reason = _f.read().strip()
+            if _reason:
+                reboot_required["reasons"] = [_reason]
+    except FileNotFoundError:
+        pass
+try:
+    _kernel_path = "/boot/vmlinuz-" + run("uname -r").strip()
+    if os.path.exists(_kernel_path):
+        _kernel_mtime = int(os.path.getmtime(_kernel_path))
+        reboot_required["kernel_age_h"] = round((_time.time() - _kernel_mtime) / 3600.0, 1)
+except Exception:
+    pass
+
 # ---- Assemble ----
 data = {
     "hostname": hostname,
@@ -292,6 +325,7 @@ data = {
     },
     "packages": pkg_updates,
     "temperature": temp_zones,
+    "reboot_required": reboot_required,
 }
 
 json.dump(data, sys.stdout, indent=2)

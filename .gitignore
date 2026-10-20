@@ -9,3 +9,11 @@ DREAMS.md
 memory/agent-round-state.json
 memory/2026-*.md
 codex/
+
+# Python bytecode
+__pycache__/
+*.py[co]
+
+# Ephemeral backup/working artifacts
+*.bak.*
+*.broken-fragment.*

@@ -1,3 +1,16 @@
+---
+name: aix-system-monitor
+description: >
+  Run periodic AIX system monitoring across multiple AIX hosts via SSH, collecting
+  CPU, memory, paging, filesystem, network, LPAR, disk I/O, and hardware error
+  metrics as JSON snapshots. Use when: (1) Keith asks to check the status of
+  Persei-NIM, Celestia, or Titan-AIX71, (2) a periodic AIX monitoring run is
+  triggered via cron or heartbeat, (3) an AIX host appears slow or unwell and
+  diagnostic data is needed, (4) adding a new AIX host to the monitoring
+  rotation. Trigger phrases: "check AIX", "check Persei", "check Celestia",
+  "check Titan", "AIX monitoring", "AIX snapshot", "errpt".
+---
+
 # AIX System Monitor Skill
 
 Monitor AIX systems using AIX-native commands. Produces JSON snapshots
