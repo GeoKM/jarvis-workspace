@@ -98,7 +98,29 @@ zfspool entry~~ — CLOSED 22:20, `pvesm remove test` on proxima; `pvesm status`
 proxima4, Proxima5). Cluster 5/5 nodes quorate, Ceph HEALTH_OK, 5 MONs, 5 OSDs up/in. VM 109
 absent from `/cluster/resources` and no `109.conf` in any node's `qemu-server/` dir.
 
-**Related cluster facts:** `storage/proxima/test` (dead zfspool, mountpoint /test) was defined in
+**### Proxmox cluster — standing caveats (2026-10-20 23:46 health report)
+
+- **The bundled health script can under-report ZFS faults.** `cluster_status_report.sh` reads
+  `pvesh /nodes/<node>/disks/zfs`, whose payload has **no `cap` field** (renders `cap n/a`) and
+  whose attention heuristic checks only `health != ONLINE` — it never reads `zpool status` error
+  text or vdev error counters. A pool with a **live checksum error reads as "healthy"**. Verified
+  in the wild: PX3_Data0 on proxima3 reports `zpool status` = "unrecoverable error" while the
+  script reports no issues. **Always cross-check `zpool status` + `zpool list -o cap` directly.**
+- **PX3_Data0 (proxima3)** — raidz1 × 3 × 4 TB, 9.44 T, **91% used** (808 G free). Subvol
+  `subvol-101-disk-0` = 5.76 T of a 7.10 T refquota, 410 G available. Capacity was 90% Apr–May,
+  92% late Sep, 94% on 2026-10-03, then **flat since 2026-10-04** — static, not runaway.
+  Live vdev **CKSUM=16 on /dev/sdc** (`ata-ST4000DM004-2CV104_ZTT2F1L6-part2`),
+  `Reallocated_Sector_Ct=816`, `Command_Timeout=1`; sdb/sdd clean. Pool ONLINE,
+  "No known data errors", 2026-10-11 scrub repaired 1M with 0 errors. **Never previously
+  recorded** — needs a long SMART test + fresh scrub to clear.
+- **Thin memory headroom** — proxima4 77.8% (12.4/15.9 G, 3.2 G swap in use, kvm/VM 103 Hebei
+  at 9.2 G RSS); proxima 70.3% (5.6/7.9 G, 2.9 G swap in use, ceph-osd 1.6 G). Stable, but
+  proxima has only 7.9 G total and no failure margin.
+- **Zero backup jobs cluster-wide** (still open) — no restore point exists for any guest.
+- `sudo pvesm status` is **not** in the NOPASSWD allowlist on the Proxmox nodes; `zpool list`,
+  `zpool status`, `smartctl`, `qm`, `pct`, `pvesh` are. Read storage status via the API.
+
+Related cluster facts:** `storage/proxima/test` (dead zfspool, mountpoint /test) was defined in
 /etc/pve/storage.cfg with **no `test` pool on any node** — now removed 2026-10-20 22:20. Note
 `pvesm remove proxima/test` fails with *"storage ID contains illegal characters"* — use the bare
 storage ID: `pvesm remove test`. Separately, `HA resources: 0` and `Backup jobs: 0` cluster-wide

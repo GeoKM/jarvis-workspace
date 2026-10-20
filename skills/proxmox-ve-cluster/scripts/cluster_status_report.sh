@@ -90,35 +90,111 @@ with open(sys.argv[4], 'w') as f:
     }, f)
 PY1
 
-python3 - "$TMPDIR/nodes.txt" "$TMPDIR/zfs_status.json" <<'PY2'
+# The ZFS API payload (pvesh /nodes/<node>/disks/zfs) has no 'cap' field and reports
+# health=ONLINE even when the pool has a live vdev error. Enrich each row with the real
+# capacity and the `zpool status` error text so capacity and fault detection are not masked.
+python3 - "$TMPDIR/nodes.txt" "$TMPDIR/zfs_status.json" "$TMPDIR/zfs_detail.json" <<'PY2'
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 nodes = [line.strip() for line in Path(sys.argv[1]).read_text().splitlines() if line.strip()]
+ssh_user = os.environ.get('OPENCLAW_PROXMOX_NODE_SSH_USER', 'keith')
+ssh_host = os.environ.get('OPENCLAW_PROXMOX_NODE_SSH_HOST', '')
+key = str(Path.home() / '.ssh' / 'id_jt_ed25519')
 rows = []
-for node in nodes:
-    cmd = [
-        'ssh', '-i', str(Path.home() / '.ssh' / 'id_jt_ed25519'),
+detail = []
+
+
+def ssh_run(node, cmd):
+    """Run a command on a specific cluster node.
+
+    The API/CLI host is a single node; ZFS pools are node-local, so the pool
+    inventory must be read from each node directly. Node names resolve via DNS
+    (proxima, proxima2..5). Falls back to the configured host if the node name
+    does not resolve.
+    """
+    host = node if ssh_host == '' else ssh_host
+    if node and node != host:
+        # Prefer the node's own name so node-local pools are reported correctly.
+        host = node
+    full = [
+        'ssh', '-i', key,
         '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10',
-        f"{__import__('os').environ['OPENCLAW_PROXMOX_SSH_USER']}@{__import__('os').environ['OPENCLAW_PROXMOX_SSH_HOST']}",
-        f"sudo pvesh get /nodes/{node}/disks/zfs --output-format json",
+        f"{ssh_user}@{host}",
+        cmd,
     ]
     try:
-        out = subprocess.check_output(cmd, text=True, stderr=subprocess.DEVNULL)
-        data = json.loads(out)
-        if isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict):
-                    item['node'] = node
-                    rows.append(item)
+        return subprocess.check_output(full, text=True, stderr=subprocess.DEVNULL)
     except Exception:
-        pass
+        return ''
+
+
+for node in nodes:
+    cmd = f"sudo pvesh get /nodes/{node}/disks/zfs --output-format json"
+    try:
+        data = json.loads(ssh_run(node, cmd))
+    except Exception:
+        data = []
+    if not isinstance(data, list):
+        data = []
+    for item in data:
+        if isinstance(item, dict):
+            item['node'] = node
+            rows.append(item)
+
+    # Real capacity + fault text straight from zpool on this node.
+    out = ssh_run(node, "sudo zpool list -H -o name,size,alloc,free,cap,frag,health 2>/dev/null")
+    for line in out.splitlines():
+        parts = line.split('\t')
+        if len(parts) < 7:
+            continue
+        pool, size, alloc, free, cap, frag, health = parts[:7]
+        detail.append({
+            'node': node,
+            'pool': pool,
+            'size': size,
+            'alloc': alloc,
+            'free': free,
+            'cap': cap,
+            'frag': frag,
+            'health': health,
+        })
+
+    # zpool status carries the error text the API omits.
+    status_out = ssh_run(node, "sudo zpool status -x 2>/dev/null")
+    for pool in {d['pool'] for d in detail if d['node'] == node}:
+        block = []
+        capture = False
+        for line in status_out.splitlines():
+            stripped = line.strip()
+            if stripped.startswith('pool: '):
+                capture = stripped.split('pool: ', 1)[1].strip() == pool
+                if capture:
+                    block.append(stripped)
+                continue
+            if capture:
+                if stripped.startswith('pool: '):
+                    continue
+                block.append(stripped)
+                if stripped.startswith('errors:'):
+                    break
+        text = '\n'.join(block)
+        has_error = ('unrecoverable error' in text.lower()
+                     or 'has experienced' in text.lower()
+                     or 'degraded' in text.lower())
+        for d in detail:
+            if d['node'] == node and d['pool'] == pool:
+                d['status_text'] = text
+                d['has_error'] = has_error
+
 Path(sys.argv[2]).write_text(json.dumps(rows))
+Path(sys.argv[3]).write_text(json.dumps(detail))
 PY2
 
-python3 - "$TMPDIR/cluster_status.json" "$TMPDIR/cluster_resources.json" "$TMPDIR/ha_status.json" "$TMPDIR/backup_jobs.json" "$TMPDIR/ceph_status.json" "$TMPDIR/zfs_status.json" "$TMPDIR/stopped_guests.json" "$TMPDIR/top_consumers.json" <<'PY3'
+python3 - "$TMPDIR/cluster_status.json" "$TMPDIR/cluster_resources.json" "$TMPDIR/ha_status.json" "$TMPDIR/backup_jobs.json" "$TMPDIR/ceph_status.json" "$TMPDIR/zfs_status.json" "$TMPDIR/zfs_detail.json" "$TMPDIR/stopped_guests.json" "$TMPDIR/top_consumers.json" <<'PY3'
 import json
 import sys
 from collections import defaultdict
@@ -142,8 +218,10 @@ with open(sys.argv[5]) as f:
 with open(sys.argv[6]) as f:
     zfs_status = json.load(f)
 with open(sys.argv[7]) as f:
-    stopped_guests = json.load(f)
+    zfs_detail = json.load(f)
 with open(sys.argv[8]) as f:
+    stopped_guests = json.load(f)
+with open(sys.argv[9]) as f:
     top_consumers = json.load(f)
 
 cluster = next((x for x in cluster_status if x.get('type') == 'cluster'), {})
@@ -219,6 +297,18 @@ for vm in vms:
 for ct in lxcs:
     if ct.get('status') not in ('running', 'stopped'):
         attention.append(f"- LXC {ct.get('vmid')} ({ct.get('name')}) unexpected status {ct.get('status')}")
+# Node memory pressure: the API 'mem' ratio hides swap usage.
+MEM_WARN = 80
+for nr in node_resources:
+    name = nr.get('node')
+    mem = nr.get('mem')
+    maxmem = nr.get('maxmem')
+    if isinstance(mem, (int, float)) and maxmem:
+        pct = mem / maxmem * 100
+        if pct >= MEM_WARN:
+            attention.append(
+                f"- Node {name} memory {pct:.1f}% used — above {MEM_WARN}% threshold"
+            )
 if ceph_status and isinstance(ceph_status, dict):
     ceph_health = ceph_status.get('health', {}).get('status')
     if ceph_health and ceph_health != 'HEALTH_OK':
@@ -227,6 +317,28 @@ for row in zfs_status:
     pool_name = row.get('pool') or row.get('name')
     if row.get('health') != 'ONLINE':
         attention.append(f"- ZFS pool {pool_name} on {row.get('node')} health {row.get('health')}")
+
+# Enriched ZFS detail: real capacity + vdev error text the API omits.
+CAP_WARN = 85
+for d in zfs_detail:
+    pool_name = d.get('pool')
+    node_name = d.get('node')
+    cap = str(d.get('cap', '')).rstrip('%')
+    if cap.isdigit() and int(cap) >= CAP_WARN:
+        attention.append(
+            f"- ZFS pool {pool_name} on {node_name} is {cap}% full "
+            f"(free {d.get('free')}) — capacity threshold {CAP_WARN}%"
+        )
+    if d.get('has_error'):
+        first_line = ''
+        for line in str(d.get('status_text', '')).splitlines():
+            if 'has experienced' in line.lower() or 'unrecoverable' in line.lower():
+                first_line = line.strip()
+                break
+        detail = first_line or 'zpool status reports an error'
+        # Keep the alert to a single readable line.
+        detail = ' '.join(detail.split())
+        attention.append(f"- ZFS pool {pool_name} on {node_name} reports a fault: {detail}")
 
 if ceph_status and isinstance(ceph_status, dict):
     print()
@@ -254,23 +366,22 @@ if ceph_status and isinstance(ceph_status, dict):
 
 print()
 print('ZFS pools:')
-if zfs_status:
+if zfs_detail:
     by_node = defaultdict(list)
-    for row in zfs_status:
+    for row in zfs_detail:
         by_node[row.get('node')].append(row)
     for node_name in all_node_names:
         rows = by_node.get(node_name, [])
         if not rows:
             print(f"- {node_name}: none detected")
             continue
-        seen = set()
         for row in rows:
-            pool_name = row.get('pool') or row.get('name')
-            ident = (row.get('node'), pool_name)
-            if ident in seen:
-                continue
-            seen.add(ident)
-            print(f"- {node_name}: {pool_name} health {row.get('health')}, alloc {row.get('alloc')}, free {row.get('free')}, cap {row.get('cap', 'n/a')}, frag {row.get('frag', 'n/a')}")
+            pool_name = row.get('pool')
+            cap = row.get('cap', 'n/a')
+            flag = ''
+            if row.get('has_error'):
+                flag = '  [FAULT: zpool status reports an error]'
+            print(f"- {node_name}: {pool_name} health {row.get('health')}, alloc {row.get('alloc')}, free {row.get('free')}, cap {cap}, frag {row.get('frag', 'n/a')}{flag}")
 else:
     for node_name in all_node_names:
         print(f"- {node_name}: unavailable")
