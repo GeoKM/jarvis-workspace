@@ -8,7 +8,7 @@ from vms_cmd import VMS
 host = sys.argv[1]
 spec = sys.argv[2]
 outfile = sys.argv[3]
-pw = sys.argv[4] if len(sys.argv) > 4 else "4EFwFQ7tPdRzcKW"
+pw = sys.argv[4] if len(sys.argv) > 4 else "FJG38r1IENaS4QLR"
 
 v = VMS(host, "SYSTEM", pw)
 if not v.login():

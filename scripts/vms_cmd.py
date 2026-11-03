@@ -48,6 +48,7 @@ class VMS:
         return self.buf.decode('latin-1')
 
     def login(self, timeout=30):
+        self.last_error = None
         deadline = time.time() + timeout
         # wait for Username:
         while time.time() < deadline:
@@ -72,7 +73,16 @@ class VMS:
             if b"$" in self.buf or b"Username:" in self.buf:
                 break
         banner = self.buf.decode('latin-1')
-        if "authorization failure" in banner.lower():
+        low = banner.lower()
+        if "authorization failure" in low:
+            self.last_error = "authorization failure"
+            return False
+        # An expired password does NOT reject the login outright: VMS accepts
+        # the credential and then demands a new one at a "New password:"
+        # prompt. Every DCL command issued afterwards is swallowed by that
+        # prompt, so the session must be treated as a failed login.
+        if "password has expired" in low or "new password:" in low:
+            self.last_error = "password expired - VMS demands a new password at login"
             return False
         self.wait_prompt(timeout=20)
         self.buf = b""

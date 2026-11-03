@@ -29,7 +29,7 @@ NODES = {
     "FUSION": {"ip": "192.168.1.137"},
     "RISE": {"ip": "192.168.1.138"},
 }
-PW = os.environ.get("VMS_SYSTEM_PW", "4EFwFQ7tPdRzcKW")
+PW = os.environ.get("VMS_SYSTEM_PW", "FJG38r1IENaS4QLR")
 
 # Warn when the SYSTEM password is within this many days of expiry.
 PASSWORD_WARN_DAYS = 14
@@ -84,12 +84,12 @@ def run_commands(ip, cmds, timeout=40):
     """Run a list of DCL commands in one session. Returns list of output strings."""
     v = VMS(ip, "SYSTEM", PW)
     if not v.login():
-        return None
+        return None, getattr(v, "last_error", None)
     out = []
     for c in cmds:
         out.append(v.run(c, timeout=timeout))
     v.logout()
-    return out
+    return out, None
 
 
 def check_node(name, ip):
@@ -108,7 +108,7 @@ def check_node(name, ip):
         res["errors"].append("telnet port 23 closed")
         return res
 
-    outs = run_commands(ip, [
+    outs, login_err = run_commands(ip, [
         "SET NOON",
         "SET PROCESS/PRIVILEGE=(CMKRNL,OPER,SYSPRV)",
         "SHOW SYSTEM",
@@ -118,7 +118,16 @@ def check_node(name, ip):
         "SHOW DEVICE MUA3:",
     ])
     if outs is None:
-        res["errors"].append("authentication failed")
+        # A failed login (bad credential, expired password) is a credential
+        # fault, not a cluster fault. Report it as such so the operator is
+        # not sent chasing interconnect/disk/authorisation problems.
+        if login_err and "expired" in login_err.lower():
+            res["errors"].append(f"authentication failed: {login_err}")
+            res["credential_fault"] = True
+        else:
+            res["errors"].append("authentication failed"
+                                 + (f": {login_err}" if login_err else ""))
+            res["credential_fault"] = True
         return res
 
     sysout = outs[2]
@@ -288,7 +297,11 @@ def main():
     hashes = {n: a.get("hash") for n, a in report["auth"].items()}
     report["auth_match"] = (len(set(groups.values())) == 1 and len(set(hashes.values())) == 1
                              and None not in groups.values())
-    if not report["auth_match"]:
+    # If a node could not be logged into, the auth capture is empty for the
+    # same reason. Do not report that as an authorisation mismatch - it is a
+    # symptom of the credential fault already recorded against the node.
+    credential_fault = any(n.get("credential_fault") for n in report["nodes"])
+    if not report["auth_match"] and not credential_fault:
         report.setdefault("warnings", []).append(
             f"cluster auth mismatch across nodes: {groups} {hashes}")
 
@@ -301,7 +314,7 @@ def main():
         all_errors.extend(f"{n['node']}: {e}" for e in n.get("errors", []))
     if opcom.get("bad_count"):
         all_errors.append(f"OPCOM: {opcom['bad_count']} adverse cluster event(s) in log tail")
-    if not report["auth_match"]:
+    if not report["auth_match"] and not credential_fault:
         all_errors.append("cluster authorisation mismatch between nodes")
 
     # Password expiry: a warning, not a fault - but an expired password
