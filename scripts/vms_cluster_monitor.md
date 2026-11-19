@@ -56,6 +56,15 @@ The script prints a JSON report with:
 - The working health signals are: `SHOW DEVICE DUA0:` (cluster disk mounts),
   `SHOW DEVICE MUA1:`/`MUA2:`/`MUA3:` (interconnect controllers),
   `SHOW SYSTEM` (cluster server processes + uptime), and the OPCOM operator log.
+- **The OPCOM log rotates on every node restart.** A restart closes the
+  current version and opens the next one (`;30` -> `;31`). The OLD version
+  holds the shutdown/departure tail; the NEW version holds the recovery
+  (cluster formation, peer rejoin, `ACTIVE` state). Always read the two
+  newest versions in chronological order — reading one hardcoded version
+  reports a resolved fault as a current one.
+- **Do not truncate the OPCOM log to a fixed line count.** The log is
+  ~8700 lines; a 4000-line tail drops the recovery events and leaves the
+  historical departure events as the last word. Scan the full stream.
 - The cluster authorisation file is `SYS$COMMON:[SYSEXE]CLUSTER_AUTHORIZE.DAT`
   and must be captured with `vms_binfile.py` (fixed settle), never with the
   `$`-prompt waiter — the file is 512 bytes of mostly NUL, so prompt detection

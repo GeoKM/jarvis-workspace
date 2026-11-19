@@ -187,21 +187,57 @@ def check_node(name, ip):
     return res
 
 
-def check_opcom(ip, lookback_lines=4000):
-    """Scan the OPCOM log for cluster membership events."""
+def opcom_log_versions(ip):
+    """Return the OPERATOR.LOG version numbers present on the node, ascending.
+
+    The OPCOM log rotates on every node restart: a restart closes the
+    current version and opens the next one (;N -> ;N+1). The OLD version
+    therefore holds the shutdown/departure tail, and the NEW version holds
+    the recovery (cluster formation, peer rejoin, ACTIVE state). Reading a
+    single hardcoded version reports a resolved fault as a current one.
+    """
+    v = VMS(ip, "SYSTEM", PW)
+    if not v.login():
+        return []
+    try:
+        out = v.run("DIRECTORY SYS$SYSROOT:[SYSMGR]OPERATOR.LOG", timeout=40)
+    finally:
+        v.logout()
+    return sorted({int(m) for m in re.findall(r"OPERATOR\.LOG;(\d+)", out)})
+
+
+def check_opcom(ip, lookback_lines=None):
+    """Scan the OPCOM log for cluster membership events.
+
+    Reads the two newest log versions in chronological order so that a
+    recovery event recorded after a node restart is seen in the same
+    stream as the departure events that preceded it.
+    """
     tmp = "/tmp/vms_opcom_scan.log"
     script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vms_type.py")
+
+    versions = opcom_log_versions(ip)
+    if versions:
+        specs = [f"SYS$SYSROOT:[SYSMGR]OPERATOR.LOG;{v}" for v in versions[-2:]]
+    else:
+        # DIRECTORY failed - fall back to the highest version (VMS TYPE
+        # with no version selects the newest).
+        specs = ["SYS$SYSROOT:[SYSMGR]OPERATOR.LOG"]
+
+    chunks = []
     try:
-        subprocess.run([sys.executable, script, ip,
-                        "SYS$SYSROOT:[SYSMGR]OPERATOR.LOG;30", tmp, PW],
-                       capture_output=True, timeout=180)
-        with open(tmp, "rb") as f:
-            data = f.read().decode('latin-1', errors='replace')
+        for spec in specs:
+            subprocess.run([sys.executable, script, ip, spec, tmp, PW],
+                           capture_output=True, timeout=180)
+            with open(tmp, "rb") as f:
+                chunks.append(f.read().decode('latin-1', errors='replace'))
     except Exception as e:
         return {"error": str(e)}
+    data = "".join(chunks)
 
     lines = data.replace('\r\n', '\n').replace('\r', '\n').split('\n')
-    lines = lines[-lookback_lines:]
+    if lookback_lines:
+        lines = lines[-lookback_lines:]
 
     events = []
     for l in lines:
