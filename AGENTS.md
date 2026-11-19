@@ -172,16 +172,20 @@ Things like:
 - OS: Ubuntu 20.04 (Focal), NVIDIA Jetson Xavier (aarch64, Tegra kernel 5.10)
 - Also reachable via Tailscale: `xaviernv.tail4d3f85.ts.net` (100.107.211.73)
 
-### Plexus — REMOVED 2026-10-20
+### Plexus — LXC 109 (rebuilt 2026-10-21)
 - plexus → `keith@plexus.can.barnabasmusic.com` (`192.168.1.241`), port 22
 - SSH identity file → `~/.ssh/id_jt_ed25519`
 - OS: Debian 13 (Trixie), kernel 6.12.96+deb13-amd64
-- Proxmox VM 109 on proxima5
+- Proxmox **unprivileged LXC 109** on proxima5 (rebuilt 2026-10-21 after the 2026-10-20 DDoS botnet compromise; see MEMORY.md). Previous VM 109 was deleted.
+- **Passwords:** `root` and `keith` were created with no password at all (shadow `*` / `!`). A temporary pair was set 2026-11-19 and **rotated by Keith immediately after** — do not rely on or store them; treat current values as unknown.
+- Root SSH password login is blocked by Debian default `PermitRootLogin prohibit-password` — root console via `su -` from a shell in the container works.
+- Reset path: `ssh root@proxima5 'pct exec 109 -- bash -lc "echo \"root:NEWPW\" | chpasswd"'`
 - Role: Plex Media Server
-- NFS mounts from poly (192.168.1.8): `/Data/MP3_Library`, `/Data/VIDEO`
-- NFS auto-mount: `nfs-mount-after-dhcp.service` (waits for DHCP lease before `mount -a -t nfs`)
+- **Media mounts are Proxmox bind-mounts, not in-container NFS:** host proxima5 NFS-mounts poly (192.168.1.8) exports via its own `/etc/fstab` into `/mnt/plexmedia/{MP3_Library,VIDEO,GALLERY}`, then passes them in as `mp1/mp2/mp3` on LXC 109 (`pct config 109`). There is NO `nfs-mount-after-dhcp.service` in the container — that note was stale.
+- **Mount gating (2026-11-19):** two layers keep Plex from scanning empty mountpoints — (1) Proxmox pre-start hookscript on proxima5, `/var/lib/vz/snippets/plexus-wait-mounts.sh` (set via `pct set 109 --hookscript local:snippets/plexus-wait-mounts.sh`), waits for the three host NFS mounts before container start, never fails start; (2) in-container `/usr/local/bin/wait-plex-mounts.sh` wired as `ExecStartPre` via `/etc/systemd/system/plexmediaserver.service.d/10-wait-plex-mounts.conf`, 300s timeout then starts anyway.
+- Plex apt repo (added 2026-11-19): `deb [signed-by=/etc/apt/keyrings/plexmediaserver.v2.asc] https://repo.plex.tv/deb/ public main`; key at `/etc/apt/keyrings/plexmediaserver.v2.asc`. The old `downloads.plex.tv/plex-media-server-new/latest/debian/plex.list` path now returns HTTP 403 — Plex moved the repo to `repo.plex.tv`.
 - sudoers: NOPASSWD allowlist only (no general NOPASSWD) — use `sudo install` trick for root file writes
-- **Status 2026-10-20: VM 109 deleted after a DDoS botnet compromise (see MEMORY.md).** DNS for `plexus.can.barnabasmusic.com` still resolves to 192.168.1.241; remove that record when a new host takes the name. Rebuild pending — a replacement VM will need a fresh Plex install, token, and NFS mount unit.
+- **Status 2026-11-19: host is live and verified** — Plex upgraded to 1.43.5.11079-b3b13e506, service active, HTTP 200 on `:32400/identity`, all three NFS mounts confirmed back after an LXC reboot test.
 
 ### Retrobench
 - retrobench → `keith@retrobench.can.barnabasmusic.com` (`192.168.1.218`), port 22
