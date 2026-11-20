@@ -57,7 +57,10 @@ def ping(ip):
     try:
         r = subprocess.run(["ping", "-c", "2", "-W", "2", ip],
                            capture_output=True, text=True, timeout=10)
-        return "0% packet loss" in r.stdout
+        # NB: a plain `"0% packet loss" in stdout` test is a false positive —
+        # "100% packet loss" contains "0% packet loss" as a substring, so a
+        # fully dead node was reported as reachable. Require ping's exit code 0.
+        return r.returncode == 0 and "0% packet loss" in r.stdout
     except Exception:
         return False
 
