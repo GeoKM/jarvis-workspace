@@ -327,3 +327,16 @@ Auto-promoted Aug–Sep 2026 monitoring snapshots, distilled. Raw entries live i
 - **Standing remediation track:** apply security updates to the Proxmox cluster + retrobench; prune arya and proxima3 storage; investigate swap.
 - **AIX midday monitor cron fix (2026-08-05):** payload changed from `agentTurn` → `command` (`bash .../run-aix-monitor.sh --all`), `sessionTarget: "isolated"`, `delivery.mode: "announce"` with `--best-effort-deliver`. <!-- project: github.com/GeoKM/jarvis-workspace -->
 - **Stale note (2026-10-21):** "xaviernv / cbm / Helios unreachable since 2026-08-13" no longer holds — xaviernv was reachable again by 2026-10-20; only cbm and Helios remain long-standing down, and VM 109 (plexus) has been removed.
+
+## Promoted 2026-11-21 (from memory/2026-11-20.md)
+
+- **VAXcluster monitor ping false positive (fixed 2026-11-20).** `scripts/vms_cluster_health.py` used
+  `"0% packet loss" in stdout`, which is also a substring of "100% packet loss" — dead nodes were
+  reported as up. Now requires `r.returncode == 0` too. Fixed in both copies
+  (`workspace/scripts/` and `workshop-skills/vms-cluster-operations/scripts/`).
+- **Whole VAXcluster lives inside Proxmox VM 108 "Simul" on proxima** (QEMU Debian 13; the container
+  map above lists it as LXC — treat 108 as QEMU). If Simul is down, both VMS nodes (.137/.138) go
+  dark and the monitor reports "telnet port 23 closed" for each. Proxmox VM 108 has **no `onboot:`
+  flag**, so it does not return after a proxima reboot (this caused a ~11 h outage on 2026-11-19).
+  Recovery: on proxima `qm start 108`, then on Simul start BURST (pydecnet) → FUSION → RISE.
+  Reference: workshop-skills/vms-cluster-operations/references/node-down-recovery.md.

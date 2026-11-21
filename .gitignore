@@ -16,3 +16,9 @@ codex/
 # Ephemeral backup/working artifacts
 *.bak.*
 *.broken-fragment.*
+
+# One-off operator helper scripts (never part of the workspace record)
+.doctor-fix-detached.sh
+.doctor-fix.log
+.update-detached.sh
+.heartbeat-*-message.txt
